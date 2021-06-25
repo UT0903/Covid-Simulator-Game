@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import panels.MapPanel;
 import panels.MarqueePanel;
 
 public class GameFlow {
-    private JPanel mapPanel, toolbarPanel, infoPanel, detailPanel;
+    private JPanel  toolbarPanel, infoPanel, detailPanel;
+    private JLayeredPane mapPanel;
     private MarqueePanel messagePanel;
     private JFrame windowFrame;
     private static final String basePath = "./pic/";
@@ -23,7 +25,7 @@ public class GameFlow {
     };
     public GameFlow(){
         windowFrame = new JFrame();
-        mapPanel = new JPanel();
+        mapPanel = new MapPanel();
         toolbarPanel = new JPanel();
         messagePanel = new MarqueePanel(32);
         infoPanel = new JPanel();
@@ -60,9 +62,6 @@ public class GameFlow {
 
     private void mapInit(){
         mapPanel.setSize(750, 600);
-        mapPanel.setLayout(new BorderLayout());
-        JLabel bgPic = new JLabel(new ImageIcon(basePath + "map.png")); //Add background
-        mapPanel.add(bgPic);
     }
 
     private void toolbarInit() {
@@ -92,4 +91,6 @@ public class GameFlow {
         messagePanel.addString("This is test message 3.");
         messagePanel.start();
     }
+//
+
 }
