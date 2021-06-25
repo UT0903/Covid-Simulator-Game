@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import panels.MapPanel;
 import panels.MarqueePanel;
@@ -16,12 +17,15 @@ public class GameFlow {
     private JLayeredPane mapPanel;
     private MarqueePanel messagePanel;
     private JFrame windowFrame;
-    private static final String basePath = "./pic/";
+    private static final String basePath = "../pic/";
     private static final String[] tools = {
-            basePath + "airplane.gif",
-            basePath + "ambulance.gif",
-            basePath + "canopy.gif",
-            basePath + "hospital.gif"
+            //"airplane.gif",
+            "ambulance.gif",
+            "canopy.png",
+            "hospital.png",
+            "mask.gif",
+            "spray.gif",
+            "syringe.gif"
     };
     public GameFlow(){
         windowFrame = new JFrame();
@@ -50,6 +54,7 @@ public class GameFlow {
         windowFrame.add(detailPanel);
         detailPanel.setLocation(750, 470);
         windowFrame.setVisible(true);
+        windowFrame.setResizable(false);
         showMessage();
     }
 
@@ -66,9 +71,32 @@ public class GameFlow {
 
     private void toolbarInit() {
         toolbarPanel.setSize(210, 320);
-        toolbarPanel.setBackground(Color.yellow);
+        toolbarPanel.setLayout(new GridLayout(5, 2));
+        for(String tool : tools){
+            toolbarPanel.add(addIcon(resizeImage(basePath + tool, 90, 60)));
+        }
+        toolbarPanel.setBackground(Color.PINK);
+        //picLabel.setLocation(750, 150);
     }
-
+    private JLabel addIcon(ImageIcon icon){
+        JLabel picLabel = new JLabel();
+        picLabel.setIcon(icon);
+        picLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+        return picLabel;
+    }
+    private ImageIcon resizeImage(String path , int width, int height){
+        /*ImageIcon img = new ImageIcon(path);
+        img.setImage(img.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        return img;*/
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File(path));
+            Image dimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(dimg);
+            return imageIcon;
+        } catch (IOException e) {}
+        return null;
+    }
     private void messageInit() {
         messagePanel.setSize(750, 40);
         messagePanel.setBackground(Color.green);
@@ -83,6 +111,11 @@ public class GameFlow {
     private void detailInit() {
         detailPanel.setSize(210, 170);
         detailPanel.setBackground(Color.red);
+        detailPanel.setPreferredSize(new Dimension(200, 100));
+        JButton startbtn = new JButton("     start game     ");
+        startbtn.setBackground(Color.gray);
+        startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
+        detailPanel.add(startbtn);
     }
 
     private void showMessage() {
