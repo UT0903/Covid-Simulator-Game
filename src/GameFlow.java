@@ -18,19 +18,10 @@ public class GameFlow {
             basePath + "hospital.gif"
     };
     public GameFlow(){
-        mapPanel = new JPanel();
-        toolbarPanel = new JPanel();
-        windowFrame = new JFrame();
+        windowInit();
+        mapInit();
     }
     public void start(){
-        windowFrame.setSize(960, 640);
-        mapPanel.setSize(960, 640);
-        mapPanel.setLayout(new BorderLayout());
-        JLabel bgPic = new JLabel(new ImageIcon(basePath + "map.png"));
-        mapPanel.add(bgPic);
-
-
-
         windowFrame.add(mapPanel);
         windowFrame.setVisible(true);
         //map.setTitle("Virus Game");
@@ -38,5 +29,18 @@ public class GameFlow {
         //GameBody gameBody = new GameBody();
         //frame.add(gameBody, BorderLayout.CENTER);
         //frame.setVisible(true);
+    }
+    private void windowInit(){
+        windowFrame = new JFrame();
+        windowFrame.setSize(960, 640);
+        windowFrame.setTitle("Virus Game");
+        windowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    private void mapInit(){
+        mapPanel = new JPanel();
+        mapPanel.setSize(960, 640);
+        mapPanel.setLayout(new BorderLayout());
+        JLabel bgPic = new JLabel(new ImageIcon(basePath + "map.png")); //Add background
+        mapPanel.add(bgPic);
     }
 }
