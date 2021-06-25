@@ -17,7 +17,7 @@ public class GameFlow {
     private JFrame windowFrame;
     private static final String basePath = "../pic/";
     private static final String[] tools = {
-            "airplane.gif",
+            //"airplane.gif",
             "ambulance.gif",
             "canopy.png",
             "hospital.png",
@@ -112,6 +112,11 @@ public class GameFlow {
     private void detailInit() {
         detailPanel.setSize(210, 170);
         detailPanel.setBackground(Color.red);
+        detailPanel.setPreferredSize(new Dimension(200, 100));
+        JButton startbtn = new JButton("     start game     ");
+        startbtn.setBackground(Color.gray);
+        startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
+        detailPanel.add(startbtn);
     }
 
     private void showMessage() {
