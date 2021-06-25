@@ -20,20 +20,4 @@ public class MainGame extends JFrame {
 //        setResizable(false);
 //        setVisible(true);
     }
-    public static void main(String[] args) {
-        MainGame frame = new MainGame(); //create new JFrame (window for the game)
-        GameBody gameBody = new GameBody();
-        frame.add(gameBody, BorderLayout.CENTER);
-        frame.setVisible(true);
-
-    }
-    public static class GameBody extends JPanel {
-        public GameBody() {
-            setLayout(new FlowLayout());
-            ImageIcon backgroundPicture = new ImageIcon("../pic/map.png");
-            JLabel picLabel = new JLabel(backgroundPicture);
-            add(picLabel);
-        }
-    }
-
 }
