@@ -25,7 +25,7 @@ public class GameFlow {
         windowFrame = new JFrame();
         mapPanel = new JPanel();
         toolbarPanel = new JPanel();
-        messagePanel = new MarqueePanel(32);
+        messagePanel = new MarqueePanel(110);
         infoPanel = new JPanel();
         detailPanel = new JPanel();
     }

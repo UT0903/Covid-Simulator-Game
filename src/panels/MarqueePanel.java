@@ -7,7 +7,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MarqueePanel extends JPanel implements ActionListener {
-    private static final int RATE = 5;
+    private static final int RATE = 20;
     private final Timer timer = new Timer(1000 / RATE, this);
     private final JLabel mes = new JLabel();
     private List<String> messages;
@@ -32,9 +32,9 @@ public class MarqueePanel extends JPanel implements ActionListener {
         else {
             StringBuilder messageBuilder = new StringBuilder();
             StringBuilder spaces = new StringBuilder();
-            String intervals = "        ";
+            String intervals = "                ";
             for (int i = 0; i < this.numChars; i++)
-                spaces.append(" ");
+                spaces.append(' ');
             messageBuilder.append(spaces);
             messageBuilder.append(this.messages.get(0));
             for (int i = 1; i < this.messages.size(); i++) {
@@ -63,9 +63,9 @@ public class MarqueePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        index++;
-        if (index > message.length() - this.numChars)
-            index = 0;
-        mes.setText(message.substring(index, index + this.numChars));
+        this.index++;
+        if (this.index > this.message.length() - this.numChars)
+            this.index = 0;
+        this.mes.setText(this.message.substring(this.index, this.index + this.numChars));
     }
 }
