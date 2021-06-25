@@ -1,21 +1,19 @@
-import com.sun.tools.javac.Main;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import panels.MarqueePanel;
+import panels.*;
+import utils.Date;
 
 public class GameFlow {
-    private JPanel mapPanel, toolbarPanel, infoPanel, detailPanel;
+    private JPanel mapPanel, toolbarPanel, detailPanel;
     private MarqueePanel messagePanel;
+    private InfoPanel infoPanel;
     private JFrame windowFrame;
-    private static final String basePath = "../pic/";
+    private static final String basePath = "./pic/";
     private static final String[] tools = {
             "airplane.gif",
             "ambulance.gif",
@@ -29,8 +27,8 @@ public class GameFlow {
         windowFrame = new JFrame();
         mapPanel = new JPanel();
         toolbarPanel = new JPanel();
-        messagePanel = new MarqueePanel(110);
-        infoPanel = new JPanel();
+        messagePanel = new MarqueePanel(65);
+        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
         detailPanel = new JPanel();
     }
 
@@ -54,6 +52,7 @@ public class GameFlow {
         windowFrame.setVisible(true);
         windowFrame.setResizable(false);
         showMessage();
+        showTime();
     }
 
     private void windowInit(){
@@ -106,7 +105,7 @@ public class GameFlow {
 
     private void infoInit() {
         infoPanel.setSize(210, 150);
-        infoPanel.setBackground(Color.black);
+        infoPanel.setBackground(Color.blue);
     }
 
     private void detailInit() {
@@ -119,5 +118,9 @@ public class GameFlow {
         messagePanel.addString("Test message 2?");
         messagePanel.addString("This is test message 3.");
         messagePanel.start();
+    }
+
+    private void showTime() {
+        infoPanel.start();
     }
 }
