@@ -18,46 +18,66 @@ public class GameFlow {
             basePath + "hospital.gif"
     };
     public GameFlow(){
+        windowFrame = new JFrame();
         mapPanel = new JPanel();
         toolbarPanel = new JPanel();
         messagePanel = new JPanel();
         infoPanel = new JPanel();
         detailPanel = new JPanel();
-        windowFrame = new JFrame();
     }
+
     public void start(){
-        windowFrame.getContentPane().setLayout(null);
-        windowFrame.setSize(960, 640);
-        messagePanel.setSize(800, 40);
-        mapPanel.setSize(800, 600);
-        infoPanel.setSize(160, 100);
-        toolbarPanel.setSize(160, 400);
-        detailPanel.setSize(160, 140);
-        mapPanel.setLayout(new BorderLayout());
-        JLabel bgPic = new JLabel(new ImageIcon(basePath + "map.png"));
-        mapPanel.add(bgPic);
-
-        // Adding color just for testing
-        messagePanel.setBackground(Color.green);
-        infoPanel.setBackground(Color.black);
-        toolbarPanel.setBackground(Color.yellow);
-        detailPanel.setBackground(Color.red);
-
+        windowInit();
+        mapInit();
+        toolbarInit();
+        messageInit();
+        infoInit();
+        detailInit();
         windowFrame.add(messagePanel);
         messagePanel.setLocation(0, 0);
-        windowFrame.add(infoPanel);
-        infoPanel.setLocation(800, 0);
         windowFrame.add(mapPanel);
         mapPanel.setLocation(0, 40);
+        windowFrame.add(infoPanel);
+        infoPanel.setLocation(750, 0);
         windowFrame.add(toolbarPanel);
-        toolbarPanel.setLocation(800, 100);
+        toolbarPanel.setLocation(750, 150);
         windowFrame.add(detailPanel);
-        detailPanel.setLocation(800, 500);
+        detailPanel.setLocation(750, 470);
         windowFrame.setVisible(true);
-        //map.setTitle("Virus Game");
-        //map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //GameBody gameBody = new GameBody();
-        //frame.add(gameBody, BorderLayout.CENTER);
-        //frame.setVisible(true);
+    }
+
+    private void windowInit(){
+        windowFrame.getContentPane().setLayout(null);
+        windowFrame.setSize(960, 640);
+        windowFrame.setTitle("Virus Game");
+        windowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void mapInit(){
+        mapPanel.setSize(750, 600);
+        mapPanel.setLayout(new BorderLayout());
+        JLabel bgPic = new JLabel(new ImageIcon(basePath + "map.png")); //Add background
+        mapPanel.add(bgPic);
+    }
+
+    private void toolbarInit() {
+        toolbarPanel.setSize(210, 320);
+        toolbarPanel.setBackground(Color.yellow);
+    }
+
+    private void messageInit() {
+        messagePanel.setSize(750, 40);
+        messagePanel.setBackground(Color.green);
+    }
+
+    private void infoInit() {
+        infoPanel.setSize(210, 150);
+        infoPanel.setBackground(Color.black);
+    }
+
+    private void detailInit() {
+        detailPanel.setSize(210, 170);
+        detailPanel.setBackground(Color.red);
+
     }
 }
