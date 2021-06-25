@@ -14,10 +14,10 @@ import panels.MarqueePanel;
 
 public class GameFlow {
     private JPanel  toolbarPanel, infoPanel, detailPanel;
-    private JLayeredPane mapPanel;
+    private MapPanel mapPanel;
     private MarqueePanel messagePanel;
     private JFrame windowFrame;
-    private static final String basePath = "../pic/";
+    private static final String basePath = "./pic/";
     private static final String[] tools = {
             //"airplane.gif",
             "ambulance.gif",
@@ -67,6 +67,11 @@ public class GameFlow {
 
     private void mapInit(){
         mapPanel.setSize(750, 600);
+        JLabel bgPic = new JLabel(new ImageIcon(basePath + "./map.png")); //Add background
+        bgPic.setOpaque(true);
+        bgPic.setSize(750,600);
+        mapPanel.add(bgPic, Integer.valueOf(0));
+        mapPanel.start();
     }
 
     private void toolbarInit() {
