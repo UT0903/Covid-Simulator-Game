@@ -6,16 +6,16 @@ import java.io.File;
 import java.io.IOException;
 
 import panels.*;
-import utils.Date;
 
 public class GameFlow {
-    private JPanel mapPanel, toolbarPanel, detailPanel;
+    private JPanel  toolbarPanel, detailPanel;
+    private JLayeredPane mapPanel;
     private MarqueePanel messagePanel;
     private InfoPanel infoPanel;
     private JFrame windowFrame;
     private static final String basePath = "./pic/";
     private static final String[] tools = {
-            "airplane.gif",
+            //"airplane.gif",
             "ambulance.gif",
             "canopy.png",
             "hospital.png",
@@ -25,7 +25,7 @@ public class GameFlow {
     };
     public GameFlow(){
         windowFrame = new JFrame();
-        mapPanel = new JPanel();
+        mapPanel = new MapPanel();
         toolbarPanel = new JPanel();
         messagePanel = new MarqueePanel(65);
         infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
@@ -64,9 +64,6 @@ public class GameFlow {
 
     private void mapInit(){
         mapPanel.setSize(750, 600);
-        mapPanel.setLayout(new BorderLayout());
-        JLabel bgPic = new JLabel(new ImageIcon(basePath + "map.png")); //Add background
-        mapPanel.add(bgPic);
     }
 
     private void toolbarInit() {
@@ -111,6 +108,11 @@ public class GameFlow {
     private void detailInit() {
         detailPanel.setSize(210, 170);
         detailPanel.setBackground(Color.red);
+        detailPanel.setPreferredSize(new Dimension(200, 100));
+        JButton startbtn = new JButton("     start game     ");
+        startbtn.setBackground(Color.gray);
+        startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
+        detailPanel.add(startbtn);
     }
 
     private void showMessage() {
@@ -119,7 +121,6 @@ public class GameFlow {
         messagePanel.addString("This is test message 3.");
         messagePanel.start();
     }
-
     private void showTime() {
         infoPanel.start();
     }
