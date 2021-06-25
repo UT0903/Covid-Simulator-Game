@@ -3,14 +3,18 @@ import com.sun.tools.javac.Main;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+
+import panels.MarqueePanel;
 
 public class GameFlow {
-    private JPanel mapPanel, toolbarPanel, messagePanel, infoPanel, detailPanel;
+    private JPanel mapPanel, toolbarPanel, infoPanel, detailPanel;
+    private MarqueePanel messagePanel;
     private JFrame windowFrame;
-    private static final String basePath = "../pic/";
+    private static final String basePath = "./pic/";
     private static final String[] tools = {
             basePath + "airplane.gif",
             basePath + "ambulance.gif",
@@ -21,12 +25,12 @@ public class GameFlow {
         windowFrame = new JFrame();
         mapPanel = new JPanel();
         toolbarPanel = new JPanel();
-        messagePanel = new JPanel();
+        messagePanel = new MarqueePanel(32);
         infoPanel = new JPanel();
         detailPanel = new JPanel();
     }
 
-    public void start(){
+    public void start() {
         windowInit();
         mapInit();
         toolbarInit();
@@ -44,6 +48,7 @@ public class GameFlow {
         windowFrame.add(detailPanel);
         detailPanel.setLocation(750, 470);
         windowFrame.setVisible(true);
+        showMessage();
     }
 
     private void windowInit(){
@@ -68,6 +73,7 @@ public class GameFlow {
     private void messageInit() {
         messagePanel.setSize(750, 40);
         messagePanel.setBackground(Color.green);
+        // messagePanel.setLayout(null);
     }
 
     private void infoInit() {
@@ -78,6 +84,12 @@ public class GameFlow {
     private void detailInit() {
         detailPanel.setSize(210, 170);
         detailPanel.setBackground(Color.red);
+    }
 
+    private void showMessage() {
+        messagePanel.addString("Test message 1!");
+        messagePanel.addString("Test message 2?");
+        messagePanel.addString("This is test message 3.");
+        messagePanel.start();
     }
 }
