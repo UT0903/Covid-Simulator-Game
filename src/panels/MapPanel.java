@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class MapPanel extends JLayeredPane {
-    private static final String basePath = "./pic/";
+    private static final String basePath = "../pic/";
     ArrayList<Location> redDotsLocations = new ArrayList<Location>();
     public MapPanel(){
         JLabel bgPic = new JLabel(new ImageIcon(basePath + "./map.png")); //Add background
