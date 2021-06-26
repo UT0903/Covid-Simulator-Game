@@ -45,6 +45,7 @@ public class GameFlow {
     public void start() {
         showMessage();
         showTime();
+        showVirus();
     }
 
     private void showMessage() {
@@ -56,4 +57,6 @@ public class GameFlow {
     private void showTime() {
         infoPanel.start();
     }
+
+    private void showVirus(){ mapPanel.start(); }
 }
