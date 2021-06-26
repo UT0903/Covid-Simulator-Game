@@ -1,5 +1,7 @@
 package panels;
 
+import components.Virus;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,8 @@ import static panels.Utils.resizeImage;
 public class MapPanel extends JLayeredPane implements ActionListener {
     private static final int delay = 1000;
     private final Timer timer = new Timer(delay, this);
-    private ArrayList<JLabel> viruses = new ArrayList<JLabel>();
+    private int timerCount = 0;
+    private ArrayList<Virus> viruses = new ArrayList<Virus>();
     public MapPanel() {
         setPreferredSize(new Dimension(750, 600));
 //        setLocation(0, 40);
@@ -32,17 +35,34 @@ public class MapPanel extends JLayeredPane implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int x = (int) (Math.random() * 730) + 10;
-        int y = (int) (Math.random() * 580) + 10;
-        addRedVirus(x, y);
+        addRedVirus((int) (Math.random() * 730) + 10, (int) (Math.random() * 580) + 10);
+        if (timerCount > 10){
+            if (timerCount % 2 == 0)
+                addYellowVirus((int) (Math.random() * 730) + 10, (int) (Math.random() * 580) + 10);
+        }
+        if (timerCount > 20){
+            if (timerCount % 5 == 0)
+                addOrangeVirus((int) (Math.random() * 730) + 10, (int) (Math.random() * 580) + 10);
+        }
+        timerCount++;
     }
     private void addRedVirus(int x , int y){
-        ImageIcon redVirusIcon = resizeImage(basePath + "./virus/1.png", 20, 20);
-        JLabel redVirus = new JLabel(redVirusIcon);
-        redVirus.setSize(20,20);
+        Virus redVirus = new Virus("red");
         add(redVirus, Integer.valueOf(1));
         redVirus.setLocation(x,y);
         viruses.add(redVirus);
+    }
+    private void addOrangeVirus(int x , int y){
+        Virus orangeVirus = new Virus("orange");
+        add(orangeVirus, Integer.valueOf(1));
+        orangeVirus.setLocation(x,y);
+        viruses.add(orangeVirus);
+    }
+    private void addYellowVirus(int x , int y){
+        Virus yellowVirus = new Virus("yellow");
+        add(yellowVirus, Integer.valueOf(1));
+        yellowVirus.setLocation(x,y);
+        viruses.add(yellowVirus);
     }
 
     private void removeViruses(ArrayList<JLabel> removeList){
