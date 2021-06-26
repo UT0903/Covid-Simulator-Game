@@ -1,12 +1,7 @@
-import com.sun.tools.javac.Main;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,16 +9,17 @@ import java.io.IOException;
 import panels.*;
 
 public class GameFlow {
-    private JLayeredPane mapPanel, toolbarPanel, windowPanel, detailPanel, infoPanel;
+    private JLayeredPane toolbarPanel, windowPanel, detailPanel;
+    private MapPanel mapPanel;
     private MarqueePanel messagePanel;
+    private InfoPanel infoPanel;
     private JFrame windowFrame;
-    
-    public GameFlow(){
+    public GameFlow() {
         windowInit();
         mapPanel = new MapPanel();
         toolbarPanel = new ToolbarPanel();
-        messagePanel = new MarqueePanel(32);
-        infoPanel = new InfoPanel();
+        messagePanel = new MarqueePanel(65);
+        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
         detailPanel = new DetailPanel();
     }
 
@@ -41,6 +37,7 @@ public class GameFlow {
         windowFrame.setVisible(true);
         windowFrame.setResizable(false);
         showMessage();
+        showTime();
     }
 
     private void windowInit(){
@@ -60,6 +57,7 @@ public class GameFlow {
         messagePanel.addString("This is test message 3.");
         messagePanel.start();
     }
-//
-
+    private void showTime() {
+        infoPanel.start();
+    }
 }

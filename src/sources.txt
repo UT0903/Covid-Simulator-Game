@@ -6,3 +6,4 @@
 ./panels/DetailPanel.java
 ./panels/InfoPanel.java
 ./panels/MarqueePanel.java
+./utils/Date.java
