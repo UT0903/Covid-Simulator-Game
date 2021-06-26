@@ -1,4 +1,8 @@
 ./Main.java
 ./GameFlow.java
+./panels/Utils.java
+./panels/ToolbarPanel.java
 ./panels/MapPanel.java
+./panels/DetailPanel.java
+./panels/InfoPanel.java
 ./panels/MarqueePanel.java

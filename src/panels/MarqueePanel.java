@@ -19,6 +19,8 @@ public class MarqueePanel extends JPanel implements ActionListener {
         this.index = 0;
         this.numChars = n;
         this.messages = new ArrayList<>();
+        setSize(750, 40);
+        setBackground(Color.green);
         mes.setFont(new Font("Serif", Font.ITALIC, 20));
         this.add(mes);
     }
