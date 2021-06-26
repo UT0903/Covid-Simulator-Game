@@ -32,10 +32,10 @@ public class GameFlow {
         detailPanel = new DetailPanel();
         toolbarPanel = new ToolbarPanel();
         infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
-        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.1);
+        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625);
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5);
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2);
-        JSplitPane sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0.8);
+        JSplitPane sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0);
         windowFrame = new WindowFrame();
         windowFrame.add(sl);
 
