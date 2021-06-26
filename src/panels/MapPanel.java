@@ -17,7 +17,7 @@ import static panels.Utils.resizeImage;
 public class MapPanel extends JLayeredPane implements ActionListener {
     private static final int delay = 1000;
     private final Timer timer = new Timer(delay, this);
-    private ArrayList<JLabel> redDots = new ArrayList<JLabel>();
+    private ArrayList<JLabel> viruses = new ArrayList<JLabel>();
     public MapPanel() {
         setPreferredSize(new Dimension(750, 600));
 //        setLocation(0, 40);
@@ -34,22 +34,22 @@ public class MapPanel extends JLayeredPane implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int x = (int) (Math.random() * 730) + 10;
         int y = (int) (Math.random() * 580) + 10;
-        addRedDot(x, y);
+        addRedVirus(x, y);
     }
-    private void addRedDot(int x , int y){
-        ImageIcon redDotIcon = resizeImage(basePath + "./virus/1.png", 20, 20);
-        JLabel redDot = new JLabel(redDotIcon);
-        redDot.setSize(20,20);
-        add(redDot, Integer.valueOf(1));
-        redDot.setLocation(x,y);
-        redDots.add(redDot);
+    private void addRedVirus(int x , int y){
+        ImageIcon redVirusIcon = resizeImage(basePath + "./virus/1.png", 20, 20);
+        JLabel redVirus = new JLabel(redVirusIcon);
+        redVirus.setSize(20,20);
+        add(redVirus, Integer.valueOf(1));
+        redVirus.setLocation(x,y);
+        viruses.add(redVirus);
     }
 
-    private void removeRedDots(ArrayList<JLabel> removeList){
+    private void removeViruses(ArrayList<JLabel> removeList){
         for (int i = 0; i < removeList.size(); i++){
             this.remove(removeList.get(i));
         }
-        redDots.removeAll(removeList);
+        viruses.removeAll(removeList);
     }
 
 }
