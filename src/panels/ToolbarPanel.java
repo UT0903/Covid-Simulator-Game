@@ -106,9 +106,9 @@ public class ToolbarPanel extends JPanel {
             //System.out.println(me.getComponent().getParent().getParent().getName());
 
             Component component = me.getComponent();
-            location = component.getLocationOnScreen();
-            int x = location.x - pressed.getXOnScreen() + me.getXOnScreen();
-            int y = location.y - pressed.getYOnScreen() + me.getYOnScreen();
+            location = component.getLocation();
+            int x = location.x - pressed.getX() + me.getX();
+            int y = location.y - pressed.getY() + me.getY();
             component.setLocation(x, y);
         }
     }
