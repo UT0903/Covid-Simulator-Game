@@ -41,6 +41,7 @@ public class GameFlow {
         showMessage();
         showTime();
         showVirus();
+        showScore();
     }
 
     private void showMessage() {
@@ -50,8 +51,12 @@ public class GameFlow {
         messagePanel.start();
     }
     private void showTime() {
-        infoPanel.start();
+        infoPanel.timeStart();
     }
 
     private void showVirus(){ mapPanel.start(); }
+
+    private void showScore(){
+        infoPanel.scoreStart(mapPanel.getViruses());
+    }
 }

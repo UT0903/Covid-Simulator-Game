@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 
 
 import static panels.Utils.basePath;
@@ -32,17 +34,20 @@ public class MapPanel extends JLayeredPane implements ActionListener {
     public void start() {timer.start();}
     public void stop() { timer.stop(); }
 
+    public ArrayList<Virus> getViruses() {
+        return viruses;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        addRedVirus((int) (Math.random() * 730) + 10, (int) (Math.random() * 580) + 10);
+        if (timerCount % 5 == 0)
+            addRedVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
         if (timerCount > 10){
             if (timerCount % 2 == 0)
-                addYellowVirus((int) (Math.random() * 730) + 10, (int) (Math.random() * 580) + 10);
+                addOrangeVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
         }
         if (timerCount > 20){
-            if (timerCount % 5 == 0)
-                addOrangeVirus((int) (Math.random() * 730) + 10, (int) (Math.random() * 580) + 10);
+            addYellowVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
         }
         timerCount++;
     }
@@ -71,6 +76,7 @@ public class MapPanel extends JLayeredPane implements ActionListener {
         }
         viruses.removeAll(removeList);
     }
+
 
 }
 
