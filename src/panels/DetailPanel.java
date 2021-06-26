@@ -9,7 +9,7 @@ public class DetailPanel extends JPanel{
     public DetailPanel(){
         super();
         //setSize(210, 170);
-        setLocation(750, 470);
+        //setLocation(750, 470);
         setBackground(Color.red);
         setVisible(true);
         //setPreferredSize(new Dimension(200, 100));
@@ -23,6 +23,8 @@ public class DetailPanel extends JPanel{
             case("init"):
                 JButton startbtn = new JButton("     start game     ");
                 startbtn.setBackground(Color.gray);
+                startbtn.setForeground(Color.black);
+                startbtn.setPreferredSize(new Dimension(100, 30));
                 startbtn.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -30,12 +32,12 @@ public class DetailPanel extends JPanel{
                     }
                     @Override
                     public void mouseEntered(java.awt.event.MouseEvent evt) {
-                        System.out.println("in");
+                        startbtn.setBackground(Color.darkGray);
                     }
                     @Override
                     public void mouseExited(java.awt.event.MouseEvent evt) {
                         System.out.println("out");
-                        //picLabel.setBackground(Color.PINK);
+                        startbtn.setBackground(Color.gray);
                     }
                 });
                 startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
