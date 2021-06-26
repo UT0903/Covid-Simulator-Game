@@ -7,3 +7,4 @@
 ./panels/InfoPanel.java
 ./panels/MarqueePanel.java
 ./utils/Date.java
+./frame/WindowFrame.java

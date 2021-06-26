@@ -10,6 +10,7 @@ public class ToolbarPanel extends JLayeredPane {
     public ToolbarPanel(){
         super();
         setSize(210, 320);
+        setLocation(750, 150);
         setLayout(new GridLayout(5, 2));
         for(String tool : Utils.tools){
             String basePath;

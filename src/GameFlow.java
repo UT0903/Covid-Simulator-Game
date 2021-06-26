@@ -6,49 +6,31 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import frame.WindowFrame;
 import panels.*;
 
+import static java.util.Arrays.asList;
+
 public class GameFlow {
-    private JLayeredPane toolbarPanel, windowPanel, detailPanel;
+    private DetailPanel detailPanel;
+    private ToolbarPanel toolbarPanel;
     private MapPanel mapPanel;
     private MarqueePanel messagePanel;
     private InfoPanel infoPanel;
-    private JFrame windowFrame;
+    private WindowFrame windowFrame;
     public GameFlow() {
-        windowInit();
         mapPanel = new MapPanel();
         toolbarPanel = new ToolbarPanel();
         messagePanel = new MarqueePanel(65);
         infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
         detailPanel = new DetailPanel();
+        windowFrame = new WindowFrame(asList(new JLayeredPane[]{mapPanel, toolbarPanel, messagePanel, infoPanel, detailPanel}));
     }
+
 
     public void start() {
-        windowPanel.add(messagePanel);
-        messagePanel.setLocation(0, 0);
-        windowPanel.add(mapPanel, Integer.valueOf(0));
-        mapPanel.setLocation(0, 40);
-        windowPanel.add(infoPanel, Integer.valueOf(1));
-        infoPanel.setLocation(750, 0);
-        windowPanel.add(toolbarPanel, Integer.valueOf(1));
-        toolbarPanel.setLocation(750, 150);
-        windowPanel.add(detailPanel, Integer.valueOf(1));
-        detailPanel.setLocation(750, 470);
-        windowFrame.setVisible(true);
-        windowFrame.setResizable(false);
         showMessage();
         showTime();
-    }
-
-    private void windowInit(){
-        windowFrame = new JFrame();
-        windowFrame.setSize(960, 640);
-        windowFrame.setTitle("Virus Game");
-        windowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        windowPanel = new JLayeredPane();
-        windowPanel.setSize(960, 640);
-        windowFrame.add(windowPanel);
     }
 
     private void showMessage() {

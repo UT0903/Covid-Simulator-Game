@@ -8,13 +8,14 @@ import javax.swing.*;
 
 import utils.Date;
 
-public class InfoPanel extends JPanel implements ActionListener {
+public class InfoPanel extends JLayeredPane implements ActionListener {
     private static final int RATE = 1;
     private final Timer timer = new Timer(1000 / RATE, this);
     private final JLabel mes = new JLabel();
     private Date date;
 
     public InfoPanel() {
+        setLocation(750, 0);
         this.date = new Date();
         mes.setFont(new Font("Courier", Font.ITALIC, 16));
         this.add(mes);

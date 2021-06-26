@@ -20,6 +20,7 @@ public class MapPanel extends JLayeredPane implements ActionListener {
 
     public MapPanel() {
         setSize(750, 600);
+        setLocation(0, 40);
         JLabel bgPic = new JLabel(new ImageIcon(basePath + "./map.png")); //Add background
         bgPic.setOpaque(true);
         bgPic.setSize(750, 600);

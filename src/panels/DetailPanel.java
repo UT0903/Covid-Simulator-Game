@@ -7,7 +7,9 @@ public class DetailPanel extends JLayeredPane{
     public DetailPanel(){
         super();
         setSize(210, 170);
+        setLocation(750, 470);
         setBackground(Color.red);
+        setVisible(true);
         //setPreferredSize(new Dimension(200, 100));
         //setComponents("init");
     }
