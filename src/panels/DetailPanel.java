@@ -2,6 +2,8 @@ package panels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DetailPanel extends JPanel{
     public DetailPanel(){
@@ -11,7 +13,7 @@ public class DetailPanel extends JPanel{
         setBackground(Color.red);
         setVisible(true);
         //setPreferredSize(new Dimension(200, 100));
-        //setComponents("init");
+        setComponents("init");
     }
     private void setComponents(String type){
         for(Component c: getComponents()){
@@ -21,6 +23,21 @@ public class DetailPanel extends JPanel{
             case("init"):
                 JButton startbtn = new JButton("     start game     ");
                 startbtn.setBackground(Color.gray);
+                startbtn.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        System.out.println("clicked");
+                    }
+                    @Override
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                        System.out.println("in");
+                    }
+                    @Override
+                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                        System.out.println("out");
+                        //picLabel.setBackground(Color.PINK);
+                    }
+                });
                 startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
                 add(startbtn);
                 System.out.println("init");

@@ -43,8 +43,8 @@ public class GameFlow {
 
 
     public void start() {
-        //showMessage();
-        //showTime();
+        showMessage();
+        showTime();
     }
 
     private void showMessage() {

@@ -4,19 +4,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ToolbarPanel extends JPanel {
+    public List<JLabel> picLabels = new ArrayList<JLabel>();
+    public static final String[] tools = {
+            //"airplane.gif",
+            "ambulance.gif",
+            "canopy.png",
+            "hospital.png",
+            "mask.gif",
+            "spray.gif",
+            "syringe.gif"
+    };
     public ToolbarPanel(){
         super();
-        //setSize(110, 320);
         setLayout(new GridLayout(4, 2));
-        for(String tool : Utils.tools){
-            add(addIcon(Utils.resizeImage(Utils.basePath + tool, 80, 60)));
+        for(String tool : tools){
+            picLabels.add(makeLabel(Utils.resizeImage(Utils.basePath + tool, 80, 60)));
+        }
+        for(JLabel pl: picLabels){
+            add(pl);
         }
         setBackground(Color.PINK);
     }
-    private JLabel addIcon(ImageIcon icon){
+    private JLabel makeLabel(ImageIcon icon){
         JLabel picLabel = new JLabel();
         picLabel.setIcon(icon);
         picLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
@@ -28,23 +42,12 @@ public class ToolbarPanel extends JPanel {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 System.out.println("in");
-                /*JLabel redDot = new JLabel();
-                redDot.setOpaque(true);
-                redDot.setBackground(Color.RED);
-                redDot.setSize(20, 20);
-                windowPanel.add(redDot, Integer.valueOf(2));
-                redDot.setLocation((int)MouseInfo.getPointerInfo().getLocation().getX() - 90, (int)MouseInfo.getPointerInfo().getLocation().getY() - 80);
-                */
+
             }
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 System.out.println("out");
                 //picLabel.setBackground(Color.PINK);
-            }
-            @Override
-            public void mouseDragged(MouseEvent e){
-                System.out.println("drag");
-                System.out.println(e);
             }
         });
         return picLabel;
