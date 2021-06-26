@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class MarqueePanel extends JLayeredPane implements ActionListener {
+public class MessagePanel extends JPanel implements ActionListener {
     private static final int RATE = 20;
     private final Timer timer = new Timer(1000 / RATE, this);
     private final JLabel mes = new JLabel();
@@ -15,11 +15,11 @@ public class MarqueePanel extends JLayeredPane implements ActionListener {
     private int numChars;
     private int index;
 
-    public MarqueePanel(int n) {
+    public MessagePanel(int n) {
         this.index = 0;
         this.numChars = n;
         this.messages = new ArrayList<>();
-        setSize(750, 40);
+        setPreferredSize(new Dimension(750, 40));
         setBackground(Color.green);
         setLocation(0, 0);
         mes.setFont(new Font("Courier", Font.ITALIC, 18));

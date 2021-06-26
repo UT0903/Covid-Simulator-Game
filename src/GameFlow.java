@@ -1,36 +1,50 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import frame.WindowFrame;
 import panels.*;
 
-import static java.util.Arrays.asList;
+import java.awt.*;
 
 public class GameFlow {
     private DetailPanel detailPanel;
     private ToolbarPanel toolbarPanel;
     private MapPanel mapPanel;
-    private MarqueePanel messagePanel;
+    private MessagePanel messagePanel;
     private InfoPanel infoPanel;
     private WindowFrame windowFrame;
+    private JPanel createPanel(String text){
+        JTextArea t = new JTextArea(10, 10);
+        t.setText(text);
+        JPanel p = new JPanel();
+        p.add(t);
+        return p;
+    }
+    private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio){
+        JSplitPane sp = new JSplitPane(orientation, a, b);
+        sp.setEnabled(false);
+        sp.setResizeWeight(ratio);
+        sp.setDividerSize(2);
+        return sp;
+    }
     public GameFlow() {
+        messagePanel = new MessagePanel(65);
         mapPanel = new MapPanel();
-        toolbarPanel = new ToolbarPanel();
-        messagePanel = new MarqueePanel(65);
-        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
         detailPanel = new DetailPanel();
-        windowFrame = new WindowFrame(asList(new JLayeredPane[]{mapPanel, toolbarPanel, messagePanel, infoPanel, detailPanel}));
+        toolbarPanel = new ToolbarPanel();
+        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57);
+        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.1);
+        JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5);
+        JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2);
+        JSplitPane sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0.8);
+        windowFrame = new WindowFrame();
+        windowFrame.add(sl);
+
     }
 
 
     public void start() {
-        showMessage();
-        showTime();
+        //showMessage();
+        //showTime();
     }
 
     private void showMessage() {

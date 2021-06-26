@@ -3,10 +3,10 @@ package panels;
 import javax.swing.*;
 import java.awt.*;
 
-public class DetailPanel extends JLayeredPane{
+public class DetailPanel extends JPanel{
     public DetailPanel(){
         super();
-        setSize(210, 170);
+        //setSize(210, 170);
         setLocation(750, 470);
         setBackground(Color.red);
         setVisible(true);

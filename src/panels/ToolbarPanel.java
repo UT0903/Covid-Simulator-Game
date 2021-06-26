@@ -6,15 +6,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
-public class ToolbarPanel extends JLayeredPane {
+public class ToolbarPanel extends JPanel {
     public ToolbarPanel(){
         super();
-        setSize(210, 320);
-        setLocation(750, 150);
-        setLayout(new GridLayout(5, 2));
+        //setSize(110, 320);
+        setLayout(new GridLayout(4, 2));
         for(String tool : Utils.tools){
-            String basePath;
-            add(addIcon(Utils.resizeImage(Utils.basePath + tool, 90, 60)));
+            add(addIcon(Utils.resizeImage(Utils.basePath + tool, 80, 60)));
         }
         setBackground(Color.PINK);
     }

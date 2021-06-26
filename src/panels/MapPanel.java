@@ -19,11 +19,11 @@ public class MapPanel extends JLayeredPane implements ActionListener {
     private final Timer timer = new Timer(delay, this);
 
     public MapPanel() {
-        setSize(750, 600);
-        setLocation(0, 40);
+        setPreferredSize(new Dimension(750, 550));
+        //setLocation(0, 40);
         JLabel bgPic = new JLabel(new ImageIcon(basePath + "./map.png")); //Add background
         bgPic.setOpaque(true);
-        bgPic.setSize(750, 600);
+        bgPic.setSize(750, 550);
         add(bgPic, Integer.valueOf(0));
     }
     public void start() {timer.start();}

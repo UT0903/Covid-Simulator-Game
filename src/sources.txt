@@ -4,7 +4,7 @@
 ./panels/ToolbarPanel.java
 ./panels/MapPanel.java
 ./panels/DetailPanel.java
+./panels/MessagePanel.java
 ./panels/InfoPanel.java
-./panels/MarqueePanel.java
 ./utils/Date.java
 ./frame/WindowFrame.java
