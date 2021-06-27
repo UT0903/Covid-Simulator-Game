@@ -66,14 +66,14 @@ public class ToolbarPanel extends JPanel {
         }
     }
     public class DragListener extends MouseInputAdapter{
-        Point location;
-        MouseEvent pressed;
-
-        public void mousePressed(MouseEvent me)
-        {
-            pressed = me;
-            //System.out.println(pressed);
-        }
+//        Point location;
+//        MouseEvent pressed;
+//
+//        public void mousePressed(MouseEvent me)
+//        {
+//            pressed = me;
+//            //System.out.println(pressed);
+//        }
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -101,15 +101,15 @@ public class ToolbarPanel extends JPanel {
             }
         }
 
-        public void mouseDragged(MouseEvent me)
-        {
-            //System.out.println(me.getComponent().getParent().getParent().getName());
-
-            Component component = me.getComponent();
-            location = component.getLocation();
-            int x = location.x - pressed.getX() + me.getX();
-            int y = location.y - pressed.getY() + me.getY();
-            component.setLocation(x, y);
-        }
+//        public void mouseDragged(MouseEvent me)
+//        {
+//            //System.out.println(me.getComponent().getParent().getParent().getName());
+//
+//            Component component = me.getComponent();
+//            location = component.getLocation();
+//            int x = location.x - pressed.getX() + me.getX();
+//            int y = location.y - pressed.getY() + me.getY();
+//            component.setLocation(x, y);
+//        }
     }
 }

@@ -12,9 +12,9 @@ import utils.Date;
 public class InfoPanel extends JPanel implements ActionListener {
     private final Timer dateTimer = new Timer(1000, this);
     private final Timer scoreTimer = new Timer(50, this);
-    private final JLabel mes = new JLabel();
-    private final JLabel scoreMes = new JLabel();
-    private final JLabel goldMes = new JLabel();
+    private final JLabel mes = Utils.newLabelString("", 12);
+    private final JLabel scoreMes = Utils.newLabelString("", 12);
+    private final JLabel goldMes = Utils.newLabelString("", 12);
     private Date date;
     private ArrayList<Virus> viruses = new ArrayList<Virus>();
     private int score = 100;
@@ -35,14 +35,14 @@ public class InfoPanel extends JPanel implements ActionListener {
     public InfoPanel(int YY, int MM, int DD, int hh, int mm, int ss, int gold) {
         this.setLayout(new GridLayout(0,1));
         this.date = new Date(YY, MM, DD, hh, mm, ss);
-        this.mes.setFont(new Font("Courier", Font.ITALIC, 12));
+        //this.mes.setFont(new Font("Courier", Font.ITALIC, 12));
         this.date.check();
         this.add(this.mes);
         this.mes.setText(this.date.toString());
-        this.scoreMes.setFont(new Font("Courier", Font.ITALIC, 12));
+        //this.scoreMes.setFont(new Font("Courier", Font.ITALIC, 12));
         this.add(this.scoreMes);
         this.scoreMes.setText("Virus amount: " + Integer.toString(score));
-        this.goldMes.setFont(new Font("Courier", Font.ITALIC, 12));
+        //this.goldMes.setFont(new Font("Courier", Font.ITALIC, 12));
         this.add(this.goldMes);
         this.goldMes.setText("Gold: " + Integer.toString(gold));
         this.mes.setHorizontalAlignment(SwingConstants.CENTER);
