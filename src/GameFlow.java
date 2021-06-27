@@ -80,6 +80,7 @@ public class GameFlow implements ActionListener  {
             windowFrame.getContentPane().remove(menuPanel);
             windowFrame.getContentPane().add(sl);
             windowFrame.getContentPane().revalidate();
+            start();
         }
     }
 

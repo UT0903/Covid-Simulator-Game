@@ -27,7 +27,8 @@ public class MapPanel extends JLayeredPane implements ActionListener {
     private final Timer timer = new Timer(delay, this);
     private int timerCount = 0;
     private ArrayList<Virus> viruses = new ArrayList<Virus>();
-
+    private ArrayList<Point> chosen = new ArrayList<Point>();
+    private ArrayList<Point> notChosen = new ArrayList<Point>();
     public MapPanel() {
         setPreferredSize(new Dimension(750, 600));
 
@@ -37,6 +38,11 @@ public class MapPanel extends JLayeredPane implements ActionListener {
         setArea();
         bgPic.setSize(750, 600);
         add(bgPic, Integer.valueOf(0));
+        for (int i = 0; i < 150; i++){
+            for (int j = 0; j < 110; j++){
+                notChosen.add(new Point(i * 5 , j * 5));
+            }
+        }
     }
     public void start() {timer.start();}
     public void stop() { timer.stop(); }
@@ -47,42 +53,35 @@ public class MapPanel extends JLayeredPane implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (timerCount % 5 == 0)
-            addRedVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
-        if (timerCount > 10){
-            if (timerCount % 2 == 0)
-                addOrangeVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
-        }
-        if (timerCount > 20){
-            addYellowVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
-        }
+        addRedVirus();
+//        if (timerCount > 10){
+//            if (timerCount % 2 == 0)
+//                addOrangeVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
+//        }
+//        if (timerCount > 20){
+//            addYellowVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
+//        }
         timerCount++;
     }
-    private void addRedVirus(int x , int y){
-        Virus redVirus = new Virus("red");
+    private void addRedVirus(){
+        int l = (int) Math.round(Math.random() * notChosen.size());
+        Point location = notChosen.get(l);
+        System.out.printf("%d, %d\n", location.x, location.y);
+        Virus redVirus = new Virus(location);
         add(redVirus, Integer.valueOf(1));
-        redVirus.setLocation(x,y);
+        redVirus.setLocation(location);
         viruses.add(redVirus);
-    }
-    private void addOrangeVirus(int x , int y){
-        Virus orangeVirus = new Virus("orange");
-        add(orangeVirus, Integer.valueOf(1));
-        orangeVirus.setLocation(x,y);
-        viruses.add(orangeVirus);
-    }
-    private void addYellowVirus(int x , int y){
-        Virus yellowVirus = new Virus("yellow");
-        add(yellowVirus, Integer.valueOf(1));
-        yellowVirus.setLocation(x,y);
-        viruses.add(yellowVirus);
+        chosen.add(location);
+        notChosen.remove(location);
+
     }
 
-    private void removeViruses(ArrayList<JLabel> removeList){
-        for (int i = 0; i < removeList.size(); i++){
-            this.remove(removeList.get(i));
-        }
-        viruses.removeAll(removeList);
-    }
+//    private void removeViruses(ArrayList<JLabel> removeList){
+//        for (int i = 0; i < removeList.size(); i++){
+//            this.remove(removeList.get(i));
+//        }
+//        viruses.removeAll(removeList);
+//    }
     private void setArea(){
         JPanel panel = new JPanel(new GridLayout(50, 50));
         panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
@@ -162,6 +161,8 @@ public class MapPanel extends JLayeredPane implements ActionListener {
 //            }
         }*/
     }
+
 }
+
 
 
