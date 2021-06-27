@@ -29,7 +29,6 @@ public class GameFlow implements ActionListener  {
         sp.setDividerSize(2);
         return sp;
     }
-
     public GameFlow() {
         this.gold = 1000;
         this.incomePerHour = 100;
@@ -78,7 +77,6 @@ public class GameFlow implements ActionListener  {
     public class StartListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("hi");
             windowFrame.getContentPane().remove(menuPanel);
             windowFrame.getContentPane().add(sl);
             windowFrame.getContentPane().revalidate();
