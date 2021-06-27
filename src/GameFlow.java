@@ -13,6 +13,8 @@ public class GameFlow implements ActionListener  {
     private MapPanel mapPanel;
     private MessagePanel messagePanel;
     private InfoPanel infoPanel;
+    private MenuPanel menuPanel;
+    private JSplitPane sl;
     private WindowFrame windowFrame;
     private Timer goldTimer = new Timer(1000, this);
     private Timer incomeTimer = new Timer(10000, this);
@@ -39,20 +41,22 @@ public class GameFlow implements ActionListener  {
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
-        JSplitPane sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
+        sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
+        StartListener startListener = new StartListener();
+        menuPanel = new MenuPanel(startListener);
         windowFrame = new WindowFrame();
-        windowFrame.add(sl);
-        windowFrame.setVisible(true);
+        windowFrame.add(menuPanel);
+
     }
 
 
     public void start() {
         this.goldTimer.start();
         this.incomeTimer.start();
-        // showMessage();
+        showMessage();
         showTime();
-        // showVirus();
-        // showScore();
+        showVirus();
+        showScore();
     }
 
     private void showMessage() {
@@ -71,13 +75,22 @@ public class GameFlow implements ActionListener  {
         infoPanel.scoreStart(mapPanel.getViruses());
     }
 
+    public class StartListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("hi");
+            windowFrame.getContentPane().remove(menuPanel);
+            windowFrame.getContentPane().add(sl);
+            windowFrame.getContentPane().revalidate();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(goldTimer)) {
             this.gold += this.incomePerHour;
             infoPanel.updateGold(this.gold);
-        }
-        else if (e.getSource().equals(incomeTimer)) {
+        } else if (e.getSource().equals(incomeTimer)) {
             this.incomePerHour++;
         }
     }
