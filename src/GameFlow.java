@@ -38,10 +38,10 @@ public class GameFlow {
 
 
     public void start() {
-        /*showMessage();
+        showMessage();
         showTime();
         showVirus();
-        showScore();*/
+        showScore();
     }
 
     private void showMessage() {
