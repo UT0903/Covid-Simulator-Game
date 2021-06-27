@@ -4,6 +4,8 @@ import frame.WindowFrame;
 import panels.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameFlow {
     private DetailPanel detailPanel;
@@ -11,6 +13,8 @@ public class GameFlow {
     private MapPanel mapPanel;
     private MessagePanel messagePanel;
     private InfoPanel infoPanel;
+    private MenuPanel menuPanel;
+    private JSplitPane sl;
     private WindowFrame windowFrame;
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){
@@ -30,9 +34,11 @@ public class GameFlow {
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
-        JSplitPane sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
+        sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
+        StartListener startListener = new StartListener();
+        menuPanel = new MenuPanel(startListener);
         windowFrame = new WindowFrame();
-        windowFrame.add(sl);
+        windowFrame.add(menuPanel);
 
     }
 
@@ -58,5 +64,15 @@ public class GameFlow {
 
     private void showScore(){
         infoPanel.scoreStart(mapPanel.getViruses());
+    }
+
+    public class StartListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("hi");
+            windowFrame.getContentPane().remove(menuPanel);
+            windowFrame.getContentPane().add(sl);
+            windowFrame.getContentPane().revalidate();
+        }
     }
 }
