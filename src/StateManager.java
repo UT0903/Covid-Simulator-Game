@@ -10,12 +10,18 @@ public class StateManager {
     private int gold;
     private int incomePerHour;
     private int score;
-
+    private ArrayList<Point> chosen = new ArrayList<Point>();
+    private ArrayList<Point> notChosen = new ArrayList<Point>();
     public StateManager() {
         this.viruses = new ArrayList<>();
         this.gold = 1000;
         this.incomePerHour = 100;
         this.score = 0;
+        for (int i = 0; i < 150; i++){
+            for (int j = 0; j < 110; j++){
+                notChosen.add(new Point(i * 5 , j * 5));
+            }
+        }
     }
 
     public void updateGold() { this.gold += this.incomePerHour; }
@@ -29,15 +35,14 @@ public class StateManager {
     public int getScore() { return this.score; }
     public int getIncome() { return this.incomePerHour; }
     public List<Virus> getViruses() { return viruses; }
-    public void addRedVirus(MapPanel mapPanel){
-        int l = (int) Math.round(Math.random() * mapPanel.getNotChosen().size());
-        Point location = mapPanel.getNotChosen().get(l);
-        Virus redVirus = new Virus(location);
-        mapPanel.add(redVirus, Integer.valueOf(1));
-        redVirus.setLocation(location);
-        mapPanel.getViruses().add(redVirus);
-        mapPanel.getChosen().add(location);
-        mapPanel.getNotChosen().remove(location);
+    public Virus addVirus(){
+        int l = (int) Math.round(Math.random() * notChosen.size());
+        Point location = notChosen.get(l);
+        Virus virus = new Virus(location);
+        viruses.add(virus);
+        chosen.add(location);
+        notChosen.remove(location);
+        return virus;
     }
 
 }

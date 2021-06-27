@@ -24,9 +24,7 @@ import static panels.Utils.resizeImage;
 
 public class MapPanel extends JLayeredPane {
     private int timerCount = 0;
-    private ArrayList<Virus> viruses = new ArrayList<Virus>();
-    private ArrayList<Point> chosen = new ArrayList<Point>();
-    private ArrayList<Point> notChosen = new ArrayList<Point>();
+
     public MapPanel() {
         setPreferredSize(new Dimension(750, 600));
 
@@ -36,31 +34,19 @@ public class MapPanel extends JLayeredPane {
         setArea();
         bgPic.setSize(750, 600);
         add(bgPic, Integer.valueOf(0));
-        for (int i = 0; i < 150; i++){
-            for (int j = 0; j < 110; j++){
-                notChosen.add(new Point(i * 5 , j * 5));
-            }
-        }
+
     }
 
-    public ArrayList<Virus> getViruses() {
-        return viruses;
-    }
-
-    public ArrayList<Point> getNotChosen() {
-        return notChosen;
-    }
-
-    public ArrayList<Point> getChosen() {
-        return chosen;
+    public void addVirus(Virus virus){
+        add(virus, Integer.valueOf(1));
+        virus.setLocation(virus.getLocation());
     }
 
 
-//    private void removeViruses(ArrayList<JLabel> removeList){
+//    private void removeViruses(ArrayList<Virus> removeList){
 //        for (int i = 0; i < removeList.size(); i++){
-//            this.remove(removeList.get(i));
+//            remove(removeList.get(i));
 //        }
-//        viruses.removeAll(removeList);
 //    }
     private void setArea(){
         JPanel panel = new JPanel(new GridLayout(50, 50));
