@@ -18,8 +18,7 @@ public class GameFlow implements ActionListener  {
     private WindowFrame windowFrame;
     private Timer goldTimer = new Timer(1000, this);
     private Timer incomeTimer = new Timer(10000, this);
-    private int gold;
-    private int incomePerHour;
+    private StateManager stateManager;
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){
         JSplitPane sp = new JSplitPane(orientation, a, b);
@@ -31,13 +30,12 @@ public class GameFlow implements ActionListener  {
     }
 
     public GameFlow() {
-        this.gold = 1000;
-        this.incomePerHour = 100;
-        messagePanel = new MessagePanel(65);
+        this.stateManager = new StateManager();
+        messagePanel = new MessagePanel(105);
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
         toolbarPanel = new ToolbarPanel();
-        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57, this.gold);
+        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57, stateManager.getGold(), stateManager.getScore());
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
@@ -46,7 +44,7 @@ public class GameFlow implements ActionListener  {
         menuPanel = new MenuPanel(startListener);
         windowFrame = new WindowFrame();
         windowFrame.add(menuPanel);
-
+        windowFrame.setVisible(true);
     }
 
 
@@ -56,7 +54,6 @@ public class GameFlow implements ActionListener  {
         showMessage();
         showTime();
         showVirus();
-        showScore();
     }
 
     private void showMessage() {
@@ -65,20 +62,13 @@ public class GameFlow implements ActionListener  {
         messagePanel.addString("This is test message 3.");
         messagePanel.start();
     }
-    private void showTime() {
-        infoPanel.timeStart();
-    }
 
+    private void showTime() { this.infoPanel.timeStart(); }
     private void showVirus(){ mapPanel.start(); }
-
-    private void showScore(){
-        infoPanel.scoreStart(mapPanel.getViruses());
-    }
 
     public class StartListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("hi");
             windowFrame.getContentPane().remove(menuPanel);
             windowFrame.getContentPane().add(sl);
             windowFrame.getContentPane().revalidate();
@@ -88,10 +78,11 @@ public class GameFlow implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(goldTimer)) {
-            this.gold += this.incomePerHour;
-            infoPanel.updateGold(this.gold);
+            this.stateManager.updateGold();
+            this.infoPanel.updateGold(this.stateManager.getGold());
+            this.infoPanel.updateScore(this.stateManager.getGold());
         } else if (e.getSource().equals(incomeTimer)) {
-            this.incomePerHour++;
+            this.stateManager.updateIncome();
         }
     }
 }
