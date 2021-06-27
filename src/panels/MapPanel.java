@@ -22,9 +22,7 @@ import java.util.HashMap;
 import static panels.Utils.basePath;
 import static panels.Utils.resizeImage;
 
-public class MapPanel extends JLayeredPane implements ActionListener {
-    private static final int delay = 1000;
-    private final Timer timer = new Timer(delay, this);
+public class MapPanel extends JLayeredPane {
     private int timerCount = 0;
     private ArrayList<Virus> viruses = new ArrayList<Virus>();
     private ArrayList<Point> chosen = new ArrayList<Point>();
@@ -44,37 +42,19 @@ public class MapPanel extends JLayeredPane implements ActionListener {
             }
         }
     }
-    public void start() {timer.start();}
-    public void stop() { timer.stop(); }
 
     public ArrayList<Virus> getViruses() {
         return viruses;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        addRedVirus();
-//        if (timerCount > 10){
-//            if (timerCount % 2 == 0)
-//                addOrangeVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
-//        }
-//        if (timerCount > 20){
-//            addYellowVirus((int) (Math.random() * 700), (int) (Math.random() * 550));
-//        }
-        timerCount++;
+    public ArrayList<Point> getNotChosen() {
+        return notChosen;
     }
-    private void addRedVirus(){
-        int l = (int) Math.round(Math.random() * notChosen.size());
-        Point location = notChosen.get(l);
-        System.out.printf("%d, %d\n", location.x, location.y);
-        Virus redVirus = new Virus(location);
-        add(redVirus, Integer.valueOf(1));
-        redVirus.setLocation(location);
-        viruses.add(redVirus);
-        chosen.add(location);
-        notChosen.remove(location);
 
+    public ArrayList<Point> getChosen() {
+        return chosen;
     }
+
 
 //    private void removeViruses(ArrayList<JLabel> removeList){
 //        for (int i = 0; i < removeList.size(); i++){

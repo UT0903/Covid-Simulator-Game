@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+import components.Virus;
 import frame.WindowFrame;
 import panels.*;
 
@@ -16,8 +17,9 @@ public class GameFlow implements ActionListener  {
     private MenuPanel menuPanel;
     private JSplitPane sl;
     private WindowFrame windowFrame;
-    private Timer goldTimer = new Timer(1000, this);
+    private Timer oneSecTimer = new Timer(1000, this);
     private Timer incomeTimer = new Timer(10000, this);
+    private Timer msTimer = new Timer(100, this);
     private StateManager stateManager;
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){
@@ -34,7 +36,7 @@ public class GameFlow implements ActionListener  {
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
         toolbarPanel = new ToolbarPanel();
-        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57, stateManager.getGold(), stateManager.getScore());
+        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57, stateManager.getGold());
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
@@ -48,11 +50,11 @@ public class GameFlow implements ActionListener  {
 
 
     public void start() {
-        this.goldTimer.start();
+        this.oneSecTimer.start();
         this.incomeTimer.start();
+        this.msTimer.start();
         showMessage();
         showTime();
-        showVirus();
     }
 
     private void showMessage() {
@@ -63,7 +65,6 @@ public class GameFlow implements ActionListener  {
     }
 
     private void showTime() { this.infoPanel.timeStart(); }
-    private void showVirus(){ mapPanel.start(); }
 
     public class StartListener implements ActionListener {
         @Override
@@ -77,12 +78,20 @@ public class GameFlow implements ActionListener  {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(goldTimer)) {
+        if (e.getSource().equals(oneSecTimer)) {
             this.stateManager.updateGold();
             this.infoPanel.updateGold(this.stateManager.getGold());
-            this.infoPanel.updateScore(this.stateManager.getGold());
+            this.stateManager.addRedVirus(mapPanel);
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
+        } else if (e.getSource().equals(msTimer)){
+            this.stateManager.updateViruses(mapPanel.getViruses());
+            this.infoPanel.updateVirusAmount(this.stateManager.getViruses().size());
         }
+    }
+
+
+    public MapPanel getMapPanel() {
+        return mapPanel;
     }
 }
