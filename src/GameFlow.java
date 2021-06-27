@@ -63,7 +63,7 @@ public class GameFlow implements ActionListener  {
     }
 
     private void showTime() { this.infoPanel.timeStart(); }
-    private void showVirus(){ mapPanel.start(); }
+    private void showVirus() { mapPanel.start(); }
 
     public class StartListener implements ActionListener {
         @Override

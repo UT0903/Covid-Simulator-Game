@@ -125,7 +125,7 @@ public class MapPanel extends JLayeredPane implements ActionListener {
         @Override
         public void mouseEntered(MouseEvent e) {
             super.mouseEntered(e);
-            //System.out.println(e.getComponent().getName());
+            // System.out.println(e.getComponent().getName());
             Area.changeGroup(e.getComponent());
 //            e.getComponent().setBackground(Color.darkGray);
 //            for (Component c : e.getComponent().getParent().getParent().getComponents()) {
