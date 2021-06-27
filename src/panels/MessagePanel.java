@@ -7,22 +7,24 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MessagePanel extends JPanel implements ActionListener {
-    private static final int RATE = 20;
-    private final Timer timer = new Timer(1000 / RATE, this);
+    private final Timer timer = new Timer(50,  this);
     private final JLabel mes = new JLabel();
     private List<String> messages;
     private String message;
     private int numChars;
     private int index;
+    private int delayCount;
 
     public MessagePanel(int n) {
         this.index = 0;
         this.numChars = n;
         this.messages = new ArrayList<>();
+        this.delayCount = 0;
         setPreferredSize(new Dimension(750, 40));
         setBackground(Color.green);
         setLocation(0, 0);
-        mes.setFont(new Font("Courier", Font.ITALIC, 18));
+        this.mes.setFont(new Font("Courier", Font.ITALIC, 18));
+        this.mes.setHorizontalAlignment(SwingConstants.LEFT);
         this.add(mes);
     }
 
@@ -35,12 +37,13 @@ public class MessagePanel extends JPanel implements ActionListener {
         else {
             StringBuilder messageBuilder = new StringBuilder();
             StringBuilder spaces = new StringBuilder();
-            String intervals = "                ";
+            String intervals;
             for (int i = 0; i < this.numChars; i++)
                 spaces.append(' ');
             messageBuilder.append(spaces);
             messageBuilder.append(this.messages.get(0));
             for (int i = 1; i < this.messages.size(); i++) {
+                intervals = " ".repeat(this.numChars - this.messages.get(i - 1).length());
                 messageBuilder.append(intervals);
                 messageBuilder.append(this.messages.get(i));
             }
@@ -55,20 +58,62 @@ public class MessagePanel extends JPanel implements ActionListener {
     }
 
     public void addString(String str) {
-        this.messages.add(str);
+        if (str.length() <= this.numChars)
+            this.messages.add(str);
+        else {
+            int start = 0;
+            while (start < str.length()) {
+                if (start + this.numChars <= str.length()) {
+                    int end = str.substring(start, start + this.numChars).lastIndexOf(' ');
+                    this.messages.add(str.substring(start, start + end));
+                    start += end + 1;
+                }
+                else {
+                    this.messages.add(str.substring(start));
+                    start += this.numChars;
+                }
+            }
+        }
         this.generateString();
     }
 
     public void removeString(String str) {
-        this.messages.remove(str);
+        if (str.length() <= this.numChars)
+            this.messages.remove(str);
+        else {
+            int start = 0;
+            while (start < str.length()) {
+                if (start + this.numChars <= str.length()) {
+                    int end = str.substring(start, start + this.numChars).lastIndexOf(' ');
+                    this.messages.remove(str.substring(start, start + end));
+                    start += end + 1;
+                }
+                else {
+                    this.messages.remove(str.substring(start));
+                    start += this.numChars;
+                }
+            }
+        }
         this.generateString();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.index++;
-        if (this.index > this.message.length() - this.numChars)
+        if (this.message.equals("")) {
+            this.mes.setText(this.message);
             this.index = 0;
-        this.mes.setText(this.message.substring(this.index, this.index + this.numChars));
+        }
+        else {
+            if (this.index != 0 && this.index % this.numChars == 0 && this.delayCount < 20) {
+                this.delayCount++;
+            }
+            else {
+                this.index++;
+                this.delayCount = 0;
+                if (this.index > this.message.length() - this.numChars)
+                    this.index = 0;
+                this.mes.setText(this.message.substring(this.index, this.index + this.numChars));
+            }
+        }
     }
 }
