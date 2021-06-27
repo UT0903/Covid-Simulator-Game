@@ -28,7 +28,6 @@ public class GameFlow implements ActionListener  {
         sp.setDividerSize(2);
         return sp;
     }
-
     public GameFlow() {
         this.stateManager = new StateManager();
         messagePanel = new MessagePanel(105);

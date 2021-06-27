@@ -56,6 +56,11 @@ public class Area {
             }
         }
     }
+    public static int getGroupByPixel(int x, int y){
+        int gridId = x / 15 + (y / 11)*50;
+        int groupId = Area.gridToGroup.get(gridId);
+        return groupId;
+    }
     public static void changeGroup(Component c){
         int gridId = Integer.parseInt(c.getName());
         Integer groupId = Area.gridToGroup.get(gridId);
