@@ -44,14 +44,14 @@ public class GameFlow {
 
 
     public void start() {
-        /*showMessage();
-        showTime();
-        showVirus();
-        showScore();*/
+        // showMessage();
+        // showTime();
+        // showVirus();
+        // showScore();
     }
 
     private void showMessage() {
-        messagePanel.addString("Test message 1!");
+        messagePanel.addString("Your city is safe now.");
         messagePanel.addString("Test message 2?");
         messagePanel.addString("This is test message 3.");
         messagePanel.start();
