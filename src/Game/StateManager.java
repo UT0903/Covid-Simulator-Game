@@ -203,10 +203,14 @@ public class StateManager {
 	    0,0,0,0,0,0,0,0,0,0,0,0
     };
     public static Integer[] areaSpreadTime = {
-        1,1,1,1,1,1,1,1,1,1,1,1
+        9,9,9,9,9,9,9,9,9,9,9,9
     };
     public Integer[] areaTimeCount ={
         0,0,0,0,0,0,0,0,0,0,0,0
+    };
+    public double[] areaSpreadProbability = {
+        0.1,0.1,0.1,0.1,0.1,0.1,
+        0.1,0.1,0.1,0.1,0.1,0.1
     };
 
     //Virus states management
@@ -217,54 +221,20 @@ public class StateManager {
         for (int i = 0; i < viruses.size(); i++){
             Virus virus = viruses.get(i);
             if (areaTimeCount[virus.getGroupID()].equals(areaSpreadTime[virus.getGroupID()])){
-                List <Virus> probableList = new ArrayList<Virus>();
                 int x = virus.getLocation().x / 5;
                 int y = virus.getLocation().y / 5;
-                if (x - 1 >= 0){
-                    if (y - 1 >= 0){
-                        if (!virusIsChosen[x - 1][y - 1].getChosen()){
-                            probableList.add(virusIsChosen[x - 1][y - 1]);
+                for (int addX = -2; addX < 3; addX++){
+                    for (int addY = -2; addY < 3; addY++){
+                        int X = x + addX;
+                        int Y = y + addY;
+                        if (X >= 0 && X < 150 && Y >= 0 && Y < 110 && !virusIsChosen[X][Y].getChosen()){
+                            if (Math.random() < areaSpreadProbability[virus.getGroupID()]){
+                                virusIsChosen[X][Y].setChosen(true);
+                                notChosen.remove(virusIsChosen[X][Y]);
+                                spreadList.add(virusIsChosen[X][Y]);
+                            }
                         }
                     }
-                    if (!virusIsChosen[x - 1][y].getChosen()){
-                        probableList.add(virusIsChosen[x - 1][y]);
-                    }
-                    if (y + 1 < 110){
-                        if (!virusIsChosen[x - 1][y + 1].getChosen()){
-                            probableList.add(virusIsChosen[x - 1][y + 1]);
-                        }
-                    }
-                }
-                if (y - 1 >= 0){
-                    if (!virusIsChosen[x][y - 1].getChosen()){
-                        probableList.add(virusIsChosen[x][y - 1]);
-                    }
-                }
-                if (y + 1 < 110){
-                    if (!virusIsChosen[x][y + 1].getChosen()){
-                        probableList.add(virusIsChosen[x][y + 1]);
-                    }
-                }
-                if (x + 1 < 150){
-                    if (y - 1 >= 0){
-                        if (!virusIsChosen[x + 1][y - 1].getChosen()){
-                            probableList.add(virusIsChosen[x + 1][y - 1]);
-                        }
-                    }
-                    if (!virusIsChosen[x + 1][y].getChosen()){
-                        probableList.add(virusIsChosen[x + 1][y]);
-                    }
-                    if (y + 1 < 110){
-                        if (!virusIsChosen[x + 1][y + 1].getChosen()){
-                            probableList.add(virusIsChosen[x + 1][y + 1]);
-                        }
-                    }
-                }
-                if (probableList.size() > 0){
-                    Virus virusToSpread = probableList.get((int) (Math.random() * probableList.size()));
-                    virusToSpread.setChosen(true);
-                    notChosen.remove(virusToSpread);
-                    spreadList.add(virusToSpread);
                 }
             }
         }
