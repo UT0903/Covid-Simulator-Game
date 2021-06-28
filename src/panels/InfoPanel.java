@@ -41,7 +41,7 @@ public class InfoPanel extends JPanel implements ActionListener, GameStateListen
         this.virusesLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(this.virusesMes);
         this.virusesMes.setHorizontalAlignment(SwingConstants.LEFT);
-        this.virusesMes.setText(Integer.toString(0));
+        this.virusesMes.setText("0(0%)");
         this.add(this.goldLabel);
         this.goldLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(this.goldMes);
@@ -69,7 +69,9 @@ public class InfoPanel extends JPanel implements ActionListener, GameStateListen
     public void timeStart() { this.dateTimer.start(); }
     public void timeStop() { this.dateTimer.stop(); }
     public void updateGold(int gold) { this.goldMes.setText(Integer.toString(gold)); }
-    public void updateVirusAmount(int amount) { this.virusesMes.setText(Integer.toString(amount)); }
+    public void updateVirusAmount(int amount, int percentage) {
+        this.virusesMes.setText(Integer.toString(amount)+ "(" + Integer.toString(percentage) + "%" + ")");
+    }
     public JButton getPauseButton() { return this.pauseButton; }
     public JButton getStartButton() { return this.startButton; }
 

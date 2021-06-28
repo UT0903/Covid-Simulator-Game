@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import static utils.Utils.basePath;
@@ -40,6 +41,14 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
     public void addVirus(Virus virus){
         add(virus, Integer.valueOf(1));
         virus.setLocation(virus.getLocation());
+    }
+
+    public void addVirus(List<Virus> virusList){
+        for (int i = 0; i < virusList.size(); i++){
+            Virus virus = virusList.get(i);
+            add(virus, Integer.valueOf(1));
+            virus.setLocation(virus.getLocation());
+        }
     }
 
     private void setArea(){

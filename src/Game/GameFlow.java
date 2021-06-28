@@ -9,6 +9,8 @@ import panels.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GameFlow implements ActionListener, GameStateListener  {
     private DetailPanel detailPanel;
@@ -33,13 +35,13 @@ public class GameFlow implements ActionListener, GameStateListener  {
         return sp;
     }
     public GameFlow() {
-        this.stateManager = new StateManager();
         messagePanel = new MessagePanel(65);
         messagePanel.addString("Your city is safe now.");
         messagePanel.addString("Test message 2?");
         messagePanel.addString("This is test message 3.");
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
+        this.stateManager = new StateManager();
         StateManager.addGameStateListener(this);
         StateManager.addItemStateListener(detailPanel);
         StateManager.addMapStateListener(detailPanel);
@@ -63,10 +65,13 @@ public class GameFlow implements ActionListener, GameStateListener  {
             this.infoPanel.updateGold(this.stateManager.getGold());
             Virus virus = this.stateManager.addVirus();
             this.mapPanel.addVirus(virus);
+            List<Virus> spreadList = new ArrayList<Virus>();
+            spreadList = this.stateManager.spreadVirus();
+            this.mapPanel.addVirus(spreadList);
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){
-            this.infoPanel.updateVirusAmount(this.stateManager.getViruses().size());
+            this.infoPanel.updateVirusAmount(this.stateManager.getViruses().size(), this.stateManager.getPercentage());
         }
     }
 

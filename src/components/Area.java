@@ -45,7 +45,6 @@ public class Area {
     public static void InitGroup(){
         //System.out.println("init group");
         for(int groupId = 0; groupId < gs.length; groupId++){
-            //System.out.println(gs[groupId].length);
             for(int j = 0; j < gs[groupId].length; j++){
                 //System.out.println(j);
                 for(int k = gs[groupId][j]; k <= ge[groupId][j]; k++){
