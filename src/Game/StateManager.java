@@ -206,6 +206,7 @@ public class StateManager {
 
     //Virus states management
     public List<Virus> getViruses() { return viruses; }
+    public int getPercentage() { return (int) ((double) viruses.size() / 16500 * 100); }
     public List<Virus> spreadVirus(){
         List<Virus> spreadList = new ArrayList<Virus>();
         for (int i = 0; i < viruses.size(); i++){

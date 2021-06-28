@@ -71,7 +71,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){
-            this.infoPanel.updateVirusAmount(this.stateManager.getViruses().size());
+            this.infoPanel.updateVirusAmount(this.stateManager.getViruses().size(), this.stateManager.getPercentage());
         }
     }
 
