@@ -56,7 +56,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
             /*if(i < 150){
                 label.setBackground(new Color(255, 0, 0, 100));
             }*/
-            label.setPreferredSize(new Dimension(15, 11));
+            label.setPreferredSize(new Dimension(15, 12));
             MapMouseListener mouse = new MapMouseListener();
             label.addMouseListener(mouse);
             label.addMouseMotionListener(mouse);
@@ -65,7 +65,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
             panel.add(label);
         }
         panel.setOpaque(false);
-        panel.setSize(750, 550);
+        panel.setSize(750, 600);
         //MapMouseListener mouse = new MapMouseListener();
         //panel.addMouseListener(mouse);
         //panel.addMouseMotionListener(mouse);
