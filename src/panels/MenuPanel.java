@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static panels.Utils.basePath;
-import static panels.Utils.resizeImage;
+import static utils.Utils.basePath;
+import static utils.Utils.resizeImage;
 
 public class MenuPanel extends JLayeredPane {
 //    private JButton startButton = new JButton("Start game!");

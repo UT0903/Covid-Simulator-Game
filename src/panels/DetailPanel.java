@@ -1,15 +1,22 @@
 package panels;
 
+import Game.*;
+import utils.Utils;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class DetailPanel extends JPanel{
+public class DetailPanel extends JPanel implements ItemStateListener, MapStateListener {
+    private int curClickItemId = -1;
+    private int curHoverItemId = -1;
+    private int curHoverAreaId = -1;
+    private int curClickAreaId = -1;
     public DetailPanel(){
         super();
-        setName("DetailPanel");
+        setName("DetailsPanel");
         setSize(210, 170);
         setOpaque(true);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -17,7 +24,7 @@ public class DetailPanel extends JPanel{
         setBackground(new Color(255, 246, 143, 200));
 
         //setPreferredSize(new Dimension(200, 100));
-        setComponents("init");
+        StateManager.setGameState(GameState.INGAME);
         setVisible(true);
     }
     public JButton getButton(String text){
@@ -30,52 +37,58 @@ public class DetailPanel extends JPanel{
         startbtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         return startbtn;
     }
-    public void setComponents(String type){
+
+    private void reRender(){
         for(Component c: getComponents()){
             remove(c);
         }
-        if(type.equals("during game")) {
-            JButton pausebtn = getButton("     pause     ");
-            pausebtn.addMouseListener(new MyMouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    System.out.println("clicked");
-                }
-            });
-            add(pausebtn);
-        }
-        else if(type.equals("pause")) {
-                JButton continuebtn = getButton("     continue     ");
-                continuebtn.addMouseListener(new MyMouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        System.out.println("clicked");
-                    }
-                });
-        }
-        else if(type.equals("end")){
-            JButton restartbtn = getButton("     restart     ");
-            restartbtn.addMouseListener(new MyMouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    System.out.println("clicked");
-                }
-            });
+        if(curClickItemId == -1 && curClickAreaId == -1){
+            if(curHoverAreaId != -1 || curHoverAreaId != -1){
+                setLayout(new GridLayout(3, 1));
+                JLabel t = Utils.newLabelString("123", 15);
+                add(t);
+            }
         }
         else{
-            setLayout(new GridLayout(3, 1));
-            JLabel t = Utils.newLabelString("123", 15);
-//            t.setBorder(new LineBorder(new Color(0,0,0,0), 10));
-            t.setHorizontalAlignment(SwingConstants.CENTER);
-            add(t);
+
         }
+
         revalidate();
         repaint();
     }
+    @Override
+    public void onItemHoverChanged(int prevId, int newId) {
+        System.out.printf("curHoverItemId %d\n", newId);
+        curHoverItemId = newId;
+        reRender();
+    }
+
+    @Override
+    public void onItemClickChanged(int prevId, int newId) {
+        System.out.printf("curClickItemId %d\n", newId);
+        curClickItemId = newId;
+        reRender();
+    }
+
+    @Override
+    public void onAreaHoverChanged(int prevId, int newId) {
+        System.out.printf("curHoverAreaId %d\n", newId);
+        curHoverAreaId = newId;
+        reRender();
+    }
+
+    @Override
+    public void onAreaClickChanged(int prevId, int newId) {
+        System.out.printf("curClickAreaId %d\n", newId);
+        curClickAreaId = newId;
+        reRender();
+    }
+
     public abstract class MyMouseAdapter extends MouseAdapter{
         @Override
         public void mouseEntered(MouseEvent e) {
             e.getComponent().setBackground(Color.darkGray);
+            //StateManager.setGameState(S);
         }
 
         @Override

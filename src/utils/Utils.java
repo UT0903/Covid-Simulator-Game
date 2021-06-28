@@ -1,4 +1,4 @@
-package panels;
+package utils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +25,8 @@ public class Utils {
         jl.setText(s);
         jl.setFont(new Font("Courier", Font.ITALIC, size));
         jl.setOpaque(false);
-        jl.setHorizontalTextPosition(SwingConstants.CENTER);
+        //jl.setHorizontalTextPosition(SwingConstants.CENTER);
+        jl.setHorizontalAlignment(SwingConstants.CENTER);
         return jl;
     }
 }
