@@ -60,8 +60,10 @@ public class Area {
         }
     }
     public static int getGroupByPixel(int x, int y){
-        int gridId = x / 15 + (y / 11)*50;
+        int gridId = x / 15 + (y / 12)*50;
+        System.out.println(gridId);
         int groupId = Area.gridToGroup.get(gridId);
+        System.out.println(groupId);
         return groupId;
     }
 

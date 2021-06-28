@@ -9,6 +9,8 @@ import panels.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GameFlow implements ActionListener  {
     private DetailPanel detailPanel;
@@ -87,6 +89,9 @@ public class GameFlow implements ActionListener  {
             this.infoPanel.updateGold(this.stateManager.getGold());
             Virus virus = this.stateManager.addVirus();
             this.mapPanel.addVirus(virus);
+            List<Virus> spreadList = new ArrayList<Virus>();
+            spreadList = this.stateManager.spreadVirus();
+            this.mapPanel.addVirus(spreadList);
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){
@@ -94,8 +99,4 @@ public class GameFlow implements ActionListener  {
         }
     }
 
-
-    public MapPanel getMapPanel() {
-        return mapPanel;
-    }
 }
