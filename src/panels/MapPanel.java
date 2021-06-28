@@ -96,7 +96,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
             //pressed = e;
             int gridId = Integer.parseInt(e.getComponent().getName());
             Integer groupId = Area.gridToGroup.get(gridId);
-            System.out.printf("group: %d\n", groupId);
+            StateManager.setMapClickId(groupId);
             //System.out.println(pressed);
         }
 
