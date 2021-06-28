@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class GameFlow implements ActionListener  {
+public class GameFlow implements ActionListener, GameStateListener  {
     private DetailPanel detailPanel;
     private ToolbarPanel toolbarPanel;
     private MapPanel mapPanel;
@@ -36,9 +36,13 @@ public class GameFlow implements ActionListener  {
     }
     public GameFlow() {
         this.stateManager = new StateManager();
-        messagePanel = new MessagePanel(105);
+        messagePanel = new MessagePanel(65);
+        messagePanel.addString("Your city is safe now.");
+        messagePanel.addString("Test message 2?");
+        messagePanel.addString("This is test message 3.");
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
+        StateManager.addGameStateListener(this);
         StateManager.addItemStateListener(detailPanel);
         StateManager.addMapStateListener(detailPanel);
         StateManager.addMapStateListener(mapPanel);
@@ -48,38 +52,10 @@ public class GameFlow implements ActionListener  {
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
         sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
-        StartListener startListener = new StartListener();
-        menuPanel = new MenuPanel(startListener);
+        menuPanel = new MenuPanel();
         windowFrame = new WindowFrame();
         windowFrame.add(menuPanel);
         windowFrame.setVisible(true);
-    }
-
-
-    public void start() {
-        this.oneSecTimer.start();
-        this.incomeTimer.start();
-        this.msTimer.start();
-        showMessage();
-        showTime();
-    }
-
-    private void showMessage() {
-        messagePanel.addString("Your city is safe now.");
-        messagePanel.addString("Test message 2?");
-        messagePanel.addString("This is test message 3.");
-        messagePanel.start();
-    }
-
-    private void showTime() { this.infoPanel.timeStart(); }
-    public class StartListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            windowFrame.getContentPane().remove(menuPanel);
-            windowFrame.getContentPane().add(sl);
-            windowFrame.getContentPane().revalidate();
-            start();
-        }
     }
 
     @Override
@@ -99,4 +75,29 @@ public class GameFlow implements ActionListener  {
         }
     }
 
+    @Override
+    public void onGameStateChanged(GameState prevState, GameState curState) {
+        if (prevState == GameState.INIT && curState == GameState.INGAME) {
+            windowFrame.getContentPane().remove(menuPanel);
+            windowFrame.getContentPane().add(sl);
+            windowFrame.getContentPane().revalidate();
+            this.oneSecTimer.start();
+            this.msTimer.start();
+            this.incomeTimer.start();
+        }
+        else if (prevState == GameState.INGAME && curState == GameState.PAUSE) {
+            this.oneSecTimer.stop();
+            this.msTimer.stop();
+            this.incomeTimer.stop();
+        }
+        else if (prevState == GameState.PAUSE && curState == GameState.INGAME) {
+            this.oneSecTimer.start();
+            this.msTimer.start();
+            this.incomeTimer.start();
+        }
+    }
+
+    public MapPanel getMapPanel() {
+        return mapPanel;
+    }
 }

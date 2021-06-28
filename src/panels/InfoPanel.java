@@ -5,11 +5,14 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
+import Game.GameState;
+import Game.GameStateListener;
+import Game.StateManager;
 import components.Virus;
 import utils.Date;
 import utils.Utils;
 
-public class InfoPanel extends JPanel implements ActionListener {
+public class InfoPanel extends JPanel implements ActionListener, GameStateListener {
     private final Timer dateTimer = new Timer(1000, this);
     private final JLabel dateLabel = Utils.newLabelString("Date: ", 14);
     private final JLabel dateMes = Utils.newLabelString("", 14);
@@ -51,9 +54,12 @@ public class InfoPanel extends JPanel implements ActionListener {
         this.goldLabel.setSize(20,10);
         this.goldMes.setSize(20,10);
         this.add(pauseButton);
+        this.pauseButton.addActionListener(this);
         this.pauseButton.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(startButton);
+        this.startButton.addActionListener(this);
         this.startButton.setHorizontalAlignment(SwingConstants.CENTER);
+        StateManager.addGameStateListener(this);
     }
 
     public void setDate(int YY, int MM, int DD, int hh, int mm, int ss) {
@@ -64,10 +70,28 @@ public class InfoPanel extends JPanel implements ActionListener {
     public void timeStop() { this.dateTimer.stop(); }
     public void updateGold(int gold) { this.goldMes.setText(Integer.toString(gold)); }
     public void updateVirusAmount(int amount) { this.virusesMes.setText(Integer.toString(amount)); }
+    public JButton getPauseButton() { return this.pauseButton; }
+    public JButton getStartButton() { return this.startButton; }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.date.update();
-        this.dateMes.setText(this.date.toString());
+        if (e.getSource().equals(this.dateTimer)) {
+            this.date.update();
+            this.dateMes.setText(this.date.toString());
+        }
+        else if (e.getSource().equals(this.pauseButton))
+            StateManager.setGameState(GameState.PAUSE);
+        else if (e.getSource().equals(this.startButton))
+            StateManager.setGameState(GameState.INGAME);
+    }
+
+    @Override
+    public void onGameStateChanged(GameState prevState, GameState curState) {
+        if (prevState == GameState.INIT && curState == GameState.INGAME)
+            this.dateTimer.start();
+        else if (prevState == GameState.INGAME && curState == GameState.PAUSE)
+            this.dateTimer.stop();
+        else if (prevState == GameState.PAUSE && curState == GameState.INGAME)
+            this.dateTimer.start();
     }
 }
