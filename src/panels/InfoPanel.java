@@ -11,39 +11,49 @@ import utils.Utils;
 
 public class InfoPanel extends JPanel implements ActionListener {
     private final Timer dateTimer = new Timer(1000, this);
-    private final JLabel mes = Utils.newLabelString("", 12);
-    private final JLabel virusesMes = Utils.newLabelString("", 12);
-    private final JLabel goldMes = Utils.newLabelString("", 12);
+    private final JLabel dateLabel = Utils.newLabelString("Date: ", 14);
+    private final JLabel dateMes = Utils.newLabelString("", 14);
+    private final JLabel virusesLabel = Utils.newLabelString("Virus Amount: ", 14);
+    private final JLabel virusesMes = Utils.newLabelString("", 14);
+    private final JLabel goldLabel = Utils.newLabelString("Gold: ", 14);
+    private final JLabel goldMes = Utils.newLabelString("", 14);
+    private JButton pauseButton = Utils.getButton("Pause", 20, 10);
+    private JButton startButton = Utils.getButton("Start", 20, 10);
     private Date date;
 
-//    public InfoPanel() {
-//        //setLocation(750, 0);
-//        setBackground(Color.red);
-//        setOpaque(true);
-//        this.date = new Date();
-//        dateMes.setFont(new Font("Courier", Font.ITALIC, 16));
-//        this.add(dateMes);
-//        this.dateMes.setText(this.date.toString());
-//        viruses.setFont(new Font("Courier", Font.ITALIC, 16));
-//        this.add(viruses);
-//        this.viruses.setText("Score:" + Integer.toString(score));
-//    }
 
     public InfoPanel(int YY, int MM, int DD, int hh, int mm, int ss, int gold) {
-        this.setLayout(new GridLayout(0,1));
+        super();
+        setName("InfoPanel");
+        setSize(330, 150);
+        this.setLayout(new GridLayout(0,2));
+        this.add(this.dateLabel);
+        this.dateLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.date = new Date(YY, MM, DD, hh, mm, ss);
-        //this.mes.setFont(new Font("Courier", Font.ITALIC, 12));
         this.date.check();
-        this.add(this.mes);
-        this.mes.setText(this.date.toString());
+        this.add(this.dateMes);
+        this.dateMes.setHorizontalAlignment(SwingConstants.LEFT);
+        this.dateMes.setText(this.date.toString());
+        this.add(this.virusesLabel);
+        this.virusesLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(this.virusesMes);
-        this.virusesMes.setText("Virus amount: " + Integer.toString(0));
-        this.goldMes.setFont(new Font("Courier", Font.ITALIC, 12));
+        this.virusesMes.setHorizontalAlignment(SwingConstants.LEFT);
+        this.virusesMes.setText(Integer.toString(0));
+        this.add(this.goldLabel);
+        this.goldLabel.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(this.goldMes);
-        this.goldMes.setText("Gold: " + Integer.toString(gold));
-        this.mes.setHorizontalAlignment(SwingConstants.CENTER);
-        this.virusesMes.setHorizontalAlignment(SwingConstants.CENTER);
-        this.goldMes.setHorizontalAlignment(SwingConstants.CENTER);
+        this.goldMes.setText(Integer.toString(gold));
+        this.goldMes.setHorizontalAlignment(SwingConstants.LEFT);
+        this.dateLabel.setSize(20,10);
+        this.dateMes.setSize(20,10);
+        this.virusesLabel.setSize(20,10);
+        this.virusesMes.setSize(20,10);
+        this.goldLabel.setSize(20,10);
+        this.goldMes.setSize(20,10);
+        this.add(pauseButton);
+        this.pauseButton.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(startButton);
+        this.startButton.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
     public void setDate(int YY, int MM, int DD, int hh, int mm, int ss) {
@@ -52,12 +62,12 @@ public class InfoPanel extends JPanel implements ActionListener {
 
     public void timeStart() { this.dateTimer.start(); }
     public void timeStop() { this.dateTimer.stop(); }
-    public void updateGold(int gold) { this.goldMes.setText("Gold: " + Integer.toString(gold)); }
-    public void updateVirusAmount(int amount) { this.virusesMes.setText("Virus amount: " + Integer.toString(amount)); }
+    public void updateGold(int gold) { this.goldMes.setText(Integer.toString(gold)); }
+    public void updateVirusAmount(int amount) { this.virusesMes.setText(Integer.toString(amount)); }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         this.date.update();
-        this.mes.setText(this.date.toString());
+        this.dateMes.setText(this.date.toString());
     }
 }
