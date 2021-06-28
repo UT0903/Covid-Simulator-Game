@@ -10,7 +10,12 @@ public class StateManager {
     private int gold;
     private int incomePerHour;
     private int score;
-
+    public Virus addVirus(){
+      return null;
+    };
+    public List<Virus> getViruses(){
+        return null;
+    }
     public StateManager() {
         this.viruses = new ArrayList<>();
         this.gold = 1000;

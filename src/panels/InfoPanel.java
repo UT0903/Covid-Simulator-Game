@@ -11,12 +11,10 @@ import utils.Utils;
 
 public class InfoPanel extends JPanel implements ActionListener {
     private final Timer dateTimer = new Timer(1000, this);
-    private final Timer scoreTimer = new Timer(50, this);
     private final JLabel mes = Utils.newLabelString("", 12);
-    private final JLabel scoreMes = Utils.newLabelString("", 12);
+    private final JLabel virusesMes = Utils.newLabelString("", 12);
     private final JLabel goldMes = Utils.newLabelString("", 12);
     private Date date;
-    private ArrayList<Virus> viruses = new ArrayList<Virus>();
 
 //    public InfoPanel() {
 //        //setLocation(750, 0);
@@ -26,26 +24,25 @@ public class InfoPanel extends JPanel implements ActionListener {
 //        dateMes.setFont(new Font("Courier", Font.ITALIC, 16));
 //        this.add(dateMes);
 //        this.dateMes.setText(this.date.toString());
-//        scoreMes.setFont(new Font("Courier", Font.ITALIC, 16));
-//        this.add(scoreMes);
-//        this.scoreMes.setText("Score:" + Integer.toString(score));
+//        viruses.setFont(new Font("Courier", Font.ITALIC, 16));
+//        this.add(viruses);
+//        this.viruses.setText("Score:" + Integer.toString(score));
 //    }
 
-    public InfoPanel(int YY, int MM, int DD, int hh, int mm, int ss, int gold, int score) {
+    public InfoPanel(int YY, int MM, int DD, int hh, int mm, int ss, int gold) {
         this.setLayout(new GridLayout(0,1));
         this.date = new Date(YY, MM, DD, hh, mm, ss);
         //this.mes.setFont(new Font("Courier", Font.ITALIC, 12));
         this.date.check();
         this.add(this.mes);
         this.mes.setText(this.date.toString());
-        //this.scoreMes.setFont(new Font("Courier", Font.ITALIC, 12));
-        this.add(this.scoreMes);
-        this.scoreMes.setText("Score: " + Integer.toString(score));
+        this.add(this.virusesMes);
+        this.virusesMes.setText("Virus amount: " + Integer.toString(0));
         this.goldMes.setFont(new Font("Courier", Font.ITALIC, 12));
         this.add(this.goldMes);
         this.goldMes.setText("Gold: " + Integer.toString(gold));
         this.mes.setHorizontalAlignment(SwingConstants.CENTER);
-        this.scoreMes.setHorizontalAlignment(SwingConstants.CENTER);
+        this.virusesMes.setHorizontalAlignment(SwingConstants.CENTER);
         this.goldMes.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
@@ -56,7 +53,7 @@ public class InfoPanel extends JPanel implements ActionListener {
     public void timeStart() { this.dateTimer.start(); }
     public void timeStop() { this.dateTimer.stop(); }
     public void updateGold(int gold) { this.goldMes.setText("Gold: " + Integer.toString(gold)); }
-    public void updateScore(int score) { this.scoreMes.setText("Score: " + Integer.toString(score)); }
+    public void updateVirusAmount(int amount) { this.virusesMes.setText("Virus amount: " + Integer.toString(amount)); }
 
     @Override
     public void actionPerformed(ActionEvent e) {
