@@ -80,11 +80,11 @@ public class GameFlow implements ActionListener  {
         if (e.getSource().equals(oneSecTimer)) {
             this.stateManager.updateGold();
             this.infoPanel.updateGold(this.stateManager.getGold());
-            this.stateManager.addRedVirus(mapPanel);
+            Virus virus = this.stateManager.addVirus();
+            this.mapPanel.addVirus(virus);
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){
-            this.stateManager.updateViruses(mapPanel.getViruses());
             this.infoPanel.updateVirusAmount(this.stateManager.getViruses().size());
         }
     }
