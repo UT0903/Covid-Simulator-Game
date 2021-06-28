@@ -6,6 +6,8 @@ import java.util.List;
 
 import components.Virus;
 
+import static java.util.Arrays.asList;
+
 public class StateManager {
     private List<Virus> viruses;
     private ArrayList<Point> chosen = new ArrayList<Point>();
@@ -144,6 +146,9 @@ public class StateManager {
             {0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0}
     };
+
+
+
     public static String[] areaNames = {
         "五股泰山",
         "三重蘆洲",

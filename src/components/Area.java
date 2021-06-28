@@ -43,6 +43,7 @@ public class Area {
     public static final Color highlightColor = new Color(255, 0, 0, 100);
     public static HashMap<Integer, Integer> gridToGroup = new HashMap<>();
     public static void InitGroup(){
+        //System.out.println("init group");
         for(int groupId = 0; groupId < gs.length; groupId++){
             //System.out.println(gs[groupId].length);
             for(int j = 0; j < gs[groupId].length; j++){
@@ -60,7 +61,7 @@ public class Area {
         }
     }
     public static int getGroupByPixel(int x, int y){
-        int gridId = x / 15 + (y / 11)*50;
+        int gridId = x / 15 + (y / 12)*50;
         int groupId = Area.gridToGroup.get(gridId);
         return groupId;
     }
