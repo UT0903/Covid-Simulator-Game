@@ -1,4 +1,4 @@
-package panels;
+package utils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,6 +20,13 @@ public class Utils {
         } catch (IOException e) {}
         return null;
     }
-
-
+    public static JLabel newLabelString(String s, int size){
+        JLabel jl = new JLabel();
+        jl.setText(s);
+        jl.setFont(new Font("Courier", Font.ITALIC, size));
+        jl.setOpaque(false);
+        //jl.setHorizontalTextPosition(SwingConstants.CENTER);
+        jl.setHorizontalAlignment(SwingConstants.CENTER);
+        return jl;
+    }
 }

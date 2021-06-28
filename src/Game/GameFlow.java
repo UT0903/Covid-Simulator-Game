@@ -1,3 +1,5 @@
+package Game;
+
 import javax.swing.*;
 
 import components.Virus;
@@ -35,10 +37,13 @@ public class GameFlow implements ActionListener  {
         messagePanel = new MessagePanel(105);
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
+        StateManager.addItemStateListener(detailPanel);
+        StateManager.addMapStateListener(detailPanel);
+        StateManager.addMapStateListener(mapPanel);
         toolbarPanel = new ToolbarPanel();
         infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57, stateManager.getGold());
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
-        JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.5, "rbsp");
+        JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0.3, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
         sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
         StartListener startListener = new StartListener();
@@ -81,7 +86,7 @@ public class GameFlow implements ActionListener  {
             this.stateManager.updateGold();
             this.infoPanel.updateGold(this.stateManager.getGold());
             Virus virus = this.stateManager.addVirus();
-            this.mapPanel.addVirus(virus);
+            //this.mapPanel.addVirus(virus);
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){

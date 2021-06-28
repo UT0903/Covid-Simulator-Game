@@ -1,8 +1,7 @@
 ./Main.java
 ./components/Virus.java
 ./components/Area.java
-./GameFlow.java
-./panels/Utils.java
+./StateManager.java
 ./panels/ToolbarPanel.java
 ./panels/MapPanel.java
 ./panels/DetailPanel.java
@@ -10,4 +9,12 @@
 ./panels/MessagePanel.java
 ./panels/InfoPanel.java
 ./utils/Date.java
+./utils/Utils.java
+./utils/Constant.java
+./Game/MapStateListener.java
+./Game/GameFlow.java
+./Game/StateManager.java
+./Game/ItemStateListener.java
+./Game/GameStateListener.java
+./Game/GameState.java
 ./frame/WindowFrame.java

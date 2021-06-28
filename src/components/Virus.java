@@ -5,9 +5,6 @@ import javax.swing.*;
 
 import java.awt.*;
 
-import static panels.Utils.basePath;
-import static panels.Utils.resizeImage;
-
 public class Virus extends JLabel {
     private Point location;
     private int groupID;

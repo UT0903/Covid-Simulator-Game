@@ -1,5 +1,8 @@
 package components;
 
+import Game.MapStateListener;
+import Game.StateManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -61,24 +64,6 @@ public class Area {
         int groupId = Area.gridToGroup.get(gridId);
         return groupId;
     }
-    public static void changeGroup(Component c){
-        int gridId = Integer.parseInt(c.getName());
-        Integer groupId = Area.gridToGroup.get(gridId);
-        //System.out.println(groupId);
-        if(groupId == null){
-            //System.out.println("null");
-            return;
-        }
-        if(groupId == curG){
-            return;
-        }
-        if(curG != -1){
-            setColor(curG, false);
-        }
-        setColor(groupId, true);
-        curG = groupId;
-        //System.out.printf("group: %d\n", groupId);
-    }
 
     public static void setColor(int groupId, boolean color){
         for (int i = 0; i < gs[groupId].length; i++) {
@@ -87,6 +72,9 @@ public class Area {
             object.start();
         }
     }
+
+
+
     static class Multithreading extends Thread {
         int groupId, i;
         boolean color;
