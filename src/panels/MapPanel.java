@@ -37,6 +37,11 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
 //            remove(removeList.get(i));
 //        }
 //    }
+    public void addVirus(Virus virus){
+        add(virus, Integer.valueOf(1));
+        virus.setLocation(virus.getLocation());
+    }
+
     private void setArea(){
         JPanel panel = new JPanel(new GridLayout(50, 50));
         panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
