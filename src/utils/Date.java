@@ -56,6 +56,20 @@ public class Date {
         }
     }
 
+
     @Override
-    public String toString() { return this.YY + "/" + this.MM + "/" + this.DD + " " + this.hh + ":" + this.mm + ":" + this.ss; }
+    public String toString() {
+        return this.YY + "/" + addZero(this.MM) + "/"
+                + addZero(this.DD) + " " + addZero(this.hh) + ":"
+                + addZero(this.mm) + ":" + addZero(this.ss);
+    }
+
+
+    public String addZero(int a){
+        if (a == 0)
+            return "00";
+        if (a < 10)
+            return "0"+Integer.toString(a);
+        return Integer.toString(a);
+    }
 }
