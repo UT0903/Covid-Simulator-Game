@@ -1,12 +1,16 @@
 package panels;
 
+import Game.GameState;
+import Game.GameStateListener;
+import Game.StateManager;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class MessagePanel extends JPanel implements ActionListener {
+public class MessagePanel extends JPanel implements ActionListener, GameStateListener {
     private final Timer timer = new Timer(50,  this);
     private final JLabel mes = new JLabel();
     private List<String> messages;
@@ -28,10 +32,8 @@ public class MessagePanel extends JPanel implements ActionListener {
         this.mes.setHorizontalAlignment(SwingConstants.LEFT);
         this.mes.setVerticalAlignment(SwingConstants.CENTER);
         this.add(mes);
+        StateManager.addGameStateListener(this);
     }
-
-    public void start() { timer.start(); }
-    public void stop() { timer.stop(); }
 
     public void generateString() {
         if (this.messages.size() < 1)
@@ -117,5 +119,17 @@ public class MessagePanel extends JPanel implements ActionListener {
                 this.mes.setText(this.message.substring(this.index, this.index + this.numChars));
             }
         }
+    }
+
+    @Override
+    public void onGameStateChanged(GameState prevState, GameState curState) {
+        if (prevState == GameState.INIT && curState == GameState.INGAME)
+            this.timer.start();
+        else if (prevState == GameState.INGAME && curState == GameState.PAUSE) {
+            this.timer.stop();
+            this.mes.setText("Game paused.");
+        }
+        else if (prevState == GameState.PAUSE && curState == GameState.INGAME)
+            this.timer.start();
     }
 }
