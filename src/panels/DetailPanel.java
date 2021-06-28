@@ -4,7 +4,6 @@ import Game.*;
 import utils.Utils;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,16 +24,30 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
         // setVisible(true);
     }
 
-
     private void reRender(){
         for(Component c: getComponents()){
             remove(c);
         }
+
         if(curClickItemId == -1 && curClickAreaId == -1){
-            if(curHoverAreaId != -1 || curHoverAreaId != -1){
-                setLayout(new GridLayout(3, 1));
-                JLabel t = Utils.newLabelString("123", 15);
-                add(t);
+            if(curHoverItemId != -1){
+                setLayout(new GridLayout(0, 1));
+                add(Utils.newLabelString("名稱: " + StateManager.itemNames[curHoverItemId], 18));
+                add(Utils.newLabelString("功能: " + StateManager.itemFunctions[curHoverItemId], 18));
+                add(Utils.newLabelString( "花費: "+ StateManager.itemCosts[curHoverItemId], 18));
+                add(Utils.newLabelString( "剩餘數量: "+ StateManager.itemLastNum[curHoverItemId], 18));
+            }
+            else{
+                setLayout(new GridLayout(0, 2));
+                add(Utils.newLabelString("地區: " + StateManager.areaNames[curHoverAreaId], 18));
+                add(Utils.newLabelString("人口數: " + StateManager.areaPeopleNum[curHoverAreaId], 18));
+                add(Utils.newLabelString("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId], 18));
+                add(Utils.newLabelString("死亡人數: " + StateManager.areaPeopleDeadNum[curHoverAreaId], 18));
+                for(int i = 0; i < StateManager.itemNames.length; i++){
+                    add(Utils.newLabelString(StateManager.itemNames[i] + ": " + StateManager.itemInAreaNum[i][curHoverAreaId], 12));
+                }
+                //add(Utils.newLabelString("" + StateManager.areaName[curHoverAreaId], 12));
+                //add(Utils.newLabelString("" + StateManager.areaName[curHoverAreaId], 12));
             }
         }
         else{
@@ -46,7 +59,6 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
     }
     @Override
     public void onItemHoverChanged(int prevId, int newId) {
-        System.out.printf("curHoverItemId %d\n", newId);
         curHoverItemId = newId;
         reRender();
     }
@@ -60,7 +72,6 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
 
     @Override
     public void onAreaHoverChanged(int prevId, int newId) {
-        System.out.printf("curHoverAreaId %d\n", newId);
         curHoverAreaId = newId;
         reRender();
     }

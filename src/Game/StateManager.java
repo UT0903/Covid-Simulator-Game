@@ -96,6 +96,88 @@ public class StateManager {
             curMapClickId = newMapClickId;
         }
     }
+    public static String[] labelNames = {
+            "ambulance.gif",
+            "canopy.png",
+            "hospital.png",
+            "mask.gif",
+            "spray.gif",
+            "syringe.gif"
+    };
+    public static String[] itemNames = {
+            "救護車",
+            "快篩站",
+            "醫院",
+            "口罩",
+            "酒精",
+            "疫苗"
+    };
+    public static String[] itemFunctions = {
+            "增加醫院收治範圍",
+            "增加染病發現率",
+            "增加收治人數",
+            "減緩感染速度",
+            "暫時降低感染人數",
+            "降低感染、死亡人數"
+    };
+    public static Integer[] itemCosts = {
+            50,
+            300,
+            1000,
+            10,
+            50,
+            100
+    };
+    public static Integer[] itemLastNum = {
+            10,
+            10,
+            3,
+            10,
+            10,
+            0
+    };
+    public static Integer[][] itemInAreaNum = {
+            {0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0}
+    };
+    public static String[] areaNames = {
+        "五股泰山",
+        "三重蘆洲",
+        "士林北投",
+        "內湖陽明山",
+        "板橋",
+        "永和中和",
+        "文湖新店",
+        "萬華中正",
+        "大安",
+        "信義南港",
+        "松山",
+        "中山大同"
+    };
+    public static Integer[] areaPeopleNum = {
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1100,
+        1200,
+    };
+    public static Integer[] areaPeopleInfectedNum = {
+	    0,0,0,0,0,0,0,0,0,0,0,0
+    };
+    public static Integer[] areaPeopleDeadNum = {
+	    0,0,0,0,0,0,0,0,0,0,0,0
+    };
 
     public void updateViruses(List<Virus> viruses) { this.viruses = viruses; }
     public void updateGold() { this.gold += this.incomePerHour; }

@@ -10,7 +10,6 @@
 ./panels/InfoPanel.java
 ./utils/Date.java
 ./utils/Utils.java
-./utils/Constant.java
 ./Game/MapStateListener.java
 ./Game/GameFlow.java
 ./Game/StateManager.java
