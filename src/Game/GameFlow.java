@@ -35,13 +35,13 @@ public class GameFlow implements ActionListener, GameStateListener  {
         return sp;
     }
     public GameFlow() {
-        this.stateManager = new StateManager();
         messagePanel = new MessagePanel(65);
         messagePanel.addString("Your city is safe now.");
         messagePanel.addString("Test message 2?");
         messagePanel.addString("This is test message 3.");
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
+        this.stateManager = new StateManager();
         StateManager.addGameStateListener(this);
         StateManager.addItemStateListener(detailPanel);
         StateManager.addMapStateListener(detailPanel);

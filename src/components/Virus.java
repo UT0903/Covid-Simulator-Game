@@ -14,7 +14,6 @@ public class Virus extends JLabel {
         this.setBackground(Color.RED);
         this.setOpaque(true);
         this.location = point;
-        System.out.printf("%d, %d\n", point.x, point.y);
         this.groupID = Area.getGroupByPixel(point.x , point.y);
         this.chosen = false;
     }

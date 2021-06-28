@@ -11,7 +11,7 @@ public class StateManager {
     private int initGold = 1000;
     private int initIncomePerHour = 100;
     private List<Virus> viruses;
-    private ArrayList<Point> notChosen = new ArrayList<Point>();
+    private ArrayList<Virus> notChosen = new ArrayList<Virus>();
     public Virus[][] virusIsChosen = new Virus[150][110];
     private int gold;
     private int incomePerHour;
@@ -23,8 +23,9 @@ public class StateManager {
         this.score = 0;
         for (int i = 0; i < 150; i++) {
             for (int j = 0; j < 110; j++) {
-                notChosen.add(new Point(i * 5, j * 5));
-                virusIsChosen[i][j] = new Virus(new Point(i * 5 , j * 5));
+                Virus virus = new Virus(new Point(i * 5, j * 5));
+                notChosen.add(virus);
+                virusIsChosen[i][j] = virus;
             }
         }
     }
@@ -214,13 +215,18 @@ public class StateManager {
                 int x = virus.getLocation().x / 5;
                 int y = virus.getLocation().y / 5;
                 if (x - 1 >= 0){
+                    if (y - 1 >= 0){
+                        if (!virusIsChosen[x - 1][y - 1].getChosen()){
+                            probableList.add(virusIsChosen[x - 1][y - 1]);
+                        }
+                    }
                     if (!virusIsChosen[x - 1][y].getChosen()){
                         probableList.add(virusIsChosen[x - 1][y]);
                     }
-                }
-                if (x + 1 >= 0){
-                    if (!virusIsChosen[x + 1][y].getChosen()){
-                        probableList.add(virusIsChosen[x + 1][y]);
+                    if (y + 1 < 110){
+                        if (!virusIsChosen[x - 1][y + 1].getChosen()){
+                            probableList.add(virusIsChosen[x - 1][y + 1]);
+                        }
                     }
                 }
                 if (y - 1 >= 0){
@@ -228,9 +234,24 @@ public class StateManager {
                         probableList.add(virusIsChosen[x][y - 1]);
                     }
                 }
-                if (y + 1 >= 0){
+                if (y + 1 < 110){
                     if (!virusIsChosen[x][y + 1].getChosen()){
                         probableList.add(virusIsChosen[x][y + 1]);
+                    }
+                }
+                if (x + 1 < 150){
+                    if (y - 1 >= 0){
+                        if (!virusIsChosen[x + 1][y - 1].getChosen()){
+                            probableList.add(virusIsChosen[x + 1][y - 1]);
+                        }
+                    }
+                    if (!virusIsChosen[x + 1][y].getChosen()){
+                        probableList.add(virusIsChosen[x + 1][y]);
+                    }
+                    if (y + 1 < 110){
+                        if (!virusIsChosen[x + 1][y + 1].getChosen()){
+                            probableList.add(virusIsChosen[x + 1][y + 1]);
+                        }
                     }
                 }
                 if (probableList.size() > 0){
@@ -241,6 +262,9 @@ public class StateManager {
                 }
             }
         }
+        for (int i = 0; i < spreadList.size(); i++){
+            viruses.add(spreadList.get(i));
+        }
         for (int i = 0; i < areaSpreadTime.length; i++){
             if (areaSpreadTime[i].equals(areaTimeCount[i]))
                 areaTimeCount[i] = 0;
@@ -250,12 +274,11 @@ public class StateManager {
         return spreadList;
     }
     public Virus addVirus(){
-        int l = (int) Math.round(Math.random() * notChosen.size());
-        Point location = notChosen.get(l);
-        Virus virus = new Virus(location);
+        int i = (int) Math.round(Math.random() * notChosen.size());
+        Virus virus = notChosen.get(i);
         viruses.add(virus);
-        virusIsChosen[location.x / 5][location.y / 5].setChosen(true);
-        notChosen.remove(location);
+        virusIsChosen[virus.getLocation().x / 5][virus.getLocation().y / 5].setChosen(true);
+        notChosen.remove(virus);
         return virus;
     }
 }
