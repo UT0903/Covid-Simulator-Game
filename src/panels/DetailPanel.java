@@ -16,7 +16,7 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
     public DetailPanel(){
         super();
         setName("DetailsPanel");
-        setSize(210, 170);
+        setSize(330, 320);
         setOpaque(true);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setLocation(750, 470);
