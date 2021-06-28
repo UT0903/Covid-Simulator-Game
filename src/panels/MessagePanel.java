@@ -23,8 +23,10 @@ public class MessagePanel extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(750, 40));
         setBackground(Color.green);
         setLocation(0, 0);
+        setLayout(new GridLayout());
         this.mes.setFont(new Font("Courier", Font.ITALIC, 18));
         this.mes.setHorizontalAlignment(SwingConstants.LEFT);
+        this.mes.setVerticalAlignment(SwingConstants.CENTER);
         this.add(mes);
     }
 
