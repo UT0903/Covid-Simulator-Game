@@ -17,7 +17,7 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
     public DetailPanel(){
         super();
         setName("DetailsPanel");
-        setSize(210, 170);
+        setSize(330, 320);
         setOpaque(true);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setLocation(750, 470);
@@ -27,16 +27,7 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
         StateManager.setGameState(GameState.INGAME);
         setVisible(true);
     }
-    public JButton getButton(String text){
-        JButton startbtn = new JButton(text);
-        startbtn.setBackground(Color.gray);
-        startbtn.setForeground(Color.black);
-        startbtn.setPreferredSize(new Dimension(100, 30));
-        startbtn.setSize(100, 30);
-        startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
-        startbtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return startbtn;
-    }
+
 
     private void reRender(){
         for(Component c: getComponents()){

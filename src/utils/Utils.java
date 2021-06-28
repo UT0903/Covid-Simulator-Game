@@ -29,4 +29,15 @@ public class Utils {
         jl.setHorizontalAlignment(SwingConstants.CENTER);
         return jl;
     }
+
+    public static JButton getButton(String text, int width, int height){
+        JButton startbtn = new JButton(text);
+        startbtn.setBackground(Color.gray);
+        startbtn.setForeground(Color.black);
+        startbtn.setPreferredSize(new Dimension(width, height));
+        startbtn.setSize(width, height);
+        startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
+        startbtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return startbtn;
+    }
 }

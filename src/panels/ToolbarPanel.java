@@ -18,6 +18,7 @@ public class ToolbarPanel extends JPanel {
     public ToolbarPanel(){
         super();
         setName("ToolbarPanel");
+        setSize(330, 200);
         setLayout(new GridLayout(3, 2));
         for(int i = 0; i < Constant.picName.length; i++){
             picLabels.add(makeLabel(i));
