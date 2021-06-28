@@ -22,10 +22,7 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         //setLocation(750, 470);
         setBackground(new Color(255, 246, 143, 200));
-
-        //setPreferredSize(new Dimension(200, 100));
-        StateManager.setGameState(GameState.INGAME);
-        setVisible(true);
+        // setVisible(true);
     }
 
 
