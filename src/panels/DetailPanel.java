@@ -4,7 +4,6 @@ import Game.*;
 import utils.Utils;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,26 +26,28 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
         StateManager.setGameState(GameState.INGAME);
         setVisible(true);
     }
-    public JButton getButton(String text){
-        JButton startbtn = new JButton(text);
-        startbtn.setBackground(Color.gray);
-        startbtn.setForeground(Color.black);
-        startbtn.setPreferredSize(new Dimension(100, 30));
-        startbtn.setSize(100, 30);
-        startbtn.setBorder(BorderFactory.createLineBorder(Color.pink, 3));
-        startbtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        return startbtn;
-    }
 
     private void reRender(){
         for(Component c: getComponents()){
             remove(c);
         }
+
         if(curClickItemId == -1 && curClickAreaId == -1){
-            if(curHoverAreaId != -1 || curHoverAreaId != -1){
-                setLayout(new GridLayout(3, 1));
-                JLabel t = Utils.newLabelString("123", 15);
-                add(t);
+            if(curHoverItemId != -1){
+                setLayout(new GridLayout(4, 1));
+                add(Utils.newLabelString("名稱: " + StateManager.itemNames[0], 12));
+                add(Utils.newLabelString("功能: " + StateManager.itemFunctions[1], 12));
+                add(Utils.newLabelString( "花費: "+ StateManager.itemCosts[curHoverItemId], 12));
+                add(Utils.newLabelString( "剩餘數量: "+ StateManager.itemLastNum[curHoverItemId], 12));
+            }
+            else{
+                setLayout(new GridLayout(4, 1));
+                add(Utils.newLabelString("地區: " + StateManager.areaNames[curHoverAreaId], 12));
+                add(Utils.newLabelString("人口數: " + StateManager.areaPeopleNum[curHoverAreaId], 12));
+                add(Utils.newLabelString("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId], 12));
+                add(Utils.newLabelString("死亡人數: " + StateManager.areaPeopleDeadNum[curHoverAreaId], 12));
+                //add(Utils.newLabelString("" + StateManager.areaName[curHoverAreaId], 12));
+                //add(Utils.newLabelString("" + StateManager.areaName[curHoverAreaId], 12));
             }
         }
         else{

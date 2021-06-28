@@ -1,7 +1,6 @@
 package panels;
 
 import Game.StateManager;
-import utils.Constant;
 import utils.Utils;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ public class ToolbarPanel extends JPanel {
         super();
         setName("ToolbarPanel");
         setLayout(new GridLayout(3, 2));
-        for(int i = 0; i < Constant.picName.length; i++){
+        for(int i = 0; i < StateManager.labelNames.length; i++){
             picLabels.add(makeLabel(i));
         }
         for(JLabel pl: picLabels){
@@ -29,8 +28,8 @@ public class ToolbarPanel extends JPanel {
     }
     private JLabel makeLabel(int idx){
         myJLabel picLabel = new myJLabel();
-        ImageIcon icon = Utils.resizeImage(Utils.basePath + Constant.picName[idx], 80, 60);
-        picLabel.setName(Constant.picName[idx]);
+        ImageIcon icon = Utils.resizeImage(Utils.basePath + StateManager.labelNames[idx], 80, 60);
+        picLabel.setName(StateManager.labelNames[idx]);
         picLabel.id = idx;
 //        picLabel.detailed = Constant.details[idx];
 //        picLabel.remainNum = 0;
