@@ -34,7 +34,7 @@ public class GameFlow implements ActionListener  {
     }
     public GameFlow() {
         this.stateManager = new StateManager();
-        messagePanel = new MessagePanel(105);
+        messagePanel = new MessagePanel(65);
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
         StateManager.addItemStateListener(detailPanel);
