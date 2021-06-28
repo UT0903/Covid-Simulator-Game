@@ -149,6 +149,8 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
         public boolean enable;
         public MyNumChangeBtn(String text, int itemId, MouseAdapter adapter){
             super(text);
+            setBackground(Color.gray);
+            setForeground(Color.black);
             this.itemId = itemId;
             //decBtn.setPreferredSize(new Dimension(15, 15));
             setMargin( new Insets(10, 10, 10, 10) );

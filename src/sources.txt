@@ -1,7 +1,6 @@
 ./Main.java
 ./components/Virus.java
 ./components/Area.java
-./StateManager.java
 ./panels/ToolbarPanel.java
 ./panels/MapPanel.java
 ./panels/DetailPanel.java
