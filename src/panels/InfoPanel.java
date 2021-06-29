@@ -10,8 +10,7 @@ import components.Virus;
 import utils.Date;
 import utils.Utils;
 
-public class InfoPanel extends JPanel implements ActionListener, GameStateListener, GoldListener {
-    private final Timer dateTimer = new Timer(1000, this);
+public class InfoPanel extends JPanel implements ActionListener, GoldListener {
     private final JLabel dateLabel = Utils.newLabelString("Date: ", 14);
     private final JLabel dateMes = Utils.newLabelString("", 14);
     private final JLabel virusesLabel = Utils.newLabelString("Virus Amount: ", 14);
@@ -49,7 +48,6 @@ public class InfoPanel extends JPanel implements ActionListener, GameStateListen
         this.add(pauseButton);
         this.pauseButton.addActionListener(this);
         this.pauseButton.setHorizontalAlignment(SwingConstants.CENTER);
-        StateManager.addGameStateListener(this);
         StateManager.addGoldListener(this);
     }
 
@@ -81,13 +79,17 @@ public class InfoPanel extends JPanel implements ActionListener, GameStateListen
         this.add(pauseButton);
         this.pauseButton.addActionListener(this);
         this.pauseButton.setHorizontalAlignment(SwingConstants.CENTER);
-        StateManager.addGameStateListener(this);
         StateManager.addGoldListener(this);
     }
 
     public void setDate(int YY, int MM, int DD, int hh, int mm, int ss) {
         this.date = new Date(YY, MM, DD, hh, mm, ss);
         this.date.check();
+        this.dateMes.setText(this.date.toString());
+    }
+
+    public void updateDate() {
+        this.date.update();
         this.dateMes.setText(this.date.toString());
     }
 
@@ -99,11 +101,7 @@ public class InfoPanel extends JPanel implements ActionListener, GameStateListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(this.dateTimer)) {
-            this.date.update();
-            this.dateMes.setText(this.date.toString());
-        }
-        else if (e.getSource().equals(this.pauseButton) && this.pauseButton.getText().equals("Pause")) {
+        if (e.getSource().equals(this.pauseButton) && this.pauseButton.getText().equals("Pause")) {
             this.pauseButton.setText("Continue");
             StateManager.setGameState(GameState.PAUSE);
         }
@@ -112,20 +110,6 @@ public class InfoPanel extends JPanel implements ActionListener, GameStateListen
             StateManager.setGameState(GameState.INGAME);
         }
     }
-
-    @Override
-    public void onGameStateChanged(GameState prevState, GameState curState) {
-        if (prevState == GameState.INIT && curState == GameState.INGAME)
-            this.dateTimer.start();
-        else if (prevState == GameState.INGAME && curState == GameState.PAUSE)
-            this.dateTimer.stop();
-        else if (prevState == GameState.PAUSE && curState == GameState.INGAME)
-            this.dateTimer.start();
-    }
-    public static double[] initAreaSpreadProbability = {
-            0.1,0.1,0.1,0.1,0.1,0.1,
-            0.1,0.1,0.1,0.1,0.1,0.1
-    };
 
     @Override
     public void onGoldChanged(int newGold) { this.goldMes.setText(Integer.toString(newGold)); }

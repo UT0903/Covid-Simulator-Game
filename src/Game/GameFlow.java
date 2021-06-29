@@ -62,6 +62,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(oneSecTimer)) {
             StateManager.updateGold();
+            this.infoPanel.updateDate();
             this.infoPanel.updateGold(StateManager.getGold());
             Virus virus = StateManager.addVirus();
             this.mapPanel.addVirus(virus);
