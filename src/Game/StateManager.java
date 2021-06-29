@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import components.Virus;
@@ -12,19 +13,25 @@ public class StateManager {
     // Basic states management
     private static int initGold = 1000;
     private static int initIncomePerHour = 100;
-    private static List<Virus> viruses = new ArrayList<>();
-    private static List<Virus> notChosen = new ArrayList<>();
-    public static Virus[][] virusIsChosen = new Virus[150][110];
+    private static ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
+    private static ArrayList<ArrayList<Virus>> notChosen = new ArrayList<ArrayList<Virus>>(12);
+    private static Integer[] total = new Integer[12];
     private static int gold;
     private static int incomePerHour;
+    private static int score;
     public StateManager() {
-        updateGold(initGold);
-        incomePerHour = initIncomePerHour;
+        for (int i = 0; i < 12; i++){
+            ArrayList<Virus> v = new ArrayList<Virus>();
+            viruses.add(v);
+            ArrayList<Virus> nC = new ArrayList<Virus>();
+            notChosen.add(nC);
+            this.total[i] = 0;
+        }
         for (int i = 0; i < 150; i++) {
             for (int j = 0; j < 110; j++) {
                 Virus virus = new Virus(new Point(i * 5, j * 5));
-                notChosen.add(virus);
-                virusIsChosen[i][j] = virus;
+                this.notChosen.get(virus.getGroupID()).add(virus);
+                this.total[virus.getGroupID()] += 1;
             }
         }
     }
@@ -51,13 +58,19 @@ public class StateManager {
         setGameState(GameState.INIT);
         updateGold(initGold);
         incomePerHour = initIncomePerHour;
-        viruses.clear();
-        notChosen.clear();
+        for (int i = 0; i < 12; i++){
+            ArrayList<Virus> v = new ArrayList<>();
+            viruses.add(v);
+            ArrayList<Virus> nC = new ArrayList<>();
+            notChosen.add(nC);
+            total[i] = 0;
+        }
+
         for (int i = 0; i < 150; i++) {
             for (int j = 0; j < 110; j++) {
                 Virus virus = new Virus(new Point(i * 5, j * 5));
-                notChosen.add(virus);
-                virusIsChosen[i][j] = virus;
+                notChosen.get(virus.getGroupID()).add(virus);
+                total[virus.getGroupID()] += 1;
             }
         }
     }
@@ -138,7 +151,7 @@ public class StateManager {
             curHoverItemId = newClickItemId;
         }
     }
-    public static String[] labelNames = {
+    public static final String[] labelNames = {
             "ambulance.gif",
             "canopy.png",
             "hospital.png",
@@ -146,7 +159,7 @@ public class StateManager {
             "spray.gif",
             "syringe.gif"
     };
-    public static String[] itemNames = {
+    public static final String[] itemNames = {
             "救護車",
             "快篩站",
             "醫院",
@@ -154,7 +167,7 @@ public class StateManager {
             "酒精",
             "疫苗"
     };
-    public static String[] itemFunctions = {
+    public static final String[] itemFunctions = {
             "增加醫院收治範圍",
             "增加染病發現率",
             "增加收治人數",
@@ -191,7 +204,7 @@ public class StateManager {
 
 
 
-    public static String[] areaNames = {
+    public static final String[] areaNames = {
         "五股泰山",
         "三重蘆洲",
         "士林北投",
@@ -240,58 +253,52 @@ public class StateManager {
 	    0,0,0,0,0,0,0,0,0,0,0,0
     };
     public static Integer[] areaSpreadTime = {
-        9,9,9,9,9,9,9,9,9,9,9,9
+        10,10,10,10,10,10,10,10,10,10,10,10
     };
     public static Integer[] areaTimeCount = {
         0,0,0,0,0,0,0,0,0,0,0,0
     };
+
     public static double[] areaSpreadProbability = {
-        0.1,0.1,0.1,0.1,0.1,0.1,
-        0.1,0.1,0.1,0.1,0.1,0.1
+        1.0,1.0,1.0,1.0,1.0,1.0,
+        1.0,1.0,1.0,1.0,1.0,1.0
     };
 
     //Virus states management
-    public static List<Virus> getViruses() { return viruses; }
-    public static int getPercentage() { return (int) ((double) viruses.size() / 16500 * 100); }
+    public static int getAmount() {
+        int a = 0;
+        for (int j = 0; j < 12; j++){
+            a += viruses.get(j).size();
+        }
+        return a;
+    }
+    public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
     public static List<Virus> spreadVirus(){
-        List<Virus> spreadList = new ArrayList<Virus>();
-        for (int i = 0; i < viruses.size(); i++){
-            Virus virus = viruses.get(i);
-            if (areaTimeCount[virus.getGroupID()].equals(areaSpreadTime[virus.getGroupID()])){
-                int x = virus.getLocation().x / 5;
-                int y = virus.getLocation().y / 5;
-                for (int addX = -2; addX < 3; addX++){
-                    for (int addY = -2; addY < 3; addY++){
-                        int X = x + addX;
-                        int Y = y + addY;
-                        if (X >= 0 && X < 150 && Y >= 0 && Y < 110 && !virusIsChosen[X][Y].getChosen()){
-                            if (Math.random() < areaSpreadProbability[virus.getGroupID()]){
-                                virusIsChosen[X][Y].setChosen(true);
-                                notChosen.remove(virusIsChosen[X][Y]);
-                                spreadList.add(virusIsChosen[X][Y]);
-                            }
-                        }
-                    }
+        List<Virus> spreadList = new ArrayList<>();
+        for (int j = 0; j < 12; j++) {
+            areaTimeCount[j] += 1;
+            if (areaTimeCount[j].equals(areaSpreadTime[j])) {
+                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)areaSpreadTime[j] / 10));
+                int n = (int) (viruses.get(j).size() * R0);
+                Collections.shuffle(notChosen.get(j));
+                for (int c = 0; c < n; c++) {
+                    Virus virus = notChosen.get(j).get(0);
+                    spreadList.add(virus);
+                    viruses.get(j).add(virus);
+                    notChosen.get(j).remove(virus);
                 }
+                areaTimeCount[j] = 0;
             }
-        }
-        for (int i = 0; i < spreadList.size(); i++){
-            viruses.add(spreadList.get(i));
-        }
-        for (int i = 0; i < areaSpreadTime.length; i++){
-            if (areaSpreadTime[i].equals(areaTimeCount[i]))
-                areaTimeCount[i] = 0;
-            else
-                areaTimeCount[i] += 1;
         }
         return spreadList;
     }
+
     public static Virus addVirus(){
-        int i = (int) Math.round(Math.random() * notChosen.size());
-        Virus virus = notChosen.get(i);
-        viruses.add(virus);
-        virusIsChosen[virus.getLocation().x / 5][virus.getLocation().y / 5].setChosen(true);
-        notChosen.remove(virus);
+        int rand = (int) (Math.random() * 12);
+        int i = (int) Math.round(Math.random() * notChosen.get(rand).size());
+        Virus virus = notChosen.get(rand).get(i);
+        viruses.get(rand).add(virus);
+        notChosen.get(rand).remove(virus);
         return virus;
     }
 }

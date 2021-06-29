@@ -27,10 +27,8 @@ public class GameFlow implements ActionListener, GameStateListener  {
     private Timer msTimer = new Timer(100, this);
 
     public GameFlow() {
-        messagePanel = new MessagePanel(65);
-        messagePanel.addString("Your city is safe now.");
-        // messagePanel.addString("Test message 2?");
-        // messagePanel.addString("This is test message 3.");
+        messagePanel = new MessagePanel(60);
+        messagePanel.addString("你的城市看起來很健康！");
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
         StateManager.addGameStateListener(this);
@@ -66,13 +64,11 @@ public class GameFlow implements ActionListener, GameStateListener  {
             this.infoPanel.updateGold(StateManager.getGold());
             Virus virus = StateManager.addVirus();
             this.mapPanel.addVirus(virus);
-            List<Virus> spreadList;
-            spreadList = StateManager.spreadVirus();
-            this.mapPanel.addVirus(spreadList);
+            this.mapPanel.addVirus(StateManager.spreadVirus());
         } else if (e.getSource().equals(incomeTimer)) {
             StateManager.updateIncome();
-        } else if (e.getSource().equals(msTimer)) {
-            this.infoPanel.updateVirusAmount(StateManager.getViruses().size(), StateManager.getPercentage());
+        } else if (e.getSource().equals(msTimer)){
+            this.infoPanel.updateVirusAmount(StateManager.getAmount(), StateManager.getPercentage());
         }
     }
 
