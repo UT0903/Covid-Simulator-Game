@@ -79,7 +79,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
         //panel.addMouseListener(mouse);
         //panel.addMouseMotionListener(mouse);
         Area.InitGroup();
-        add(panel, Integer.valueOf(2));
+        add(panel, Integer.valueOf(5));
     }
     @Override
     public void onAreaHoverChanged(int prevId, int newId) {
@@ -105,6 +105,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
             //pressed = e;
             int gridId = Integer.parseInt(e.getComponent().getName());
             Integer groupId = Area.gridToGroup.get(gridId);
+            //System.out.printf("Area: %d\n", groupId);
             StateManager.setMapClickId(groupId);
             //System.out.println(pressed);
         }

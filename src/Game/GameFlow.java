@@ -66,7 +66,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
             Virus virus = this.stateManager.addVirus();
             this.mapPanel.addVirus(virus);
             List<Virus> spreadList = new ArrayList<Virus>();
-            spreadList = this.stateManager.spreadVirus();
+            //spreadList = this.stateManager.spreadVirus();
             this.mapPanel.addVirus(spreadList);
         } else if (e.getSource().equals(incomeTimer)) {
             this.stateManager.updateIncome();
