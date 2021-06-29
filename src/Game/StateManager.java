@@ -6,21 +6,18 @@ import java.util.Collections;
 import java.util.List;
 
 import components.Virus;
-
-import static java.util.Arrays.asList;
+import utils.Date;
 
 public class StateManager {
-    // Basic states management
-
-    private static final int initGold = 1000;
-    private static final int initIncomePerHour = 100;
     private static ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
     private static ArrayList<ArrayList<Virus>> notChosen = new ArrayList<ArrayList<Virus>>(12);
     private static Integer[] total = new Integer[12];
-    private static int gold;
-    private static int incomePerHour;
 
     // Gold management
+    private static final int initGold = 1000;
+    private static final int initIncomePerHour = 100;
+    private static int gold;
+    private static int incomePerHour;
     public static List<GoldListener> goldListeners = new ArrayList<>();
     public static void addGoldListener(GoldListener gl) { goldListeners.add(gl); }
     public static void updateGold() {
@@ -38,27 +35,15 @@ public class StateManager {
     public static void updateIncome(int income) { incomePerHour = income; }
     public static int getGold() { return gold; }
 
-    public static void initGame() {
-        setGameState(GameState.INIT);
-        updateGold(initGold);
-        incomePerHour = initIncomePerHour;
-        for (int i = 0; i < 12; i++){
-            ArrayList<Virus> v = new ArrayList<>();
-            viruses.add(v);
-            ArrayList<Virus> nC = new ArrayList<>();
-            notChosen.add(nC);
-            total[i] = 0;
-        }
-        for (int i = 0; i < 150; i++) {
-            for (int j = 0; j < 110; j++) {
-                Virus virus = new Virus(new Point(i * 5, j * 5));
-                notChosen.get(virus.getGroupID()).add(virus);
-                total[virus.getGroupID()] += 1;
-            }
-        }
+    // Date management
+    private static Date date = new Date();
+    private static List<DateListener> dateListeners = new ArrayList<>();
+    public static void addDateListeners(DateListener dl) { dateListeners.add(dl); }
+    public static void updateDate() {
+        date.update();
+        for (DateListener dl: dateListeners)
+            dl.onDateChanged(date);
     }
-
-    public static void startGame() { setGameState(GameState.INGAME); }
 
     //Game states management
     private static GameState curGameState = GameState.INIT;
@@ -295,4 +280,29 @@ public class StateManager {
         for (VirusListener vl: virusListeners)
             vl.onVirusIncreased(increasedVirus);
     }
+
+    public static void initGame() {
+        setGameState(GameState.INIT);
+        updateGold(initGold);
+        for (DateListener dl: dateListeners)
+            dl.onDateChanged(date);
+        incomePerHour = initIncomePerHour;
+        for (int i = 0; i < 12; i++){
+            ArrayList<Virus> v = new ArrayList<>();
+            viruses.add(v);
+            ArrayList<Virus> nC = new ArrayList<>();
+            notChosen.add(nC);
+            total[i] = 0;
+        }
+        for (int i = 0; i < 150; i++) {
+            for (int j = 0; j < 110; j++) {
+                Virus virus = new Virus(new Point(i * 5, j * 5));
+                notChosen.get(virus.getGroupID()).add(virus);
+                total[virus.getGroupID()] += 1;
+            }
+        }
+    }
+
+    public static void startGame() { setGameState(GameState.INGAME); }
+
 }

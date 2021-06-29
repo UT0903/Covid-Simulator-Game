@@ -32,9 +32,8 @@ public class GameFlow implements ActionListener, GameStateListener  {
         messagePanel.addString("你的城市看起來很健康！");
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
-        StateManager.addGameStateListener(this);
         toolbarPanel = new ToolbarPanel();
-        infoPanel = new InfoPanel(StateManager.getGold());
+        infoPanel = new InfoPanel();
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0, "rbsp");
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
@@ -44,6 +43,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
         windowFrame.add(menuPanel);
         windowFrame.setVisible(true);
         StateManager.initGame();
+        StateManager.addGameStateListener(this);
     }
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){
@@ -58,10 +58,10 @@ public class GameFlow implements ActionListener, GameStateListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(oneSecTimer)) {
+            StateManager.updateDate();
             StateManager.updateGold();
             StateManager.addVirus();
             StateManager.spreadVirus();
-            this.infoPanel.updateDate();
             this.elapsedTime++;
             if (this.elapsedTime % 3 == 0) {
                 boolean flag = false;
