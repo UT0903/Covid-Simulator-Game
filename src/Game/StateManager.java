@@ -16,7 +16,7 @@ public class StateManager {
     private ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
     private ArrayList<ArrayList<Virus>> notChosen = new ArrayList<ArrayList<Virus>>(12);
     private Integer[] total = new Integer[12];
-    private int gold;
+    private static int gold;
     private int incomePerHour;
     private int score;
     public StateManager() {
@@ -44,7 +44,7 @@ public class StateManager {
     public void updateScore(int score) { this.score += score; }
     public void updateIncome() { this.incomePerHour += 1; }
     public void updateIncome(int income) { this.incomePerHour += income; }
-    public int getGold() { return this.gold; }
+    public static int getGold() { return gold; }
     public int getScore() { return this.score; }
     public int getIncome() { return this.incomePerHour; }
 
@@ -157,7 +157,7 @@ public class StateManager {
     public static Integer[] itemLastNum = {
             10,
             10,
-            3,
+            10,
             10,
             10,
             0
