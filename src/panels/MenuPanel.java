@@ -30,6 +30,6 @@ public class MenuPanel extends JLayeredPane implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Game start");
-        StateManager.setGameState(GameState.INGAME);
+        StateManager.startGame();
     }
 }
