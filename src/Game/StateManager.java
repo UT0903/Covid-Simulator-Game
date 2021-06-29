@@ -199,7 +199,14 @@ public class StateManager {
             {0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0}
     };
-
+    public static void setItemInAreaNum(List<Integer> newItemInAreaNum){
+        int goldChange = 0;
+        for (int i = 0; i < 6; i++){
+            goldChange += (newItemInAreaNum.get(i) - itemInAreaNum[i][curClickItemId]) * itemCosts[i];
+            itemInAreaNum[i][curClickItemId] = newItemInAreaNum.get(i);
+        }
+        updateGold(gold + goldChange);
+    }
 
 
     public static final String[] areaNames = {
@@ -264,7 +271,7 @@ public class StateManager {
         for (int j = 0; j < 12; j++) {
             areaTimeCount[j] += 1;
             if (areaTimeCount[j].equals(areaSpreadTime[j])) {
-                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)areaSpreadTime[j] / 10));
+                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)10 / areaSpreadTime[j]));
                 int n = (int) (viruses.get(j).size() * R0);
                 Collections.shuffle(notChosen.get(j));
                 for (int c = 0; c < n; c++) {
