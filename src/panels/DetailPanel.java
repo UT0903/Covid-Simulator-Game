@@ -71,8 +71,8 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
         MouseAdapter confirmAdded = new MyMouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                for(int j = 0; j < copyItemInAreaNum.size(); j++){
-                    StateManager.itemInAreaNum[j][curClickAreaId] = copyItemInAreaNum.get(j);
+                StateManager.setItemInAreaNum(copyItemInAreaNum);
+                for(int j = 0; j < 6; j++){
                     StateManager.itemLastNum[j] = copyItemLastNum.get(j);
                     //copyItemInAreaNum.set(j, 0);
                 }
