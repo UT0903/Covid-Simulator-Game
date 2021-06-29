@@ -25,6 +25,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
     private Timer oneSecTimer = new Timer(1000, this);
     private Timer incomeTimer = new Timer(10000, this);
     private Timer msTimer = new Timer(100, this);
+    private int elapsedTime = 0;
 
     public GameFlow() {
         messagePanel = new MessagePanel(60);
@@ -65,6 +66,21 @@ public class GameFlow implements ActionListener, GameStateListener  {
             Virus virus = StateManager.addVirus();
             this.mapPanel.addVirus(virus);
             this.mapPanel.addVirus(StateManager.spreadVirus());
+            this.elapsedTime++;
+            if (this.elapsedTime == 3) {
+                this.elapsedTime = 0;
+                boolean flag = false;
+                for (int i = 0; i < StateManager.getVirus().size(); i++) {
+                    if (StateManager.getAreaPercentage(i) > 5) {
+                        String message = StateManager.areaNames[i] + "區疫情嚴重，請立刻協助防疫！";
+                        this.messagePanel.addString(message);
+                        this.messagePanel.removeString("你的城市看起來很健康！");
+                        flag = true;
+                    }
+                }
+                if (!flag)
+                    this.messagePanel.addString("你的城市看起來很健康！");
+            }
         } else if (e.getSource().equals(incomeTimer)) {
             StateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){

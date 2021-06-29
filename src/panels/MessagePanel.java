@@ -61,7 +61,10 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
         this.generateString();
     }
 
+    public List<String> getString() { return this.messages; }
     public void addString(String str) {
+        if (this.messages.contains(str))
+            return;
         if (str.length() <= this.numChars)
             this.messages.add(str);
         else {
@@ -82,6 +85,8 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
     }
 
     public void removeString(String str) {
+        if (!this.messages.contains(str))
+            return;
         if (str.length() <= this.numChars)
             this.messages.remove(str);
         else {

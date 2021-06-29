@@ -18,7 +18,6 @@ public class StateManager {
     private static Integer[] total = new Integer[12];
     private static int gold;
     private static int incomePerHour;
-    private static int score;
     public StateManager() {
         for (int i = 0; i < 12; i++){
             ArrayList<Virus> v = new ArrayList<Virus>();
@@ -65,7 +64,6 @@ public class StateManager {
             notChosen.add(nC);
             total[i] = 0;
         }
-
         for (int i = 0; i < 150; i++) {
             for (int j = 0; j < 110; j++) {
                 Virus virus = new Virus(new Point(i * 5, j * 5));
@@ -218,20 +216,6 @@ public class StateManager {
         "松山",
         "中山大同"
     };
-    public static Integer[] initAreaPeopleNum = {
-        100,
-        200,
-        300,
-        400,
-        500,
-        600,
-        700,
-        800,
-        900,
-        1000,
-        1100,
-        1200,
-    };
     public static Integer[] areaPeopleNum = {
         100,
         200,
@@ -272,6 +256,8 @@ public class StateManager {
         }
         return a;
     }
+    public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
+    public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) areaPeopleNum[index] * 100); }
     public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
     public static List<Virus> spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
