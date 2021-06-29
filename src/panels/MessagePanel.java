@@ -25,7 +25,7 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
         this.messages = new ArrayList<>();
         this.delayCount = 0;
         setPreferredSize(new Dimension(750, 40));
-        setBackground(Color.green);
+        setBackground(Color.magenta);
         setLocation(0, 0);
         setLayout(new GridLayout());
         this.mes.setFont(new Font("Courier", Font.ITALIC, 18));
@@ -61,7 +61,10 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
         this.generateString();
     }
 
+    public List<String> getString() { return this.messages; }
     public void addString(String str) {
+        if (this.messages.contains(str))
+            return;
         if (str.length() <= this.numChars)
             this.messages.add(str);
         else {
@@ -82,6 +85,8 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
     }
 
     public void removeString(String str) {
+        if (!this.messages.contains(str))
+            return;
         if (str.length() <= this.numChars)
             this.messages.remove(str);
         else {
@@ -127,7 +132,7 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
             this.timer.start();
         else if (prevState == GameState.INGAME && curState == GameState.PAUSE) {
             this.timer.stop();
-            this.mes.setText("Game paused.");
+            this.mes.setText("遊戲暫停中！");
         }
         else if (prevState == GameState.PAUSE && curState == GameState.INGAME)
             this.timer.start();

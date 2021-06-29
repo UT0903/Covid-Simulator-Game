@@ -11,14 +11,14 @@ import static java.util.Arrays.asList;
 
 public class StateManager {
     // Basic states management
-    private int initGold = 1000;
-    private int initIncomePerHour = 100;
-    private ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
-    private ArrayList<ArrayList<Virus>> notChosen = new ArrayList<ArrayList<Virus>>(12);
-    private Integer[] total = new Integer[12];
+
+    private static int initGold = 1000;
+    private static int initIncomePerHour = 100;
+    private static ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
+    private static ArrayList<ArrayList<Virus>> notChosen = new ArrayList<ArrayList<Virus>>(12);
+    private static Integer[] total = new Integer[12];
     private static int gold;
-    private int incomePerHour;
-    private int score;
+    private static int incomePerHour;
     public StateManager() {
         for (int i = 0; i < 12; i++){
             ArrayList<Virus> v = new ArrayList<Virus>();
@@ -27,9 +27,6 @@ public class StateManager {
             notChosen.add(nC);
             this.total[i] = 0;
         }
-        this.gold = initGold;
-        this.incomePerHour = initIncomePerHour;
-        this.score = 0;
         for (int i = 0; i < 150; i++) {
             for (int j = 0; j < 110; j++) {
                 Virus virus = new Virus(new Point(i * 5, j * 5));
@@ -39,14 +36,45 @@ public class StateManager {
         }
     }
 
-    public void updateGold() { this.gold += this.incomePerHour; }
-    public void updateGold(int gold) { this.gold += gold; }
-    public void updateScore(int score) { this.score += score; }
-    public void updateIncome() { this.incomePerHour += 1; }
-    public void updateIncome(int income) { this.incomePerHour += income; }
+    // Gold management
+    public static List<GoldListener> goldListeners = new ArrayList<>();
+    public static void addGoldListener(GoldListener gl) { goldListeners.add(gl); }
+    public static void updateGold() {
+        gold += incomePerHour;
+        for (GoldListener gl: goldListeners)
+            gl.onGoldChanged(gold);
+    }
+    public static void updateGold(int g) {
+        gold = g;
+        for (GoldListener gl: goldListeners)
+            gl.onGoldChanged(gold);
+    }
+
+    public static void updateIncome() { incomePerHour += 1; }
+    public static void updateIncome(int income) { incomePerHour = income; }
     public static int getGold() { return gold; }
-    public int getScore() { return this.score; }
-    public int getIncome() { return this.incomePerHour; }
+
+    public static void initGame() {
+        setGameState(GameState.INIT);
+        updateGold(initGold);
+        incomePerHour = initIncomePerHour;
+        for (int i = 0; i < 12; i++){
+            ArrayList<Virus> v = new ArrayList<>();
+            viruses.add(v);
+            ArrayList<Virus> nC = new ArrayList<>();
+            notChosen.add(nC);
+            total[i] = 0;
+        }
+        for (int i = 0; i < 150; i++) {
+            for (int j = 0; j < 110; j++) {
+                Virus virus = new Virus(new Point(i * 5, j * 5));
+                notChosen.get(virus.getGroupID()).add(virus);
+                total[virus.getGroupID()] += 1;
+            }
+        }
+    }
+
+    public static void startGame() { setGameState(GameState.INGAME); }
 
     //Game states management
     private static GameState curGameState = GameState.INIT;
@@ -172,7 +200,14 @@ public class StateManager {
             {0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0}
     };
-
+    public static void setItemInAreaNum(List<Integer> newItemInAreaNum){
+        int goldChange = 0;
+        for (int i = 0; i < 6; i++){
+            goldChange += (newItemInAreaNum.get(i) - itemInAreaNum[i][curClickItemId]) * itemCosts[i];
+            itemInAreaNum[i][curClickItemId] = newItemInAreaNum.get(i);
+        }
+        updateGold(gold + goldChange);
+    }
 
 
     public static final String[] areaNames = {
@@ -212,29 +247,32 @@ public class StateManager {
     public static Integer[] areaSpreadTime = {
         10,10,10,10,10,10,10,10,10,10,10,10
     };
-    public Integer[] areaTimeCount ={
+    public static Integer[] areaTimeCount = {
         0,0,0,0,0,0,0,0,0,0,0,0
     };
-    public double[] areaSpreadProbability = {
+
+    public static double[] areaSpreadProbability = {
         1.0,1.0,1.0,1.0,1.0,1.0,
         1.0,1.0,1.0,1.0,1.0,1.0
     };
 
     //Virus states management
-    public int getAmount() {
+    public static int getAmount() {
         int a = 0;
         for (int j = 0; j < 12; j++){
             a += viruses.get(j).size();
         }
         return a;
     }
-    public int getPercentage() { return (int) ((double) this.getAmount() / 16500 * 100); }
-    public List<Virus> spreadVirus(){
-        List<Virus> spreadList = new ArrayList<Virus>();
+    public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
+    public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) areaPeopleNum[index] * 100); }
+    public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
+    public static List<Virus> spreadVirus(){
+        List<Virus> spreadList = new ArrayList<>();
         for (int j = 0; j < 12; j++) {
             areaTimeCount[j] += 1;
             if (areaTimeCount[j].equals(areaSpreadTime[j])) {
-                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)areaSpreadTime[j] / 10));
+                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)10 / areaSpreadTime[j]));
                 int n = (int) (viruses.get(j).size() * R0);
                 Collections.shuffle(notChosen.get(j));
                 for (int c = 0; c < n; c++) {
@@ -248,7 +286,8 @@ public class StateManager {
         }
         return spreadList;
     }
-    public Virus addVirus(){
+
+    public static Virus addVirus(){
         int rand = (int) (Math.random() * 12);
         int i = (int) Math.round(Math.random() * notChosen.get(rand).size());
         Virus virus = notChosen.get(rand).get(i);

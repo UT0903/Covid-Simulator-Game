@@ -1,6 +1,7 @@
 package Game;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 
 import components.Virus;
 import frame.WindowFrame;
@@ -24,7 +25,29 @@ public class GameFlow implements ActionListener, GameStateListener  {
     private Timer oneSecTimer = new Timer(1000, this);
     private Timer incomeTimer = new Timer(10000, this);
     private Timer msTimer = new Timer(100, this);
-    private StateManager stateManager;
+    private int elapsedTime = 0;
+
+    public GameFlow() {
+        messagePanel = new MessagePanel(60);
+        messagePanel.addString("你的城市看起來很健康！");
+        mapPanel = new MapPanel();
+        detailPanel = new DetailPanel();
+        StateManager.addGameStateListener(this);
+        StateManager.addItemStateListener(detailPanel);
+        StateManager.addMapStateListener(detailPanel);
+        StateManager.addMapStateListener(mapPanel);
+        toolbarPanel = new ToolbarPanel();
+        infoPanel = new InfoPanel(StateManager.getGold());
+        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
+        JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0, "rbsp");
+        JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
+        sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
+        menuPanel = new MenuPanel();
+        windowFrame = new WindowFrame();
+        windowFrame.add(menuPanel);
+        windowFrame.setVisible(true);
+        StateManager.initGame();
+    }
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){
         JSplitPane sp = new JSplitPane(orientation, a, b);
@@ -34,44 +57,34 @@ public class GameFlow implements ActionListener, GameStateListener  {
         sp.setDividerSize(2);
         return sp;
     }
-    public GameFlow() {
-        messagePanel = new MessagePanel(65);
-        messagePanel.addString("Your city is safe now.");
-        messagePanel.addString("Test message 2?");
-        messagePanel.addString("This is test message 3.");
-        mapPanel = new MapPanel();
-        detailPanel = new DetailPanel();
-        this.stateManager = new StateManager();
-        StateManager.addGameStateListener(this);
-        StateManager.addItemStateListener(detailPanel);
-        StateManager.addMapStateListener(detailPanel);
-        StateManager.addMapStateListener(mapPanel);
-        toolbarPanel = new ToolbarPanel();
-        infoPanel = new InfoPanel(400, 12, 31, 23, 59, 57, stateManager.getGold());
-        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
-        JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0, "rbsp");
-        JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
-        sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
-        menuPanel = new MenuPanel();
-        windowFrame = new WindowFrame();
-        windowFrame.add(menuPanel);
-        windowFrame.setVisible(true);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(oneSecTimer)) {
-            this.stateManager.updateGold();
-            this.infoPanel.updateGold(this.stateManager.getGold());
-            Virus virus = this.stateManager.addVirus();
+            StateManager.updateGold();
+            this.infoPanel.updateGold(StateManager.getGold());
+            Virus virus = StateManager.addVirus();
             this.mapPanel.addVirus(virus);
-            List<Virus> spreadList = new ArrayList<Virus>();
-            //spreadList = this.stateManager.spreadVirus();
-            this.mapPanel.addVirus(spreadList);
+            this.mapPanel.addVirus(StateManager.spreadVirus());
+            this.elapsedTime++;
+            if (this.elapsedTime == 3) {
+                this.elapsedTime = 0;
+                boolean flag = false;
+                for (int i = 0; i < StateManager.getVirus().size(); i++) {
+                    if (StateManager.getAreaPercentage(i) > 5) {
+                        String message = StateManager.areaNames[i] + "區疫情嚴重，請立刻協助防疫！";
+                        this.messagePanel.addString(message);
+                        this.messagePanel.removeString("你的城市看起來很健康！");
+                        flag = true;
+                    }
+                }
+                if (!flag)
+                    this.messagePanel.addString("你的城市看起來很健康！");
+            }
         } else if (e.getSource().equals(incomeTimer)) {
-            this.stateManager.updateIncome();
+            StateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){
-            this.infoPanel.updateVirusAmount(this.stateManager.getAmount(), this.stateManager.getPercentage());
+            this.infoPanel.updateVirusAmount(StateManager.getAmount(), StateManager.getPercentage());
         }
     }
 
@@ -95,9 +108,5 @@ public class GameFlow implements ActionListener, GameStateListener  {
             this.msTimer.start();
             this.incomeTimer.start();
         }
-    }
-
-    public MapPanel getMapPanel() {
-        return mapPanel;
     }
 }

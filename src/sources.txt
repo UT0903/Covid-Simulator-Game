@@ -11,6 +11,7 @@
 ./utils/Utils.java
 ./Game/MapStateListener.java
 ./Game/GameFlow.java
+./Game/GoldListener.java
 ./Game/StateManager.java
 ./Game/ItemStateListener.java
 ./Game/GameStateListener.java

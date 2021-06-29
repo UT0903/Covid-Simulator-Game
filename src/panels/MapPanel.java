@@ -33,11 +33,14 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
 
     }
 
-//    private void removeViruses(ArrayList<Virus> removeList){
-//        for (int i = 0; i < removeList.size(); i++){
-//            remove(removeList.get(i));
-//        }
-//    }
+    public void removeViruses(List<Virus> removeList){
+        for (Virus virus: removeList) {
+            remove(virus);
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
     public void addVirus(Virus virus){
         add(virus, Integer.valueOf(1));
         virus.setLocation(virus.getLocation());
