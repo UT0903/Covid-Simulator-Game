@@ -67,8 +67,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
             this.mapPanel.addVirus(virus);
             this.mapPanel.addVirus(StateManager.spreadVirus());
             this.elapsedTime++;
-            if (this.elapsedTime == 3) {
-                this.elapsedTime = 0;
+            if (this.elapsedTime % 3 == 0) {
                 boolean flag = false;
                 for (int i = 0; i < StateManager.getVirus().size(); i++) {
                     if (StateManager.getAreaPercentage(i) > 5) {
@@ -81,6 +80,11 @@ public class GameFlow implements ActionListener, GameStateListener  {
                 if (!flag)
                     this.messagePanel.addString("你的城市看起來很健康！");
             }
+            if (this.elapsedTime % 5 == 0){
+                StateManager.updateAreaPeopleInfectedDeadNum();
+            }
+            if (this.elapsedTime == 15) this.elapsedTime = 0;
+
         } else if (e.getSource().equals(incomeTimer)) {
             StateManager.updateIncome();
         } else if (e.getSource().equals(msTimer)){
