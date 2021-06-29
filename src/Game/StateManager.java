@@ -11,6 +11,7 @@ import static java.util.Arrays.asList;
 
 public class StateManager {
     // Basic states management
+
     private static int initGold = 1000;
     private static int initIncomePerHour = 100;
     private static ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
@@ -184,7 +185,7 @@ public class StateManager {
     public static Integer[] itemLastNum = {
             10,
             10,
-            3,
+            10,
             10,
             10,
             0
@@ -199,7 +200,14 @@ public class StateManager {
             {0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0}
     };
-
+    public static void setItemInAreaNum(List<Integer> newItemInAreaNum){
+        int goldChange = 0;
+        for (int i = 0; i < 6; i++){
+            goldChange += (newItemInAreaNum.get(i) - itemInAreaNum[i][curClickItemId]) * itemCosts[i];
+            itemInAreaNum[i][curClickItemId] = newItemInAreaNum.get(i);
+        }
+        updateGold(gold + goldChange);
+    }
 
 
     public static final String[] areaNames = {
@@ -247,6 +255,16 @@ public class StateManager {
         1.0,1.0,1.0,1.0,1.0,1.0,
         1.0,1.0,1.0,1.0,1.0,1.0
     };
+    public static final double deadProbability = 0.01;
+    public static void updateAreaPeopleInfectedDeadNum(){
+        for (int i = 0; i < 12; i++){
+            areaPeopleInfectedNum[i] = (int) (areaPeopleNum[i] * ((double) viruses.get(i).size() / total[i]));
+            int death = (int) (areaPeopleInfectedNum[i] * 0.05);
+            areaPeopleNum[i] -= death;
+            areaPeopleDeadNum[i] += death;
+        }
+    }
+
 
     //Virus states management
     public static int getAmount() {
@@ -257,14 +275,14 @@ public class StateManager {
         return a;
     }
     public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
-    public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) areaPeopleNum[index] * 100); }
+    public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) total[index]); }
     public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
     public static List<Virus> spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
         for (int j = 0; j < 12; j++) {
             areaTimeCount[j] += 1;
             if (areaTimeCount[j].equals(areaSpreadTime[j])) {
-                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)areaSpreadTime[j] / 10));
+                double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)10 / areaSpreadTime[j]));
                 int n = (int) (viruses.get(j).size() * R0);
                 Collections.shuffle(notChosen.get(j));
                 for (int c = 0; c < n; c++) {

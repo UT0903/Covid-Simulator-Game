@@ -22,10 +22,23 @@ public class DetailPanel extends JPanel implements ItemStateListener, MapStateLi
     private JButton confirmBtn, cancelBtn;
     private void updateCopyItemInAreaNum(int itemId, int delta){
         int num = copyItemInAreaNum.get(itemId) + delta;
-        if(num <= StateManager.itemLastNum[itemId] && num >= 0) {
+        if(num <= StateManager.itemLastNum[itemId] && num >= 0 &&
+                (delta < 0 || calEnoughGold(itemId, delta))) {
+            //System.out.println("success");
             copyItemInAreaNum.set(itemId, num);
             copyItemLastNum.set(itemId, copyItemLastNum.get(itemId) - delta);
         }
+        //System.out.println(copyItemInAreaNum);
+    }
+    private boolean calEnoughGold(int itemId, int delta){
+        //System.out.println(StateManager.getGold());
+        int lastGold = StateManager.getGold();
+        for(int i = 0; i < copyItemLastNum.size(); i++){
+            lastGold -= StateManager.itemCosts[i] * copyItemInAreaNum.get(i);
+        }
+        lastGold -= delta * StateManager.itemCosts[itemId];
+        //System.out.printf("last gold: %d\n", lastGold);
+        return lastGold >= 0;
     }
     public DetailPanel(){
         super();
