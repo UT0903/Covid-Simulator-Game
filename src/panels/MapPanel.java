@@ -1,6 +1,7 @@
 package panels;
 
 import Game.MapStateListener;
+import Game.VirusListener;
 import Game.StateManager;
 import components.Area;
 import components.Virus;
@@ -14,10 +15,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import static utils.Utils.basePath;
 
-public class MapPanel extends JLayeredPane implements MapStateListener{
+public class MapPanel extends JLayeredPane implements MapStateListener, VirusListener {
     private int timerCount = 0;
 
     public MapPanel() {
@@ -30,7 +30,8 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
         setArea();
         bgPic.setSize(750, 600);
         add(bgPic, Integer.valueOf(0));
-
+        StateManager.addMapStateListener(this);
+        StateManager.addVirusListener(this);
     }
 
     public void removeViruses(List<Virus> removeList){
@@ -97,6 +98,16 @@ public class MapPanel extends JLayeredPane implements MapStateListener{
     @Override
     public void onAreaClickChanged(int prevId, int newId) {}
 
+    @Override
+    public void onVirusIncreased(List<Virus> increasedVirus) {
+        for (Virus virus: increasedVirus)
+            this.addVirus(virus);
+    }
+
+    @Override
+    public void onVirusDecreased(List<Virus> decreasedVirus) {
+        this.removeViruses(decreasedVirus);
+    }
 
     public class BackgroundMouseListener extends MouseInputAdapter{
         public void mouseExited(MouseEvent e){

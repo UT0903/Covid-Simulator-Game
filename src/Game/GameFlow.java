@@ -33,9 +33,6 @@ public class GameFlow implements ActionListener, GameStateListener  {
         mapPanel = new MapPanel();
         detailPanel = new DetailPanel();
         StateManager.addGameStateListener(this);
-        StateManager.addItemStateListener(detailPanel);
-        StateManager.addMapStateListener(detailPanel);
-        StateManager.addMapStateListener(mapPanel);
         toolbarPanel = new ToolbarPanel();
         infoPanel = new InfoPanel(StateManager.getGold());
         JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
@@ -62,11 +59,9 @@ public class GameFlow implements ActionListener, GameStateListener  {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(oneSecTimer)) {
             StateManager.updateGold();
+            StateManager.addVirus();
+            StateManager.spreadVirus();
             this.infoPanel.updateDate();
-            this.infoPanel.updateGold(StateManager.getGold());
-            Virus virus = StateManager.addVirus();
-            this.mapPanel.addVirus(virus);
-            this.mapPanel.addVirus(StateManager.spreadVirus());
             this.elapsedTime++;
             if (this.elapsedTime % 3 == 0) {
                 boolean flag = false;

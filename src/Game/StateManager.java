@@ -12,29 +12,13 @@ import static java.util.Arrays.asList;
 public class StateManager {
     // Basic states management
 
-    private static int initGold = 1000;
-    private static int initIncomePerHour = 100;
+    private static final int initGold = 1000;
+    private static final int initIncomePerHour = 100;
     private static ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
     private static ArrayList<ArrayList<Virus>> notChosen = new ArrayList<ArrayList<Virus>>(12);
     private static Integer[] total = new Integer[12];
     private static int gold;
     private static int incomePerHour;
-    public StateManager() {
-        for (int i = 0; i < 12; i++){
-            ArrayList<Virus> v = new ArrayList<Virus>();
-            viruses.add(v);
-            ArrayList<Virus> nC = new ArrayList<Virus>();
-            notChosen.add(nC);
-            this.total[i] = 0;
-        }
-        for (int i = 0; i < 150; i++) {
-            for (int j = 0; j < 110; j++) {
-                Virus virus = new Virus(new Point(i * 5, j * 5));
-                this.notChosen.get(virus.getGroupID()).add(virus);
-                this.total[virus.getGroupID()] += 1;
-            }
-        }
-    }
 
     // Gold management
     public static List<GoldListener> goldListeners = new ArrayList<>();
@@ -267,6 +251,8 @@ public class StateManager {
 
 
     //Virus states management
+    private static List<VirusListener> virusListeners = new ArrayList<>();
+    public static void addVirusListener(VirusListener vl) { virusListeners.add(vl); }
     public static int getAmount() {
         int a = 0;
         for (int j = 0; j < 12; j++){
@@ -277,7 +263,7 @@ public class StateManager {
     public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
     public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) total[index]); }
     public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
-    public static List<Virus> spreadVirus(){
+    public static void spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
         for (int j = 0; j < 12; j++) {
             areaTimeCount[j] += 1;
@@ -294,15 +280,19 @@ public class StateManager {
                 areaTimeCount[j] = 0;
             }
         }
-        return spreadList;
+        for (VirusListener vl: virusListeners)
+            vl.onVirusIncreased(spreadList);
     }
 
-    public static Virus addVirus(){
+    public static void addVirus(){
         int rand = (int) (Math.random() * 12);
         int i = (int) Math.round(Math.random() * notChosen.get(rand).size());
         Virus virus = notChosen.get(rand).get(i);
         viruses.get(rand).add(virus);
         notChosen.get(rand).remove(virus);
-        return virus;
+        List<Virus> increasedVirus = new ArrayList<>();
+        increasedVirus.add(virus);
+        for (VirusListener vl: virusListeners)
+            vl.onVirusIncreased(increasedVirus);
     }
 }

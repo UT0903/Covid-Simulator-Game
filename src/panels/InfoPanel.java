@@ -93,7 +93,6 @@ public class InfoPanel extends JPanel implements ActionListener, GoldListener {
         this.dateMes.setText(this.date.toString());
     }
 
-    public void updateGold(int gold) { this.goldMes.setText(Integer.toString(gold)); }
     public void updateVirusAmount(int amount, int percentage) {
         this.virusesMes.setText(amount+ "(" + percentage + "%" + ")");
     }
