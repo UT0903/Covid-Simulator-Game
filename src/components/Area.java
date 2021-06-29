@@ -40,7 +40,21 @@ public class Area {
             {740, 744, 795, 844, 894, 944, 995, 1045, 1095, 1146},
             {678, 728, 779, 831, 882, 933, 984, 1035, 1086, 1136, 1188, 1238, 1288, 1338, 1388}
     };
-    public static final Color highlightColor = new Color(255, 0, 0, 100);
+    public static final Integer[][] neighborhood = {
+            {1, 4},
+            {0, 2, 7, 11},
+            {1, 3, 10, 11},
+            {2, 9, 10},
+            {0, 5, 7},
+            {4, 7, 8},
+            {5, 8, 9},
+            {1, 4, 5, 8, 11},
+            {5, 6, 7, 9, 11},
+            {6, 8, 10, 11},
+            {3, 9, 11},
+            {1,2,7,8,9,10}
+    };
+    public static final Color highlightColor = new Color(0, 255, 0, 100);
     public static HashMap<Integer, Integer> gridToGroup = new HashMap<>();
     public static void InitGroup(){
         //System.out.println("init group");
