@@ -11,6 +11,7 @@ import static java.util.Arrays.asList;
 
 public class StateManager {
     // Basic states management
+
     private static int initGold = 1000;
     private static int initIncomePerHour = 100;
     private static ArrayList<ArrayList<Virus>> viruses = new ArrayList<ArrayList<Virus>>(12);
@@ -184,7 +185,7 @@ public class StateManager {
     public static Integer[] itemLastNum = {
             10,
             10,
-            3,
+            10,
             10,
             10,
             0
