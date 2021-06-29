@@ -115,7 +115,7 @@ public class StateManager {
             curHoverItemId = newClickItemId;
         }
     }
-    public static String[] labelNames = {
+    public static final String[] labelNames = {
             "ambulance.gif",
             "canopy.png",
             "hospital.png",
@@ -123,7 +123,7 @@ public class StateManager {
             "spray.gif",
             "syringe.gif"
     };
-    public static String[] itemNames = {
+    public static final String[] itemNames = {
             "救護車",
             "快篩站",
             "醫院",
@@ -131,7 +131,7 @@ public class StateManager {
             "酒精",
             "疫苗"
     };
-    public static String[] itemFunctions = {
+    public static final String[] itemFunctions = {
             "增加醫院收治範圍",
             "增加染病發現率",
             "增加收治人數",
@@ -168,7 +168,7 @@ public class StateManager {
 
 
 
-    public static String[] areaNames = {
+    public static final String[] areaNames = {
         "五股泰山",
         "三重蘆洲",
         "士林北投",
