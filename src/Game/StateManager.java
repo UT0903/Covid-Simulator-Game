@@ -203,8 +203,8 @@ public class StateManager {
     public static void setItemInAreaNum(List<Integer> newItemInAreaNum){
         int goldChange = 0;
         for (int i = 0; i < 6; i++){
-            goldChange += (newItemInAreaNum.get(i) - itemInAreaNum[i][curClickItemId]) * itemCosts[i];
-            itemInAreaNum[i][curClickItemId] = newItemInAreaNum.get(i);
+            goldChange += (newItemInAreaNum.get(i) - itemInAreaNum[i][curMapClickId]) * itemCosts[i];
+            itemInAreaNum[i][curMapClickId] = newItemInAreaNum.get(i);
         }
         updateGold(gold + goldChange);
     }
