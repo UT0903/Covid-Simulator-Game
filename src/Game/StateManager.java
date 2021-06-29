@@ -254,6 +254,16 @@ public class StateManager {
         1.0,1.0,1.0,1.0,1.0,1.0,
         1.0,1.0,1.0,1.0,1.0,1.0
     };
+    public static final double deadProbability = 0.01;
+    public static void updateAreaPeopleInfectedDeadNum(){
+        for (int i = 0; i < 12; i++){
+            areaPeopleInfectedNum[i] = (int) (areaPeopleNum[i] * ((double) viruses.get(i).size() / total[i]));
+            int death = (int) (areaPeopleInfectedNum[i] * 0.05);
+            areaPeopleNum[i] -= death;
+            areaPeopleDeadNum[i] += death;
+        }
+    }
+
 
     //Virus states management
     public static int getAmount() {
@@ -264,7 +274,7 @@ public class StateManager {
         return a;
     }
     public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
-    public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) areaPeopleNum[index] * 100); }
+    public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) total[index]); }
     public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
     public static List<Virus> spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
