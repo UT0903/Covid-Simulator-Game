@@ -23,7 +23,6 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     public MapPanel() {
         setPreferredSize(new Dimension(750, 600));
 
-//        setLocation(0, 40);
         JLabel bgPic = new JLabel(new ImageIcon(basePath + "./map.png")); //Add background
 
         bgPic.setOpaque(true);
@@ -32,18 +31,23 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
         add(bgPic, Integer.valueOf(0));
         virusPanel = new JPanel();
         virusPanel.setOpaque(false);
-        virusPanel.setBounds(0, 0, 800, 600);
-        virusPanel.setLayout(new GridLayout(150, 120));
+        virusPanel.setBounds(0, 0, 750, 600);
+        virusPanel.setLayout(new GridLayout(120, 150));
 
         add(virusPanel, Integer.valueOf(1));
         StateManager.addMapStateListener(this);
         StateManager.addVirusListener(this);
+//        JLabel test=new JLabel();
+//        test.setBackground(Color.BLUE);
+//        test.setOpaque(true);
+//        test.setSize(10,10);
+//        test.setLocation(0,0);
     }
     public List<Virus> initVirusLabel(){
         List <Virus> virusLabels = new ArrayList<Virus>();
-        for(int i = 0; i < 150; i++){
-            for(int j = 0; j < 120; j++){
-                Virus gridVirusLabel = new Virus(new Point(i*5, j*5));
+        for(int i = 0; i < 120; i++){
+            for(int j = 0; j < 150; j++){
+                Virus gridVirusLabel = new Virus(new Point(j * 5, i * 5));
                 virusPanel.add(gridVirusLabel);
                 virusLabels.add(gridVirusLabel);
             }
