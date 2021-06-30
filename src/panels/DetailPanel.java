@@ -39,7 +39,7 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
     public void onItemHoverChanged(int prevId, int newId) {
         curHoverItemId = newId;
         System.out.printf("onItemHoverChanged %d\n", newId);
-        if(curClickAreaId != -1){
+        if(curClickAreaId == -1){
             idp.update(newId);
             setVi(curLayer, false);
             setVi(2, true);
