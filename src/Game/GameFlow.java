@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
+import static utils.Utils.basePath;
+
 public class GameFlow implements ActionListener, GameStateListener  {
     private DetailPanel detailPanel;
     private ToolbarPanel toolbarPanel;
@@ -114,10 +116,22 @@ public class GameFlow implements ActionListener, GameStateListener  {
             this.msTimer.start();
         }
         else if (curState == GameState.LOSE) {
-
+            this.oneSecTimer.stop();
+            this.msTimer.stop();
+            windowFrame.getContentPane().remove(sl);
+            JLabel loseLabel = new JLabel(new ImageIcon(basePath + "./lose.png"));
+            loseLabel.setSize(1080,640);
+            windowFrame.getContentPane().add(loseLabel);
+            windowFrame.getContentPane().revalidate();
         }
         else if (curState == GameState.WIN) {
-
+            this.oneSecTimer.stop();
+            this.msTimer.stop();
+            windowFrame.getContentPane().remove(sl);
+            JLabel winLabel = new JLabel(new ImageIcon(basePath + "./win.png"));
+            winLabel.setSize(1080,640);
+            windowFrame.getContentPane().add(winLabel);
+            windowFrame.getContentPane().revalidate();
         }
     }
 }
