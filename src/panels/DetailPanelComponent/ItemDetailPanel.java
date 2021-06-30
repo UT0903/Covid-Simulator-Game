@@ -29,6 +29,7 @@ public class ItemDetailPanel extends JPanel {
       labels.get(3).setText("剩餘數量: "+ StateManager.itemLastNum[curHoverItemId]);
     }
     public void setVi(boolean b){
+        //System.out.println(b);
         setOpaque(false);
         for(JLabel label: labels) {
             label.setVisible(b);

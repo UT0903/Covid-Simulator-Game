@@ -29,7 +29,7 @@ public class AreaDetailPanel extends JPanel {
         setVi(false);
     }
     public void update(int curHoverAreaId){
-        System.out.println(curHoverAreaId);
+        //System.out.println(curHoverAreaId);
         labels.get(0).setText("地區: " + StateManager.areaNames[curHoverAreaId]);
         labels.get(1).setText("人口數: " + StateManager.areaPeopleNum[curHoverAreaId]);
         labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId]);

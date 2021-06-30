@@ -22,9 +22,9 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
         setPreferredSize(new Dimension(330, 320));
         setName("DetailPanel");
         setSize(330, 320);
-        //setOpaque(true);
+        setOpaque(true);
         //setLocation(750, 470);
-        setBackground(new Color(255, 246, 143, 200));
+        setBackground(new Color(255, 246, 143, 255));
         StateManager.addItemStateListener(this);
         StateManager.addMapStateListener(this);
         adp = new AreaDetailPanel();
@@ -38,8 +38,9 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
     @Override
     public void onItemHoverChanged(int prevId, int newId) {
         curHoverItemId = newId;
-        System.out.printf("onItemHoverChanged %d\n", newId);
-        if(curClickAreaId == -1){
+        //System.out.printf("onItemHoverChanged %d\n", newId);
+        //System.out.println(curClickAreaId);
+        if(curClickAreaId == -1 && newId != -1){
             idp.update(newId);
             setVi(curLayer, false);
             setVi(2, true);
@@ -50,6 +51,8 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
     @Override
     public void onItemClickChanged(int prevId, int newId) {}
     private void setVi(int i, boolean b){
+        //System.out.println(i);
+        //System.out.println(b);
         if(i == 0){
             adp.setVi(b);
         }
@@ -63,7 +66,7 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
     @Override
     public void onAreaHoverChanged(int prevId, int newId) {
         curHoverAreaId = newId;
-        System.out.printf("onAreaHoverChanged %d\n", newId);
+        //System.out.printf("onAreaHoverChanged %d\n", newId);
         if(curClickAreaId == -1 && curHoverAreaId != -1){
             adp.update(curHoverAreaId);
             setVi(curLayer, false);
@@ -77,12 +80,16 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
         //System.out.printf("curClickAreaId %d\n", newId);
         curClickAreaId = newId;
 
-        /*if(newId != -1){
+        if(curClickAreaId != -1){
             amp.update(curClickAreaId);
             setVi(curLayer, false);
             setVi(1, true);
             curLayer = 1;
-        }*/
+        }
+        else{
+            setVi(curLayer, false);
+            curLayer = -1;
+        }
     }
 
 
