@@ -19,7 +19,7 @@ import static utils.Utils.basePath;
 
 public class MapPanel extends JLayeredPane implements MapStateListener, VirusListener {
     private int timerCount = 0;
-
+    private JPanel virusPanel;
     public MapPanel() {
         setPreferredSize(new Dimension(750, 600));
 
@@ -30,10 +30,24 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
         setArea();
         bgPic.setSize(750, 600);
         add(bgPic, Integer.valueOf(0));
+        virusPanel = new JPanel();
+        virusPanel.setLayout(new GridLayout(150, 110));
+
+        add(virusPanel, Integer.valueOf(1));
         StateManager.addMapStateListener(this);
         StateManager.addVirusListener(this);
     }
-
+    public List<Virus> initVirusLabel(){
+        List <Virus> virusLabels = new ArrayList<Virus>();
+        for(int i = 0; i < 150; i++){
+            for(int j = 0; j < 110; j++){
+                Virus gridVirusLabel = new Virus(new Point(i*5, j*5));
+                virusPanel.add(gridVirusLabel);
+                virusLabels.add(gridVirusLabel);
+            }
+        }
+        return virusLabels;
+    }
     public void removeViruses(List<Virus> removeList){
         for (Virus virus: removeList) {
             remove(virus);
@@ -50,6 +64,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     public void addVirus(List<Virus> virusList){
         for (int i = 0; i < virusList.size(); i++){
             Virus virus = virusList.get(i);
+            add(new JPanel(), Integer.valueOf(1));
             add(virus, Integer.valueOf(1));
             virus.setLocation(virus.getLocation());
         }

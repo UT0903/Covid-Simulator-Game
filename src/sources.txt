@@ -10,10 +10,12 @@
 ./utils/Date.java
 ./utils/Utils.java
 ./Game/MapStateListener.java
+./Game/DateListener.java
 ./Game/GameFlow.java
 ./Game/GoldListener.java
 ./Game/StateManager.java
 ./Game/ItemStateListener.java
 ./Game/GameStateListener.java
+./Game/VirusListener.java
 ./Game/GameState.java
 ./frame/WindowFrame.java
