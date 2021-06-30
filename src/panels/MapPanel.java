@@ -50,15 +50,18 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     }
     public void removeViruses(List<Virus> removeList){
         for (Virus virus: removeList) {
-            remove(virus);
-            this.revalidate();
-            this.repaint();
+            virus.setOpaque(false);
+            virus.revalidate();
+            virus.repaint();
         }
     }
 
     public void addVirus(Virus virus){
-        add(virus, Integer.valueOf(1));
-        virus.setLocation(virus.getLocation());
+        virus.setOpaque(true);
+        virus.revalidate();
+        virus.repaint();
+        //add(virus, Integer.valueOf(1));
+        //virus.setLocation(virus.getLocation());
     }
 
     public void addVirus(List<Virus> virusList){
