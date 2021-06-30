@@ -11,8 +11,8 @@ import java.util.List;
 public class ItemDetailPanel extends JPanel {
     private List<JLabel> labels;
     public ItemDetailPanel(){
-        setSize(330, 320);
-        setBounds(0, 0, 330, 320);
+        setSize(330, 256);
+//        setBounds(0, 0, 330, 320);
         setLayout(new GridLayout(0, 1));
         labels = new ArrayList<>();
         for(int i = 0; i < 4; i++){

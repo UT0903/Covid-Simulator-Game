@@ -11,8 +11,8 @@ import java.util.List;
 public class AreaDetailPanel extends JPanel {
     private List<JLabel> labels;
     public AreaDetailPanel(){
-        setSize(330, 320);
-        setBounds(0, 0, 330, 320);
+        setSize(330, 256);
+//        setBounds(0, 0, 330, 320);
         setLayout(new GridLayout(0, 2));
         labels = new ArrayList<>();
         JLabel templ;

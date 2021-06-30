@@ -33,7 +33,7 @@ public class AreaModifyPanel extends JPanel {
     }
 
     public AreaModifyPanel(){
-        setBounds(0, 0, 330, 320);
+        setBounds(0, 0, 330, 256);
         setLayout(new GridLayout(0, 2));
         mps = new ArrayList<>();
         labels = new ArrayList<>();

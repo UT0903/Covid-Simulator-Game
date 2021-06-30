@@ -20,7 +20,7 @@ public class InfoPanel extends JPanel implements ActionListener, GoldListener, D
     public InfoPanel() {
         super();
         setName("InfoPanel");
-        setSize(330, 150);
+        setSize(330, 120);
         this.setLayout(new GridLayout(0,2));
         this.add(this.dateLabel);
         this.dateLabel.setHorizontalAlignment(SwingConstants.CENTER);

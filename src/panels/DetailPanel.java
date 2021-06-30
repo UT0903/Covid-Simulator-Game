@@ -19,9 +19,9 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
     private int curLayer = -1;
     public DetailPanel(){
         super(); //self init
-        setPreferredSize(new Dimension(330, 320));
+//        setPreferredSize(new Dimension(330, 320));
         setName("DetailPanel");
-        setSize(330, 320);
+//        setSize(330, 320);
         setOpaque(true);
         //setLocation(750, 470);
         setBackground(new Color(255, 246, 143, 200));

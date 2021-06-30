@@ -36,10 +36,14 @@ public class GameFlow implements ActionListener, GameStateListener  {
         detailPanel = new DetailPanel();
         toolbarPanel = new ToolbarPanel();
         infoPanel = new InfoPanel();
-        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 0.0625, "lsp");
+        JSplitPane lsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, messagePanel, mapPanel, 1, "lsp");
+        lsp.setDividerLocation(40);
         JSplitPane rbsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, toolbarPanel, detailPanel, 0, "rbsp");
+        rbsp.setDividerLocation(0.5);
         JSplitPane rsp = makeSpiltPane(JSplitPane.VERTICAL_SPLIT, infoPanel, rbsp, 0.2, "rsp");
-        sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 0, "sl");
+        rsp.setDividerLocation(0.55);
+        sl = makeSpiltPane(JSplitPane.HORIZONTAL_SPLIT, lsp, rsp , 1, "sl");
+        sl.setDividerLocation(750);
         menuPanel = new MenuPanel();
         windowFrame = new WindowFrame();
         windowFrame.add(menuPanel);
