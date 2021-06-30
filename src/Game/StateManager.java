@@ -281,7 +281,7 @@ public class StateManager {
             vl.onVirusIncreased(increasedVirus);
     }
 
-    public static void initGame() {
+    public static void initGame(List<Virus> virusLabels) {
         setGameState(GameState.INIT);
         updateGold(initGold);
         for (DateListener dl: dateListeners)
@@ -294,12 +294,9 @@ public class StateManager {
             notChosen.add(nC);
             total[i] = 0;
         }
-        for (int i = 0; i < 150; i++) {
-            for (int j = 0; j < 110; j++) {
-                Virus virus = new Virus(new Point(i * 5, j * 5));
-                notChosen.get(virus.getGroupID()).add(virus);
-                total[virus.getGroupID()] += 1;
-            }
+        for (Virus virus: virusLabels) {
+            notChosen.get(virus.getGroupID()).add(virus);
+            total[virus.getGroupID()]++;
         }
     }
 
