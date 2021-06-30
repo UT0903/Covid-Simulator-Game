@@ -1,6 +1,12 @@
 ./Main.java
 ./components/Virus.java
 ./components/Area.java
+./panels/DetailPanelComponent/AreaModifyPanel.java
+./panels/DetailPanelComponent/AreaDetailPanel.java
+./panels/DetailPanelComponent/Component/NumChangeBtn.java
+./panels/DetailPanelComponent/Component/ChangeBtnAdapter.java
+./panels/DetailPanelComponent/Component/ModifyPanel.java
+./panels/DetailPanelComponent/ItemDetailPanel.java
 ./panels/ToolbarPanel.java
 ./panels/MapPanel.java
 ./panels/DetailPanel.java

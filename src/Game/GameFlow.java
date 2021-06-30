@@ -1,17 +1,14 @@
 package Game;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 
-import components.Virus;
 import frame.WindowFrame;
 import panels.*;
+import panels.DetailPanel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.ArrayList;
 
 public class GameFlow implements ActionListener, GameStateListener  {
     private DetailPanel detailPanel;
