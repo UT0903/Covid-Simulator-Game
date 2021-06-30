@@ -32,10 +32,10 @@ public class AreaDetailPanel extends JPanel {
         //System.out.println(curHoverAreaId);
         labels.get(0).setText("地區: " + StateManager.areaNames[curHoverAreaId]);
         labels.get(1).setText("人口數: " + StateManager.areaPeopleNum[curHoverAreaId]);
-        labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId]);
-        labels.get(3).setText("死亡人數: " + StateManager.areaPeopleDeadNum[curHoverAreaId]);
+        labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId]); //TODO
+        labels.get(3).setText("死亡人數: " + StateManager.areaPeopleDeadNum[curHoverAreaId]); //TODO
         for(int i = 0; i < StateManager.itemNames.length; i++){
-            labels.get(i+4).setText(StateManager.itemNames[i] + ": " + StateManager.itemInAreaNum[i][curHoverAreaId]);
+            labels.get(i+4).setText(StateManager.itemNames[i] + ": " + StateManager.itemInAreaNum[i][curHoverAreaId]); //TODO
         }
     }
     public void setVi(boolean b){

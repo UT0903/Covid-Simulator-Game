@@ -29,7 +29,7 @@ public class ModifyPanel extends JPanel{
 
     public void setCopyItemLastNum(int copyItemLastNum) {
         this.copyItemLastNum = copyItemLastNum;
-        jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
+        jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]); //TODO
     }
 
     public void setCopyItemInAreaNum(int copyItemInAreaNum) {
@@ -48,10 +48,11 @@ public class ModifyPanel extends JPanel{
             public void mouseClicked(MouseEvent e) {
                 AreaModifyPanel amp = (AreaModifyPanel)e.getComponent().getParent().getParent();
                 //System.out.println("onclick +");
-                if(copyItemInAreaNum + 1 <= StateManager.itemLastNum[itemId] &&
+                if(copyItemInAreaNum + 1 <= StateManager.itemLastNum[itemId] && //TODO
                         amp.calEnoughGold(itemId)){
                     copyItemInAreaNum += 1;
-                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
+                    copyItemLastNum -= 1;
+                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]); //TODO
                     jl.revalidate();
                     jl.repaint();
                 }
@@ -63,7 +64,8 @@ public class ModifyPanel extends JPanel{
                 //System.out.println("onclick +");
                 if(copyItemInAreaNum - 1 >= 0){
                     copyItemInAreaNum -= 1;
-                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
+                    copyItemLastNum += 1;
+                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]); //TODO
                     jl.revalidate();
                     jl.repaint();
                 }
@@ -74,9 +76,9 @@ public class ModifyPanel extends JPanel{
     }
 
     public void setCopy(int curClickAreaId){
-        copyItemInAreaNum = StateManager.itemInAreaNum[itemId][curClickAreaId];
-        copyItemLastNum = StateManager.itemLastNum[itemId];
-        jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
+        copyItemInAreaNum = StateManager.itemInAreaNum[itemId][curClickAreaId]; //TODO
+        copyItemLastNum = StateManager.itemLastNum[itemId]; //TODO
+        jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]); //TODO
     }
     public void setVi(boolean b){
         setOpaque(false);

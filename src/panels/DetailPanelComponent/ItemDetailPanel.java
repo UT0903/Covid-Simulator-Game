@@ -26,7 +26,7 @@ public class ItemDetailPanel extends JPanel {
       labels.get(0).setText("名稱:"  + StateManager.itemNames[curHoverItemId]);
       labels.get(1).setText("功能: " + StateManager.itemFunctions[curHoverItemId]);
       labels.get(2).setText("花費: "+ StateManager.itemCosts[curHoverItemId]);
-      labels.get(3).setText("剩餘數量: "+ StateManager.itemLastNum[curHoverItemId]);
+      labels.get(3).setText("剩餘數量: "+ StateManager.itemLastNum[curHoverItemId]); //TODO
     }
     public void setVi(boolean b){
         //System.out.println(b);
