@@ -373,6 +373,23 @@ public class StateManager {
         areaRecoverProbability[groupID] = Math.min(1.0, areaRecoverProbability[groupID] * Math.pow(1.05, amount));
     }
 
+    //People num management
+    private static List<PeopleNumListener> peopleNumListeners = new ArrayList<>();
+    public static void addPeopleNumListener(PeopleNumListener pnl) { peopleNumListeners.add(pnl); }
+    public static void updatePeopleInfectedNum(int groupID, int newNum) {
+        int prevNum = areaPeopleInfectedNum[groupID];
+        areaPeopleInfectedNum[groupID] = newNum;
+        for (PeopleNumListener pnl: peopleNumListeners)
+            pnl.onPeopleInfectedNumChanged(groupID, prevNum, newNum);
+    }
+    public static void updatePeopleDeadNum(int groupID, int newNum) {
+        int prevNum = areaPeopleDeadNum[groupID];
+        areaPeopleDeadNum[groupID] = newNum;
+        for (PeopleNumListener pnl: peopleNumListeners)
+            pnl.onPeopleDeadNumChanged(groupID, prevNum, newNum);
+    }
+
+
     public static void updateAreaDeadProbability() {
         for (int i = 0; i < 12; i++)
             areaDeadProbability[i] = Math.min(1.0, areaDeadProbability[i] * (1 + (double) areaPeopleInfectedNum[i] / (double) areaPeopleNum[i] / 2.0));
@@ -384,10 +401,12 @@ public class StateManager {
             double finalDeadProbability = Math.min(areaDeadProbability[i] * rand, 1.0);
             int death = (int) ((double) areaPeopleInfectedNum[i] * finalDeadProbability);
             // areaPeopleInfectedNum[i] = (int) (areaPeopleNum[i] * ((double) viruses.get(i).size() / total[i]));
-            areaPeopleDeadNum[i] += death;
+            updatePeopleDeadNum(i, areaPeopleDeadNum[i] + death);
+            updatePeopleInfectedNum(i, areaPeopleInfectedNum[i] - death);
+            // areaPeopleDeadNum[i] += death;
+            // areaPeopleInfectedNum[i] -= death;
             totalDead += death;
             areaPeopleNum[i] -= death;
-            areaPeopleInfectedNum[i] -= death;
             totalInfected -= death;
             ArrayList<Virus> areaVirus = viruses.get(i);
             List<Virus> dead = new ArrayList<>();
@@ -403,7 +422,6 @@ public class StateManager {
                 areaVirus.remove(d);
         }
     }
-
     //Virus states management
     private static List<VirusListener> virusListeners = new ArrayList<>();
     public static void addVirusListener(VirusListener vl) { virusListeners.add(vl); }
@@ -425,12 +443,13 @@ public class StateManager {
             if (areaTimeCount[j].equals(areaSpreadTime[j])) {
                 double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)10 / areaSpreadTime[j]));
                 int n = Math.min(notChosen.get(j).size(), (int) (viruses.get(j).size() * R0));
+                updatePeopleInfectedNum(j, areaPeopleInfectedNum[j] + n);
+                // areaPeopleInfectedNum[j] += n;
+                totalInfected += n;
                 Collections.shuffle(notChosen.get(j));
                 List<Virus> chosen = new ArrayList<>();
                 for (int c = 0; c < n; c++) {
                     Virus virus = notChosen.get(j).get(c);
-                    areaPeopleInfectedNum[j]++;
-                    totalInfected++;
                     spreadList.add(virus);
                     viruses.get(j).add(virus);
                     chosen.add(virus);
@@ -447,7 +466,8 @@ public class StateManager {
     public static void addVirus(){
         int rand = (int) (Math.random() * 12);
         int i = Math.min(notChosen.get(rand).size(), (int) Math.round(Math.random() * notChosen.get(rand).size()));
-        areaPeopleInfectedNum[rand]++;
+        updatePeopleInfectedNum(rand, areaPeopleInfectedNum[rand] + 1);
+        // areaPeopleInfectedNum[rand]++;
         totalInfected++;
         Virus virus = notChosen.get(rand).get(i);
         viruses.get(rand).add(virus);
@@ -464,7 +484,8 @@ public class StateManager {
             double rand = Math.random() / 2.0 + 0.75; // 0.75 ~ 1.25
             double finalRecoverProbability = Math.min(areaRecoverProbability[i] * rand, 1.0);
             int recover = (int) (areaPeopleInfectedNum[i] * finalRecoverProbability);
-            areaPeopleInfectedNum[i] -= recover;
+            updatePeopleInfectedNum(i, areaPeopleInfectedNum[i] - recover);
+            // areaPeopleInfectedNum[i] -= recover;
             totalInfected -= recover;
             List<Virus> areaVirus = viruses.get(i);
             List<Virus> l = new ArrayList<>();
