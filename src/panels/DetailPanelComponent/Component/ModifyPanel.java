@@ -79,7 +79,7 @@ public class ModifyPanel extends JPanel{
         decBtn.setVisible(b);
         decBtn.revalidate();
         decBtn.repaint();
-        jl.setOpaque(b);
+        jl.setVisible(b);
         jl.revalidate();
         jl.repaint();
     }

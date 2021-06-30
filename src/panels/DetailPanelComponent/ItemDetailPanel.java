@@ -17,8 +17,8 @@ public class ItemDetailPanel extends JPanel {
         labels = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             JLabel templ = Utils.newLabelString("", 18);
-            templ.setOpaque(false);
-            add(templ);
+            templ.setVisible(false);
+            add(templ); labels.add(templ);
         }
         setVi(false);
     }
@@ -31,7 +31,7 @@ public class ItemDetailPanel extends JPanel {
     public void setVi(boolean b){
         setOpaque(false);
         for(JLabel label: labels) {
-            label.setOpaque(b);
+            label.setVisible(b);
             label.revalidate();
             label.repaint();
         }
