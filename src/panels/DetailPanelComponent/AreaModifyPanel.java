@@ -29,7 +29,7 @@ public class AreaModifyPanel extends JPanel {
         labels.get(1).setText("人口數: " + StateManager.areaPeopleNum[curClickAreaId]);
         labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curClickAreaId]);
         labels.get(3).setText("死亡人數: " + StateManager.areaPeopleDeadNum[curClickAreaId]);
-        System.out.println("update in amp");
+        //System.out.println("update in amp");
     }
 
     public AreaModifyPanel(){
@@ -78,7 +78,7 @@ public class AreaModifyPanel extends JPanel {
     public void setVi(boolean b){
         setOpaque(false);
         for(JLabel label: labels){
-            label.setOpaque(b);
+            label.setVisible(b);
             label.revalidate();
             label.repaint();
         }
