@@ -12,12 +12,14 @@ public class Virus extends JLabel {
     public Virus(Point point){
         this.setSize(5,5);
         this.setBackground(Color.RED);
-        this.setOpaque(true);
+        setOpaque(false);
         this.location = point;
         this.groupID = Area.getGroupByPixel(point.x , point.y);
         this.chosen = false;
     }
-
+    public void setLocation(int r, int c){
+        this.location = new Point(r*5, c*5);
+    }
     @Override
     public Point getLocation() {
         return location;
