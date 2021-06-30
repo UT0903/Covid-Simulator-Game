@@ -290,18 +290,20 @@ public class StateManager {
             inl.onItemLastNumChanged(itemID, prevNum, newNum);
     }
 
-    public static void setAmbulance(int amount, int groupID) {
-        updateItemInAreaNum(0, groupID, itemInAreaNum[0][groupID] + amount);
-        updateItemLastNum(0, itemLastNum[0] - amount);
+    public static void setAmbulance(int nowItemInAreaNum, int nowItemLastNum, int groupID) {
+        int amount = nowItemInAreaNum - itemInAreaNum[0][groupID];
+        updateItemInAreaNum(0, groupID, nowItemInAreaNum);
+        updateItemLastNum(0, nowItemLastNum);
         updateGold(gold - amount * itemCosts[0]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.95, amount));
         for (Integer neighbor: Area.neighborhood[groupID])
             areaDeadProbability[neighbor] = Math.max(0.01, areaDeadProbability[neighbor] * Math.pow(0.97, amount));
     }
 
-    public static void setCanopy(int amount, int groupID) {
-        updateItemInAreaNum(1, groupID, itemInAreaNum[1][groupID] + amount);
-        updateItemLastNum(1, itemLastNum[1] - amount);
+    public static void setCanopy(int nowItemInAreaNum, int nowItemLastNum, int groupID) {
+        int amount = nowItemInAreaNum - itemInAreaNum[1][groupID];
+        updateItemInAreaNum(1, groupID, nowItemInAreaNum);
+        updateItemLastNum(1, nowItemLastNum);
         updateGold(gold - amount * itemCosts[1]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.8, amount));
         StateManager.CanopyTimer canopyTimer = new StateManager.CanopyTimer(amount, groupID);
@@ -324,24 +326,27 @@ public class StateManager {
         }
     }
 
-    public static void setHospital(int amount, int groupID) {
-        updateItemInAreaNum(2, groupID, itemInAreaNum[2][groupID] + amount);
-        updateItemLastNum(2, itemLastNum[2] - amount);
+    public static void setHospital(int nowItemInAreaNum, int nowItemLastNum, int groupID) {
+        int amount = nowItemInAreaNum - itemInAreaNum[2][groupID];
+        updateItemInAreaNum(2, groupID, nowItemInAreaNum);
+        updateItemLastNum(2, nowItemLastNum);
         updateGold(gold - amount * itemCosts[2]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.9, amount));
         areaRecoverProbability[groupID] = Math.min(1.0, areaRecoverProbability[groupID] * Math.pow(1.05, amount));
     }
 
-    public static void setMask(int amount, int groupID) {
-        updateItemInAreaNum(3, groupID, itemInAreaNum[3][groupID] + amount);
-        updateItemLastNum(3, itemInAreaNum[3][groupID] - amount);
+    public static void setMask(int nowItemInAreaNum, int nowItemLastNum, int groupID) {
+        int amount = nowItemInAreaNum - itemInAreaNum[3][groupID];
+        updateItemInAreaNum(3, groupID, nowItemInAreaNum);
+        updateItemLastNum(3, nowItemLastNum);
         updateGold(gold - amount * itemCosts[3]);
         areaSpreadProbability[groupID] = Math.min(1.0, areaSpreadProbability[groupID] * Math.pow(0.9, amount));
     }
 
-    public static void setSpray(int amount, int groupID) {
-        updateItemInAreaNum(4, groupID, itemInAreaNum[4][groupID] + amount);
-        updateItemLastNum(4, itemLastNum[4] - amount);
+    public static void setSpray(int nowItemInAreaNum, int nowItemLastNum, int groupID) {
+        int amount = nowItemInAreaNum - itemInAreaNum[4][groupID];
+        updateItemInAreaNum(4, groupID, nowItemInAreaNum);
+        updateItemLastNum(4, nowItemLastNum);
         updateGold(gold - amount * itemCosts[4]);
         areaSpreadProbability[groupID] = Math.min(1.0, areaSpreadProbability[groupID] * Math.pow(0.8, amount));
         StateManager.SprayTimer sprayTimer = new StateManager.SprayTimer(amount, groupID);
@@ -364,9 +369,10 @@ public class StateManager {
         }
     }
 
-    public static void setSyringe(int amount, int groupID) {
-        updateItemInAreaNum(5, groupID, itemInAreaNum[5][groupID] + amount);
-        updateItemLastNum(5, itemLastNum[5] - amount);
+    public static void setSyringe(int nowItemInAreaNum, int nowItemLastNum, int groupID) {
+        int amount = nowItemInAreaNum - itemInAreaNum[5][groupID];
+        updateItemInAreaNum(5, groupID, nowItemInAreaNum);
+        updateItemLastNum(5, nowItemLastNum);
         updateGold(gold - amount * itemCosts[5]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.95, amount));
         areaSpreadProbability[groupID] = Math.max(0.1, areaSpreadProbability[groupID] * Math.pow(0.95, amount));
@@ -442,7 +448,7 @@ public class StateManager {
             areaTimeCount[j] += 1;
             if (areaTimeCount[j].equals(areaSpreadTime[j])) {
                 double R0 = (areaSpreadProbability[j] * Math.pow((double)notChosen.get(j).size() / total[j], 2) *  ((double)10 / areaSpreadTime[j]));
-                int n = Math.min(notChosen.get(j).size(), (int) (viruses.get(j).size() * R0));
+                int n = Math.min(notChosen.get(j).size() - 1, (int) (viruses.get(j).size() * R0));
                 updatePeopleInfectedNum(j, areaPeopleInfectedNum[j] + n);
                 // areaPeopleInfectedNum[j] += n;
                 totalInfected += n;
@@ -465,7 +471,7 @@ public class StateManager {
 
     public static void addVirus(){
         int rand = (int) (Math.random() * 12);
-        int i = Math.min(notChosen.get(rand).size(), (int) Math.round(Math.random() * notChosen.get(rand).size()));
+        int i = Math.min(notChosen.get(rand).size() - 1, (int) Math.round(Math.random() * notChosen.get(rand).size()));
         updatePeopleInfectedNum(rand, areaPeopleInfectedNum[rand] + 1);
         // areaPeopleInfectedNum[rand]++;
         totalInfected++;
