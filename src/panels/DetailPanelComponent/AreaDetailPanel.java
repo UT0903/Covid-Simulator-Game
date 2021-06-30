@@ -42,7 +42,7 @@ public class AreaDetailPanel extends JPanel {
     public void setVi(boolean b){
         setOpaque(false);
         for(JLabel label: labels){
-            label.setOpaque(b);
+            label.setVisible(b);
             label.revalidate();
             label.repaint();
         }
