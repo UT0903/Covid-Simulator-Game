@@ -53,6 +53,24 @@ public class AreaModifyPanel extends JPanel {
                 for(ModifyPanel mp:mps){
                     System.out.printf("new itemINAreaNum:%d, itemLastNum: %d\n", mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum());
                     //StateManager.itemInAreaNum[mp.getItemId()][curClickAreaId] = mp.getCopyItemInAreaNum();
+                    if(mp.getItemId() == 0){
+                        StateManager.setAmbulance(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
+                    }
+                    else if(mp.getItemId() == 1){
+                        StateManager.setCanopy(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
+                    }
+                    else if(mp.getItemId() == 2){
+                        StateManager.setHospital(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
+                    }
+                    else if(mp.getItemId() == 3){
+                        StateManager.setMask(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
+                    }
+                    else if(mp.getItemId() == 4){
+                        StateManager.setSpray(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
+                    }
+                    else if(mp.getItemId() == 5){
+                        StateManager.setSyringe(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
+                    }
                     StateManager.updateItemInAreaNum(mp.getItemId(), curClickAreaId, mp.getCopyItemInAreaNum());
                     //StateManager.itemLastNum[mp.getItemId()] = mp.getCopyItemLastNum();
                     StateManager.updateItemLastNum(mp.getItemId(), mp.getCopyItemLastNum());

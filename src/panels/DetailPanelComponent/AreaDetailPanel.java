@@ -44,7 +44,14 @@ public class AreaDetailPanel extends JPanel {
             labels.get(i+4).revalidate();
             labels.get(i+4).repaint();
         }
-
+    }
+    public void listenerPeopleNumUpdate(int curHoverAreaId){
+        labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId]); //TODO
+        labels.get(3).setText("死亡人數: " + StateManager.areaPeopleDeadNum[curHoverAreaId]); //TODO
+        labels.get(2).revalidate();
+        labels.get(2).repaint();
+        labels.get(3).revalidate();
+        labels.get(3).repaint();
     }
     public void setVi(boolean b){
         setOpaque(false);

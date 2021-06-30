@@ -24,5 +24,6 @@
 ./Game/ItemStateListener.java
 ./Game/GameStateListener.java
 ./Game/VirusListener.java
+./Game/PeopleNumListener.java
 ./Game/GameState.java
 ./frame/WindowFrame.java

@@ -8,7 +8,7 @@ import panels.DetailPanelComponent.ItemDetailPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class DetailPanel extends JLayeredPane implements ItemStateListener, MapStateListener, ItemNumListener {
+public class DetailPanel extends JLayeredPane implements ItemStateListener, MapStateListener, ItemNumListener, PeopleNumListener {
     private int curClickItemId = -1;
     private int curHoverItemId = -1;
     private int curHoverAreaId = -1;
@@ -114,5 +114,21 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
             idp.listenerUpdate(curHoverItemId);
         }
 
+    }
+
+    @Override
+    public void onPeopleInfectedNumChanged(int groupID, int prevNum, int newNum) {
+        if(curLayer == 0 && curHoverAreaId == groupID){ //adp
+            adp.listenerUpdate(curHoverAreaId);
+            adp.listenerPeopleNumUpdate(curHoverAreaId);
+        }
+    }
+
+    @Override
+    public void onPeopleDeadNumChanged(int groupID, int prevNum, int newNum) {
+        if(curLayer == 0 && curHoverAreaId == groupID){ //adp
+            adp.listenerUpdate(curHoverAreaId);
+            adp.listenerPeopleNumUpdate(curHoverAreaId);
+        }
     }
 }
