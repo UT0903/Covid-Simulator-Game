@@ -52,8 +52,10 @@ public class AreaModifyPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 for(ModifyPanel mp:mps){
                     System.out.printf("new itemINAreaNum:%d, itemLastNum: %d\n", mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum());
-                    StateManager.itemInAreaNum[mp.getItemId()][curClickAreaId] = mp.getCopyItemInAreaNum(); //TODO
-                    StateManager.itemLastNum[mp.getItemId()] = mp.getCopyItemLastNum(); //TODO
+                    //StateManager.itemInAreaNum[mp.getItemId()][curClickAreaId] = mp.getCopyItemInAreaNum();
+                    StateManager.updateItemInAreaNum(mp.getItemId(), curClickAreaId, mp.getCopyItemInAreaNum());
+                    //StateManager.itemLastNum[mp.getItemId()] = mp.getCopyItemLastNum();
+                    StateManager.updateItemLastNum(mp.getItemId(), mp.getCopyItemLastNum());
                 }
                 StateManager.setMapClickId(-1);
             }
@@ -75,7 +77,17 @@ public class AreaModifyPanel extends JPanel {
         btn.setOpaque(false);
         return btn;
     }
+    public void listenerUpdate(int curClickAreaId, int itemId){
+        for(ModifyPanel mp:mps){
+            if(mp.getItemId() == itemId) {
+                mp.setCopy(curClickAreaId);
+                mp.revalidate();
+                mp.repaint();
+                break;
+            }
+        }
 
+    }
     public void setVi(boolean b){
         setOpaque(false);
         for(JLabel label: labels){

@@ -8,7 +8,7 @@ import panels.DetailPanelComponent.ItemDetailPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class DetailPanel extends JLayeredPane implements ItemStateListener, MapStateListener {
+public class DetailPanel extends JLayeredPane implements ItemStateListener, MapStateListener, ItemNumListener {
     private int curClickItemId = -1;
     private int curHoverItemId = -1;
     private int curHoverAreaId = -1;
@@ -30,7 +30,7 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
         adp = new AreaDetailPanel();
         amp = new AreaModifyPanel();
         idp = new ItemDetailPanel();
-
+        StateManager.addItemNumListeners(this);
         add(adp, Integer.valueOf(0)); add(amp, Integer.valueOf(1)); add(idp, Integer.valueOf(2));
     }
 
@@ -93,4 +93,26 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
     }
 
 
+    @Override
+    public void onItemInAreaNumChanged(int itemID, int groupID, int prevNum, int curNum) {
+        System.out.printf("onItemInAreaNumChanged\n");
+        if(curLayer == 0 && curHoverAreaId == groupID){ //adp
+            adp.listenerUpdate(curHoverAreaId);
+        }
+        else if(curLayer == 1 && curClickAreaId == groupID){ //amp
+            amp.listenerUpdate(curClickAreaId, itemID);
+        }
+    }
+
+    @Override
+    public void onItemLastNumChanged(int itemID, int prevNum, int curNum) {
+        System.out.printf("onItemLastNumChanged\n");
+        if(curLayer == 1){ //amp
+            amp.listenerUpdate(curClickAreaId, itemID);
+        }
+        else if(curLayer == 2 && curHoverItemId == itemID){ //idp
+            idp.listenerUpdate(curHoverItemId);
+        }
+
+    }
 }

@@ -1,5 +1,6 @@
 package panels.DetailPanelComponent.Component;
 
+import Game.ItemNumListener;
 import Game.StateManager;
 import panels.DetailPanelComponent.AreaModifyPanel;
 import utils.Utils;
@@ -48,11 +49,11 @@ public class ModifyPanel extends JPanel{
             public void mouseClicked(MouseEvent e) {
                 AreaModifyPanel amp = (AreaModifyPanel)e.getComponent().getParent().getParent();
                 //System.out.println("onclick +");
-                if(copyItemInAreaNum + 1 <= StateManager.itemLastNum[itemId] && //TODO
+                if(copyItemInAreaNum + 1 <= StateManager.itemLastNum[itemId] &&
                         amp.calEnoughGold(itemId)){
                     copyItemInAreaNum += 1;
                     copyItemLastNum -= 1;
-                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]); //TODO
+                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
                     jl.revalidate();
                     jl.repaint();
                 }
@@ -65,7 +66,7 @@ public class ModifyPanel extends JPanel{
                 if(copyItemInAreaNum - 1 >= 0){
                     copyItemInAreaNum -= 1;
                     copyItemLastNum += 1;
-                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]); //TODO
+                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
                     jl.revalidate();
                     jl.repaint();
                 }
@@ -92,4 +93,8 @@ public class ModifyPanel extends JPanel{
         jl.revalidate();
         jl.repaint();
     }
+
+
+
+
 }

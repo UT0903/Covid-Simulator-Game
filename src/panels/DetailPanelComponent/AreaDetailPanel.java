@@ -35,8 +35,16 @@ public class AreaDetailPanel extends JPanel {
         labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId]); //TODO
         labels.get(3).setText("死亡人數: " + StateManager.areaPeopleDeadNum[curHoverAreaId]); //TODO
         for(int i = 0; i < StateManager.itemNames.length; i++){
-            labels.get(i+4).setText(StateManager.itemNames[i] + ": " + StateManager.itemInAreaNum[i][curHoverAreaId]); //TODO
+            labels.get(i+4).setText(StateManager.itemNames[i] + ": " + StateManager.itemInAreaNum[i][curHoverAreaId]);
         }
+    }
+    public void listenerUpdate(int curHoverAreaId){
+        for(int i = 0; i < StateManager.itemNames.length; i++){
+            labels.get(i+4).setText(StateManager.itemNames[i] + ": " + StateManager.itemInAreaNum[i][curHoverAreaId]);
+            labels.get(i+4).revalidate();
+            labels.get(i+4).repaint();
+        }
+
     }
     public void setVi(boolean b){
         setOpaque(false);

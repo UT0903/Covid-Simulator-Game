@@ -18,6 +18,7 @@
 ./Game/MapStateListener.java
 ./Game/DateListener.java
 ./Game/GameFlow.java
+./Game/ItemNumListener.java
 ./Game/GoldListener.java
 ./Game/StateManager.java
 ./Game/ItemStateListener.java
