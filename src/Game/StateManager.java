@@ -212,7 +212,6 @@ public class StateManager {
         updateGold(gold + goldChange);
     }
 
-
     public static final String[] areaNames = {
         "五股泰山",
         "三重蘆洲",
@@ -247,36 +246,63 @@ public class StateManager {
     public static Integer[] areaPeopleDeadNum = {
 	    0,0,0,0,0,0,0,0,0,0,0,0
     };
-    public static Integer[] areaSpreadTime = {
+    private static Integer[] areaSpreadTime = {
         10,10,10,10,10,10,10,10,10,10,10,10
     };
-    public static Integer[] areaTimeCount = {
+    private static Integer[] areaTimeCount = {
         0,0,0,0,0,0,0,0,0,0,0,0
     };
 
-    public static double[] areaSpreadProbability = {
+    private static double[] areaSpreadProbability = {
         1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
     };
 
-    public static double[] areaDeadProbability = {
+    private static double[] areaDeadProbability = {
         0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03
     };
 
-    public static double[] areaRecoverProbability = {
+    private static double[] areaRecoverProbability = {
         0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2 ,0.2, 0.2, 0.2
     };
 
+    private static List<ItemNumListener> itemNumListeners = new ArrayList<>();
+    public static void addItemNumListeners(ItemNumListener inl) { itemNumListeners.add(inl); }
+    public static void updateItems() {
+        updateItemLastNum(0, itemLastNum[0] + 2);
+        updateItemLastNum(1, itemLastNum[1] + 2);
+        updateItemLastNum(2, itemLastNum[2] + 1);
+        updateItemLastNum(3, itemLastNum[3] + 10);
+        updateItemLastNum(4, itemLastNum[4] + 15);
+        updateItemLastNum(5, itemLastNum[5] + 5);
+    }
+
+    public static void updateItemInAreaNum(int itemID, int groupID, int newNum) {
+        int prevNum = itemInAreaNum[itemID][groupID];
+        itemInAreaNum[itemID][groupID] = newNum;
+        for (ItemNumListener inl: itemNumListeners)
+            inl.onItemInAreaNumChanged(itemID, groupID, prevNum, newNum);
+    }
+
+    public static void updateItemLastNum(int itemID, int newNum) {
+        int prevNum = itemLastNum[itemID];
+        itemLastNum[itemID] = newNum;
+        for (ItemNumListener inl: itemNumListeners)
+            inl.onItemLastNumChanged(itemID, prevNum, newNum);
+    }
+
     public static void setAmbulance(int amount, int groupID) {
-        itemInAreaNum[0][groupID] += amount;
-        itemLastNum[0] -= amount;
+        updateItemInAreaNum(0, groupID, itemInAreaNum[0][groupID] + amount);
+        updateItemLastNum(0, itemLastNum[0] - amount);
+        updateGold(gold - amount * itemCosts[0]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.95, amount));
         for (Integer neighbor: Area.neighborhood[groupID])
             areaDeadProbability[neighbor] = Math.max(0.01, areaDeadProbability[neighbor] * Math.pow(0.97, amount));
     }
 
     public static void setCanopy(int amount, int groupID) {
-        itemInAreaNum[1][groupID] += amount;
-        itemLastNum[1] -= amount;
+        updateItemInAreaNum(1, groupID, itemInAreaNum[1][groupID] + amount);
+        updateItemLastNum(1, itemLastNum[1] - amount);
+        updateGold(gold - amount * itemCosts[1]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.8, amount));
         StateManager.CanopyTimer canopyTimer = new StateManager.CanopyTimer(amount, groupID);
         canopyTimer.start();
@@ -292,27 +318,31 @@ public class StateManager {
         }
         public void start() { this.timer.start(); }
         @Override
-        public  void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
             areaDeadProbability[this.groupID] = Math.min(0.5, areaDeadProbability[this.groupID] * Math.pow(1.25, amount));
+            updateItemInAreaNum(1, this.groupID, itemInAreaNum[1][this.groupID] - this.amount);
         }
     }
 
     public static void setHospital(int amount, int groupID) {
-        itemInAreaNum[2][groupID] += amount;
-        itemLastNum[2] -= amount;
+        updateItemInAreaNum(2, groupID, itemInAreaNum[2][groupID] + amount);
+        updateItemLastNum(2, itemLastNum[2] - amount);
+        updateGold(gold - amount * itemCosts[2]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.9, amount));
         areaRecoverProbability[groupID] = Math.min(1.0, areaRecoverProbability[groupID] * Math.pow(1.05, amount));
     }
 
     public static void setMask(int amount, int groupID) {
-        itemInAreaNum[3][groupID] += amount;
-        itemLastNum[3] -= amount;
+        updateItemInAreaNum(3, groupID, itemInAreaNum[3][groupID] + amount);
+        updateItemLastNum(3, itemInAreaNum[3][groupID] - amount);
+        updateGold(gold - amount * itemCosts[3]);
         areaSpreadProbability[groupID] = Math.min(1.0, areaSpreadProbability[groupID] * Math.pow(0.9, amount));
     }
 
     public static void setSpray(int amount, int groupID) {
-        itemInAreaNum[4][groupID] += amount;
-        itemLastNum[4] -= amount;
+        updateItemInAreaNum(4, groupID, itemInAreaNum[4][groupID] + amount);
+        updateItemLastNum(4, itemLastNum[4] - amount);
+        updateGold(gold - amount * itemCosts[4]);
         areaSpreadProbability[groupID] = Math.min(1.0, areaSpreadProbability[groupID] * Math.pow(0.8, amount));
         StateManager.SprayTimer sprayTimer = new StateManager.SprayTimer(amount, groupID);
         sprayTimer.start();
@@ -328,25 +358,27 @@ public class StateManager {
         }
         public void start() { this.timer.start(); }
         @Override
-        public  void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e) {
             areaSpreadProbability[this.groupID] = Math.min(1.0, areaSpreadProbability[this.groupID] * Math.pow(1.25, amount));
+            updateItemInAreaNum(4, this.groupID, itemInAreaNum[4][this.groupID] - this.amount);
         }
     }
 
     public static void setSyringe(int amount, int groupID) {
-        itemInAreaNum[5][groupID] += amount;
-        itemLastNum[5] -= amount;
+        updateItemInAreaNum(5, groupID, itemInAreaNum[5][groupID] + amount);
+        updateItemLastNum(5, itemLastNum[5] - amount);
+        updateGold(gold - amount * itemCosts[5]);
         areaDeadProbability[groupID] = Math.max(0.01, areaDeadProbability[groupID] * Math.pow(0.95, amount));
         areaSpreadProbability[groupID] = Math.max(0.1, areaSpreadProbability[groupID] * Math.pow(0.95, amount));
         areaRecoverProbability[groupID] = Math.min(1.0, areaRecoverProbability[groupID] * Math.pow(1.05, amount));
     }
 
-    public  static void updateAreaDeadProbability() {
+    public static void updateAreaDeadProbability() {
         for (int i = 0; i < 12; i++)
             areaDeadProbability[i] = Math.min(1.0, areaDeadProbability[i] * (1 + (double) areaPeopleInfectedNum[i] / (double) areaPeopleNum[i] / 2.0));
     }
 
-    public  static void updateAreaPeopleDeadNum(){
+    public static void updateAreaPeopleDeadNum(){
         for (int i = 0; i < 12; i++) {
             double rand = Math.random() / 2.0 + 0.75; // 0.75 ~ 1.25
             double finalDeadProbability = Math.min(areaDeadProbability[i] * rand, 1.0);
@@ -375,18 +407,16 @@ public class StateManager {
     //Virus states management
     private static List<VirusListener> virusListeners = new ArrayList<>();
     public static void addVirusListener(VirusListener vl) { virusListeners.add(vl); }
-    public  static int getAmount() {
+    public static int getAmount() {
         int a = 0;
         for (int j = 0; j < 12; j++){
             a += viruses.get(j).size();
         }
         return a;
     }
-    public  static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
-    public  static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) total[index]); }
-    public  static int getPercentage() {
-        return (int) ((double) getAmount() / 150 / 100 * 100);
-    }
+    public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
+    public static double getAreaPercentage(int index) { return ((double) viruses.get(index).size() / (double) total[index]); }
+    public static int getPercentage() { return (int) ((double) getAmount() / (150 * 120) * 100); }
 
     public static void spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
@@ -414,9 +444,9 @@ public class StateManager {
             vl.onVirusIncreased(spreadList);
     }
 
-    public  static void addVirus(){
+    public static void addVirus(){
         int rand = (int) (Math.random() * 12);
-        int i = (int) Math.round(Math.random() * notChosen.get(rand).size());
+        int i = Math.min(notChosen.get(rand).size(), (int) Math.round(Math.random() * notChosen.get(rand).size()));
         areaPeopleInfectedNum[rand]++;
         totalInfected++;
         Virus virus = notChosen.get(rand).get(i);
@@ -428,7 +458,7 @@ public class StateManager {
             vl.onVirusIncreased(increasedVirus);
     }
 
-    public  static void updateAreaRecoveredNum() {
+    public static void updateAreaRecoveredNum() {
         List<Virus> recoverList = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             double rand = Math.random() / 2.0 + 0.75; // 0.75 ~ 1.25
