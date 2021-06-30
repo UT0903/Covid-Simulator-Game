@@ -31,7 +31,9 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
         bgPic.setSize(750, 600);
         add(bgPic, Integer.valueOf(0));
         virusPanel = new JPanel();
-        virusPanel.setLayout(new GridLayout(150, 110));
+        virusPanel.setOpaque(false);
+        virusPanel.setBounds(0, 0, 800, 600);
+        virusPanel.setLayout(new GridLayout(150, 120));
 
         add(virusPanel, Integer.valueOf(1));
         StateManager.addMapStateListener(this);
@@ -40,7 +42,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     public List<Virus> initVirusLabel(){
         List <Virus> virusLabels = new ArrayList<Virus>();
         for(int i = 0; i < 150; i++){
-            for(int j = 0; j < 110; j++){
+            for(int j = 0; j < 120; j++){
                 Virus gridVirusLabel = new Virus(new Point(i*5, j*5));
                 virusPanel.add(gridVirusLabel);
                 virusLabels.add(gridVirusLabel);
@@ -57,6 +59,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     }
 
     public void addVirus(Virus virus){
+        System.out.printf("add Virus %d %s\n", virus.getGroupID(), virus.getLocation());
         virus.setOpaque(true);
         virus.revalidate();
         virus.repaint();
@@ -65,12 +68,13 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     }
 
     public void addVirus(List<Virus> virusList){
-        for (int i = 0; i < virusList.size(); i++){
+        System.out.println("todo");
+        /*for (int i = 0; i < virusList.size(); i++){
             Virus virus = virusList.get(i);
             add(new JPanel(), Integer.valueOf(1));
             add(virus, Integer.valueOf(1));
             virus.setLocation(virus.getLocation());
-        }
+        }*/
     }
 
     private void setArea(){

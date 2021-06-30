@@ -247,7 +247,7 @@ public class StateManager {
     }
     public static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
     public static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) total[index]); }
-    public static int getPercentage() { return (int) ((double) getAmount() / 16500 * 100); }
+    public static int getPercentage() { return (int) ((double) getAmount() / 750 * 600 * 100); }
     public static void spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
         for (int j = 0; j < 12; j++) {
