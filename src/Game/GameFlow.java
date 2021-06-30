@@ -42,7 +42,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
         windowFrame = new WindowFrame();
         windowFrame.add(menuPanel);
         windowFrame.setVisible(true);
-        StateManager.initGame();
+        StateManager.initGame(mapPanel.initVirusLabel());
         StateManager.addGameStateListener(this);
     }
 
