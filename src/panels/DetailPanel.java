@@ -31,6 +31,7 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
         amp = new AreaModifyPanel();
         idp = new ItemDetailPanel();
         StateManager.addItemNumListeners(this);
+        StateManager.addPeopleNumListener(this);
         add(adp, Integer.valueOf(0)); add(amp, Integer.valueOf(1)); add(idp, Integer.valueOf(2));
     }
 
