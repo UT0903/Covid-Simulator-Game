@@ -10,6 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
+
+import static utils.Utils.basePath;
+
 public class GameFlow implements ActionListener, GameStateListener  {
     private DetailPanel detailPanel;
     private ToolbarPanel toolbarPanel;
@@ -20,7 +26,6 @@ public class GameFlow implements ActionListener, GameStateListener  {
     private JSplitPane sl;
     private WindowFrame windowFrame;
     private Timer oneSecTimer = new Timer(1000, this);
-    private Timer incomeTimer = new Timer(10000, this);
     private Timer msTimer = new Timer(100, this);
     private int elapsedTime = 0;
 
@@ -41,6 +46,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
         windowFrame.setVisible(true);
         StateManager.initGame(mapPanel.initVirusLabel());
         StateManager.addGameStateListener(this);
+
     }
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){
@@ -56,7 +62,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(oneSecTimer)) {
             StateManager.updateDate();
-            StateManager.updateGold();
+            // StateManager.updateGold();
             StateManager.addVirus();
             StateManager.spreadVirus();
             this.elapsedTime++;
@@ -73,15 +79,22 @@ public class GameFlow implements ActionListener, GameStateListener  {
                 if (!flag)
                     this.messagePanel.addString("你的城市看起來很健康！");
             }
-            if (this.elapsedTime % 5 == 0){
-                StateManager.updateAreaPeopleInfectedDeadNum();
+            if (this.elapsedTime % 5 == 0) {
+                StateManager.updateAreaRecoveredNum();
+                StateManager.updateAreaPeopleDeadNum();
+                StateManager.updateGold();
             }
-            if (this.elapsedTime == 15) this.elapsedTime = 0;
-
-        } else if (e.getSource().equals(incomeTimer)) {
-            StateManager.updateIncome();
-        } else if (e.getSource().equals(msTimer)){
+            if (this.elapsedTime % 10 == 0) {
+                StateManager.updateAreaDeadProbability();
+            }
+            if (this.elapsedTime % 300 == 0) {
+                StateManager.updateStatus();
+            }
             this.infoPanel.updateVirusAmount(StateManager.getAmount(), StateManager.getPercentage());
+            if (this.elapsedTime == 100000000) this.elapsedTime = 0;
+
+        } else if (e.getSource().equals(msTimer)){
+            StateManager.checkCondition();
         }
     }
 
@@ -93,17 +106,32 @@ public class GameFlow implements ActionListener, GameStateListener  {
             windowFrame.getContentPane().revalidate();
             this.oneSecTimer.start();
             this.msTimer.start();
-            this.incomeTimer.start();
         }
         else if (prevState == GameState.INGAME && curState == GameState.PAUSE) {
             this.oneSecTimer.stop();
             this.msTimer.stop();
-            this.incomeTimer.stop();
         }
         else if (prevState == GameState.PAUSE && curState == GameState.INGAME) {
             this.oneSecTimer.start();
             this.msTimer.start();
-            this.incomeTimer.start();
+        }
+        else if (curState == GameState.LOSE) {
+            this.oneSecTimer.stop();
+            this.msTimer.stop();
+            windowFrame.getContentPane().remove(sl);
+            JLabel loseLabel = new JLabel(new ImageIcon(basePath + "./lose.png"));
+            loseLabel.setSize(1080,640);
+            windowFrame.getContentPane().add(loseLabel);
+            windowFrame.getContentPane().revalidate();
+        }
+        else if (curState == GameState.WIN) {
+            this.oneSecTimer.stop();
+            this.msTimer.stop();
+            windowFrame.getContentPane().remove(sl);
+            JLabel winLabel = new JLabel(new ImageIcon(basePath + "./win.png"));
+            winLabel.setSize(1080,640);
+            windowFrame.getContentPane().add(winLabel);
+            windowFrame.getContentPane().revalidate();
         }
     }
 }
