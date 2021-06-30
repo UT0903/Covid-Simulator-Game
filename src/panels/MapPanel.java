@@ -59,7 +59,7 @@ public class MapPanel extends JLayeredPane implements MapStateListener, VirusLis
     }
 
     public void addVirus(Virus virus){
-        System.out.printf("add Virus %d %s\n", virus.getGroupID(), virus.getLocation());
+        // System.out.printf("add Virus %d %s\n", virus.getGroupID(), virus.getLocation());
         virus.setOpaque(true);
         virus.revalidate();
         virus.repaint();

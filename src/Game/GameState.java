@@ -4,5 +4,6 @@ public enum GameState {
         INIT,
         INGAME,
         PAUSE,
-        ENDGAME
+        LOSE,
+        WIN
 }

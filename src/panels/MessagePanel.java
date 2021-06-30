@@ -136,5 +136,7 @@ public class MessagePanel extends JPanel implements ActionListener, GameStateLis
         }
         else if (prevState == GameState.PAUSE && curState == GameState.INGAME)
             this.timer.start();
+        else if (curState == GameState.LOSE || curState == GameState.WIN)
+            this.timer.stop();
     }
 }
