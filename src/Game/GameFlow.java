@@ -44,6 +44,7 @@ public class GameFlow implements ActionListener, GameStateListener  {
         windowFrame.setVisible(true);
         StateManager.initGame(mapPanel.initVirusLabel());
         StateManager.addGameStateListener(this);
+
     }
 
     private JSplitPane makeSpiltPane(int orientation, Component a, Component b, double ratio, String name){

@@ -385,6 +385,7 @@ public class StateManager {
     public synchronized static ArrayList<ArrayList<Virus>> getVirus() { return viruses; }
     public synchronized static int getAreaPercentage(int index) { return (int) ((double) viruses.get(index).size() / (double) total[index]); }
     public synchronized static int getPercentage() { return (int) ((double) getAmount() / 150 / 100 * 100); }
+
     public static void spreadVirus(){
         List<Virus> spreadList = new ArrayList<>();
         for (int j = 0; j < 12; j++) {
