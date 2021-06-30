@@ -265,7 +265,10 @@ public class StateManager {
         0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2 ,0.2, 0.2, 0.2
     };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 79bc70119a32bf2b9127c109b19cf5354eb0d51e
     public static void setAmbulance(int amount, int groupID) {
         itemInAreaNum[0][groupID] += amount;
         itemLastNum[0] -= amount;
@@ -292,7 +295,7 @@ public class StateManager {
         }
         public void start() { this.timer.start(); }
         @Override
-        public synchronized void actionPerformed(ActionEvent e) {
+        public  void actionPerformed(ActionEvent e) {
             areaDeadProbability[this.groupID] = Math.min(0.5, areaDeadProbability[this.groupID] * Math.pow(1.25, amount));
         }
     }
@@ -304,13 +307,13 @@ public class StateManager {
         areaRecoverProbability[groupID] = Math.min(1.0, areaRecoverProbability[groupID] * Math.pow(1.05, amount));
     }
 
-    public synchronized static void setMask(int amount, int groupID) {
+    public static void setMask(int amount, int groupID) {
         itemInAreaNum[3][groupID] += amount;
         itemLastNum[3] -= amount;
         areaSpreadProbability[groupID] = Math.min(1.0, areaSpreadProbability[groupID] * Math.pow(0.9, amount));
     }
 
-    public synchronized static void setSpray(int amount, int groupID) {
+    public static void setSpray(int amount, int groupID) {
         itemInAreaNum[4][groupID] += amount;
         itemLastNum[4] -= amount;
         areaSpreadProbability[groupID] = Math.min(1.0, areaSpreadProbability[groupID] * Math.pow(0.8, amount));
@@ -328,7 +331,7 @@ public class StateManager {
         }
         public void start() { this.timer.start(); }
         @Override
-        public synchronized void actionPerformed(ActionEvent e) {
+        public  void actionPerformed(ActionEvent e) {
             areaSpreadProbability[this.groupID] = Math.min(1.0, areaSpreadProbability[this.groupID] * Math.pow(1.25, amount));
         }
     }
@@ -341,12 +344,20 @@ public class StateManager {
         areaRecoverProbability[groupID] = Math.min(1.0, areaRecoverProbability[groupID] * Math.pow(1.05, amount));
     }
 
+<<<<<<< HEAD
     public static void updateAreaDeadProbability() {
+=======
+    public  static void updateAreaDeadProbability() {
+>>>>>>> 79bc70119a32bf2b9127c109b19cf5354eb0d51e
         for (int i = 0; i < 12; i++)
             areaDeadProbability[i] = Math.min(1.0, areaDeadProbability[i] * (1 + (double) areaPeopleInfectedNum[i] / (double) areaPeopleNum[i] / 2.0));
     }
 
+<<<<<<< HEAD
     public static void updateAreaPeopleDeadNum(){
+=======
+    public  static void updateAreaPeopleDeadNum(){
+>>>>>>> 79bc70119a32bf2b9127c109b19cf5354eb0d51e
         for (int i = 0; i < 12; i++) {
             double rand = Math.random() / 2.0 + 0.75; // 0.75 ~ 1.25
             double finalDeadProbability = Math.min(areaDeadProbability[i] * rand, 1.0);
@@ -375,7 +386,11 @@ public class StateManager {
     //Virus states management
     private static List<VirusListener> virusListeners = new ArrayList<>();
     public static void addVirusListener(VirusListener vl) { virusListeners.add(vl); }
+<<<<<<< HEAD
     public static int getAmount() {
+=======
+    public  static int getAmount() {
+>>>>>>> 79bc70119a32bf2b9127c109b19cf5354eb0d51e
         int a = 0;
         for (int j = 0; j < 12; j++){
             a += viruses.get(j).size();
@@ -412,7 +427,11 @@ public class StateManager {
             vl.onVirusIncreased(spreadList);
     }
 
+<<<<<<< HEAD
     public static void addVirus(){
+=======
+    public  static void addVirus(){
+>>>>>>> 79bc70119a32bf2b9127c109b19cf5354eb0d51e
         int rand = (int) (Math.random() * 12);
         int i = (int) Math.round(Math.random() * notChosen.get(rand).size());
         areaPeopleInfectedNum[rand]++;
@@ -426,7 +445,11 @@ public class StateManager {
             vl.onVirusIncreased(increasedVirus);
     }
 
+<<<<<<< HEAD
     public static void updateAreaRecoveredNum() {
+=======
+    public  static void updateAreaRecoveredNum() {
+>>>>>>> 79bc70119a32bf2b9127c109b19cf5354eb0d51e
         List<Virus> recoverList = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             double rand = Math.random() / 2.0 + 0.75; // 0.75 ~ 1.25
