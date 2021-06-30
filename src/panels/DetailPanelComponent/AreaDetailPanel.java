@@ -11,8 +11,8 @@ import java.util.List;
 public class AreaDetailPanel extends JPanel {
     private List<JLabel> labels;
     public AreaDetailPanel(){
-        setSize(330, 320);
-        setBounds(0, 0, 330, 320);
+        setSize(330, 256);
+//        setBounds(0, 0, 330, 320);
         setLayout(new GridLayout(0, 2));
         labels = new ArrayList<>();
         JLabel templ;
@@ -29,7 +29,7 @@ public class AreaDetailPanel extends JPanel {
         setVi(false);
     }
     public void update(int curHoverAreaId){
-        System.out.println(curHoverAreaId);
+        //System.out.println(curHoverAreaId);
         labels.get(0).setText("地區: " + StateManager.areaNames[curHoverAreaId]);
         labels.get(1).setText("人口數: " + StateManager.areaPeopleNum[curHoverAreaId]);
         labels.get(2).setText("感染人數: " + StateManager.areaPeopleInfectedNum[curHoverAreaId]);

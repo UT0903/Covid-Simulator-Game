@@ -47,29 +47,36 @@ public class ModifyPanel extends JPanel{
             @Override
             public void mouseClicked(MouseEvent e) {
                 AreaModifyPanel amp = (AreaModifyPanel)e.getComponent().getParent().getParent();
+                //System.out.println("onclick +");
                 if(copyItemInAreaNum + 1 <= StateManager.itemLastNum[itemId] &&
                         amp.calEnoughGold(itemId)){
                     copyItemInAreaNum += 1;
+                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
+                    jl.revalidate();
+                    jl.repaint();
                 }
             }
         });
         decBtn = new NumChangeBtn( "-", itemId, new ChangeBtnAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
+                //System.out.println("onclick +");
                 if(copyItemInAreaNum - 1 >= 0){
                     copyItemInAreaNum -= 1;
+                    jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
+                    jl.revalidate();
+                    jl.repaint();
                 }
             }
         });
         setVi(false);
         add(decBtn); add(jl); add(incBtn);
     }
-    public void update(){
-        jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
-    }
+
     public void setCopy(int curClickAreaId){
         copyItemInAreaNum = StateManager.itemInAreaNum[itemId][curClickAreaId];
         copyItemLastNum = StateManager.itemLastNum[itemId];
+        jl.setText(StateManager.itemNames[itemId] + ":" + copyItemInAreaNum + "/" + StateManager.itemLastNum[itemId]);
     }
     public void setVi(boolean b){
         setOpaque(false);

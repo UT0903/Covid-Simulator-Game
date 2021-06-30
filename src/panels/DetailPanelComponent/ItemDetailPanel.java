@@ -11,8 +11,8 @@ import java.util.List;
 public class ItemDetailPanel extends JPanel {
     private List<JLabel> labels;
     public ItemDetailPanel(){
-        setSize(330, 320);
-        setBounds(0, 0, 330, 320);
+        setSize(330, 256);
+//        setBounds(0, 0, 330, 320);
         setLayout(new GridLayout(0, 1));
         labels = new ArrayList<>();
         for(int i = 0; i < 4; i++){
@@ -29,7 +29,7 @@ public class ItemDetailPanel extends JPanel {
       labels.get(3).setText("剩餘數量: "+ StateManager.itemLastNum[curHoverItemId]);
     }
     public void setVi(boolean b){
-        System.out.println(b);
+        //System.out.println(b);
         setOpaque(false);
         for(JLabel label: labels) {
             label.setVisible(b);
