@@ -1,0 +1,2 @@
+run:
+	./src/run.sh
