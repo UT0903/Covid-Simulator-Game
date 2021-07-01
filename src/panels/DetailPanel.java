@@ -96,7 +96,7 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
 
     @Override
     public void onItemInAreaNumChanged(int itemID, int groupID, int prevNum, int curNum) {
-        System.out.printf("onItemInAreaNumChanged\n");
+        //System.out.printf("onItemInAreaNumChanged\n");
         if(curLayer == 0 && curHoverAreaId == groupID){ //adp
             adp.listenerUpdate(curHoverAreaId);
         }
@@ -107,7 +107,7 @@ public class DetailPanel extends JLayeredPane implements ItemStateListener, MapS
 
     @Override
     public void onItemLastNumChanged(int itemID, int prevNum, int curNum) {
-        System.out.printf("onItemLastNumChanged\n");
+        //System.out.printf("onItemLastNumChanged\n");
         if(curLayer == 1){ //amp
             amp.listenerUpdate(curClickAreaId, itemID);
         }

@@ -51,7 +51,7 @@ public class AreaModifyPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 for(ModifyPanel mp:mps){
-                    System.out.printf("new itemINAreaNum:%d, itemLastNum: %d\n", mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum());
+                    //System.out.printf("new itemINAreaNum:%d, itemLastNum: %d\n", mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum());
                     //StateManager.itemInAreaNum[mp.getItemId()][curClickAreaId] = mp.getCopyItemInAreaNum();
                     if(mp.getItemId() == 0){
                         StateManager.setAmbulance(mp.getCopyItemInAreaNum(), mp.getCopyItemLastNum(), curClickAreaId);
