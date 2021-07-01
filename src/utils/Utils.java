@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class Utils {
-    public static final String basePath = "../pic/";
+    public static final String basePath = "./pic/";
 
     public static ImageIcon resizeImage(String path , int width, int height){
         /*ImageIcon img = new ImageIcon(path);
